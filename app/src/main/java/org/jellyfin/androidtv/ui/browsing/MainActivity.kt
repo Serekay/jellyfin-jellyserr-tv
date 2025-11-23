@@ -18,6 +18,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
+import org.jellyfin.androidtv.BuildConfig
 import org.jellyfin.androidtv.auth.repository.SessionRepository
 import org.jellyfin.androidtv.auth.repository.UserRepository
 import org.jellyfin.androidtv.databinding.ActivityMainBinding
@@ -30,6 +31,7 @@ import org.jellyfin.androidtv.ui.screensaver.InAppScreensaver
 import org.jellyfin.androidtv.ui.startup.StartupActivity
 import org.jellyfin.androidtv.util.applyTheme
 import org.jellyfin.androidtv.util.isMediaSessionKeyEvent
+import org.jellyfin.androidtv.util.UpdateChecker
 import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import timber.log.Timber
@@ -77,6 +79,10 @@ class MainActivity : FragmentActivity() {
 		binding.background.setContent { AppBackground() }
 		binding.screensaver.setContent { InAppScreensaver() }
 		setContentView(binding.root)
+
+		lifecycleScope.launch {
+			UpdateChecker.notifyIfUpdateAvailable(this@MainActivity, BuildConfig.VERSION_NAME)
+		}
 	}
 
 	override fun onResume() {
