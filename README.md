@@ -8,6 +8,19 @@ Client-side integration that brings Jellyseerr discovery and requests into Jelly
 
 ---
 
+## Features
+
+### In-app update (GitHub releases)
+- The app can update itself by downloading the APK from the project's GitHub releases: https://github.com/Serekay/jellyfin-jellyserr-tv/releases
+- Requirement: grant the app the "Install unknown apps" permission once (Settings → Apps → [This app] → Install unknown apps → Allow). This one-time permission allows the app to install its downloaded updates.
+- Behavior:
+   - On startup the app checks for a newer release and shows an update prompt if one is available.
+   - You can also manually trigger a check: Settings → Check for updates.
+- When an update is available the app will prompt to install the downloaded APK; confirm the installation. If you see "App not installed", verify the "Install unknown apps" permission and available storage, then retry.
+- Updates are delivered via the APK included in the GitHub release (usually named `app-release.apk`).
+- Note: granting the permission only enables the in-app installer; it does not change other app behavior.
+- Security tip: only install updates from the official releases page linked above.
+
 ## Install the Android TV APK (Sideload)
 
 ### Option A: Directly on the TV with a browser (e.g., BrowseHere)
