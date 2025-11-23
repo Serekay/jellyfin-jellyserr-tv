@@ -12,7 +12,7 @@ Client-side integration that brings Jellyseerr discovery and requests into Jelly
 
 ### In-app update (GitHub releases)
 - Why: the app downloads APKs for in‑app updates and must be allowed to install them. On Android TV the system will prompt for this permission when the app first attempts an installation — you generally cannot enable it in advance from app settings.
-- Permission flow: When the app attempts to install an update, Android may open the "Install unknown apps" settings screen. Enable the "Allow from this source" toggle for the app shown (e.g., the browser or file manager used to download the APK — or the app listed as JellyArc), then return to Jellyfin Jellyseerr TV and retry the update. This permission is granted per app and typically only needs to be enabled once.
+- Permission flow: When the app attempts to install an update, Android may open the "Install unknown apps" settings screen. Enable the "Allow from this source" toggle for the app shown (e.g., the browser or file manager used to download the APK — or the app listed as JellyArc), then return to JellyArc and retry the update. This permission is granted per app and typically only needs to be enabled once.
 - Behavior:
    - On startup the app checks for a newer release and shows an update prompt if one is available.
    - You can also trigger a manual check: Settings → Check for updates.
