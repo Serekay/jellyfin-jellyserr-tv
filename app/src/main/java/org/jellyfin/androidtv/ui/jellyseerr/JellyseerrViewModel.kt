@@ -1,5 +1,6 @@
 package org.jellyfin.androidtv.ui.jellyseerr
 
+import android.content.Context
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -16,13 +17,14 @@ import org.jellyfin.androidtv.data.repository.JellyseerrSearchItem
 
 class JellyseerrViewModel(
 	private val repository: JellyseerrRepository,
+	private val context: Context,
 ) : ViewModel() {
 	private val _uiState = MutableStateFlow(JellyseerrUiState())
 	val uiState: StateFlow<JellyseerrUiState> = _uiState.asStateFlow()
 
 	private val requestActions = JellyseerrRequestActions(repository, _uiState)
 	private val discoveryActions = JellyseerrDiscoveryActions(repository, _uiState, viewModelScope, requestActions)
-	private val detailActions = JellyseerrDetailActions(repository, _uiState, viewModelScope, requestActions) {
+	private val detailActions = JellyseerrDetailActions(repository, _uiState, viewModelScope, requestActions, context) {
 		discoveryActions.loadRecentRequests()
 	}
 
@@ -44,12 +46,16 @@ class JellyseerrViewModel(
 		_uiState.update { it.copy(query = query) }
 	}
 
-	fun updateLastFocusedItem(itemId: Int?) {
-		_uiState.update { it.copy(lastFocusedItemId = itemId, lastFocusedViewAllKey = null) }
+	fun updateLastFocusedItem(itemKey: String?) {
+		_uiState.update { it.copy(lastFocusedItemId = itemKey, lastFocusedViewAllKey = null) }
 	}
 
 	fun updateLastFocusedViewAll(key: String?) {
 		_uiState.update { it.copy(lastFocusedViewAllKey = key, lastFocusedItemId = null) }
+	}
+
+	fun updateMainScrollPosition(position: Int) {
+		_uiState.update { it.copy(mainScrollPosition = position) }
 	}
 
 	fun search(page: Int = 1) {

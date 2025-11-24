@@ -1,13 +1,10 @@
 ﻿package org.jellyfin.androidtv.ui.jellyseerr
 
-import android.content.ActivityNotFoundException
 import android.content.Context
-import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.SoundEffectConstants
 import android.view.ViewGroup
-import android.net.Uri
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.background
@@ -44,6 +41,8 @@ import androidx.compose.runtime.setValue
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.interaction.collectIsFocusedAsState
 import androidx.compose.foundation.focusable
+import androidx.compose.foundation.relocation.BringIntoViewRequester
+import androidx.compose.foundation.relocation.bringIntoViewRequester
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
@@ -102,7 +101,6 @@ import org.jellyfin.androidtv.ui.playback.PlaybackLauncher
 import org.jellyfin.sdk.api.client.ApiClient
 import org.jellyfin.sdk.api.client.extensions.userLibraryApi
 import org.jellyfin.sdk.model.serializer.toUUIDOrNull
-import java.net.URLEncoder
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -851,33 +849,76 @@ private fun JellyseerrContent(
 	val sectionSpacing = 5.dp // Abstand zwischen Sektionen
 	val sectionInnerSpacing = 6.dp // Abstand innerhalb einer Sektion (label + Inhalt)
 	val sectionTitleFontSize = 26.sp
-	val itemFocusRequesters = remember { mutableStateMapOf<Int, FocusRequester>() }
+	val itemFocusRequesters = remember { mutableStateMapOf<String, FocusRequester>() }
 	val viewAllFocusRequesters = remember { mutableStateMapOf<String, FocusRequester>() }
-	val recentRequestsFocusRequesters = remember { mutableStateMapOf<Int, FocusRequester>() }
+	val lastRestoredFocus = remember { mutableStateOf<Pair<String?, String?>>(null to null) }
+	val itemFocusKey: (String, Int) -> String = { row, id -> "$row-$id" }
 
 	LaunchedEffect(
 		state.selectedItem,
 		state.showAllTrendsGrid,
+		state.selectedPerson,
 		state.lastFocusedItemId,
 		state.lastFocusedViewAllKey,
+		state.showSearchResultsGrid,
+		state.query,
 	) {
-	if (state.selectedItem == null && !state.showAllTrendsGrid && !state.showSearchResultsGrid) {
-			val itemId = state.lastFocusedItemId
-			if (itemId != null) {
-				delay(100)
-				itemFocusRequesters[itemId]?.requestFocus()
-			} else {
-				val viewAllKey = state.lastFocusedViewAllKey
-				if (viewAllKey != null) {
-					delay(100)
-					viewAllFocusRequesters[viewAllKey]?.requestFocus()
+		val browsing = state.selectedItem == null &&
+			state.selectedPerson == null &&
+			!state.showAllTrendsGrid &&
+			!state.showSearchResultsGrid
+
+		if (!browsing || state.query.isNotBlank()) {
+			lastRestoredFocus.value = null to null
+			return@LaunchedEffect
+		}
+
+		val targetPair = state.lastFocusedItemId to state.lastFocusedViewAllKey
+		if (lastRestoredFocus.value == targetPair) return@LaunchedEffect
+
+		// Längerer Delay um sicherzustellen, dass Scroll-Animation abgeschlossen ist
+		delay(400)
+
+		val itemId = state.lastFocusedItemId
+		if (itemId != null) {
+			// Mehrere Versuche, da das Element möglicherweise noch nicht gerendert wurde
+			repeat(3) { attempt ->
+				val focusRequester = itemFocusRequesters[itemId]
+				if (focusRequester != null) {
+					try {
+						focusRequester.requestFocus()
+						lastRestoredFocus.value = targetPair
+						return@LaunchedEffect
+					} catch (e: IllegalStateException) {
+						// Element noch nicht sichtbar
+					}
 				}
+				if (attempt < 2) delay(150)
+			}
+			return@LaunchedEffect
+		}
+
+		val viewAllKey = state.lastFocusedViewAllKey
+		if (viewAllKey != null) {
+			// Mehrere Versuche, da das Element möglicherweise noch nicht gerendert wurde
+			repeat(3) { attempt ->
+				val focusRequester = viewAllFocusRequesters[viewAllKey]
+				if (focusRequester != null) {
+					try {
+						focusRequester.requestFocus()
+						lastRestoredFocus.value = targetPair
+						return@LaunchedEffect
+					} catch (e: IllegalStateException) {
+						// Element noch nicht sichtbar
+					}
+				}
+				if (attempt < 2) delay(150)
 			}
 		}
 	}
 
-	val focusRequesterForItem: (Int) -> FocusRequester = { id ->
-		itemFocusRequesters.getOrPut(id) { FocusRequester() }
+	val focusRequesterForItem: (String) -> FocusRequester = { key ->
+		itemFocusRequesters.getOrPut(key) { FocusRequester() }
 	}
 
 	val focusRequesterForViewAll: (String) -> FocusRequester = { key ->
@@ -945,10 +986,38 @@ private fun JellyseerrContent(
 			person = selectedPerson,
 			credits = state.personCredits,
 			onCreditClick = { viewModel.showDetailsForItemFromPerson(it) },
+			focusRequesterForItem = focusRequesterForItem,
+			onItemFocused = { viewModel.updateLastFocusedItem(it) },
 		)
 	} else {
-		val scrollState = rememberScrollState()
+		val scrollState = rememberScrollState(initial = state.mainScrollPosition)
 		val isShowingGrid = state.showAllTrendsGrid || state.showSearchResultsGrid
+
+		// Speichere die Scroll-Position wenn sich diese ändert
+		LaunchedEffect(scrollState.value) {
+			if (!isShowingGrid && scrollState.value > 0) {
+				viewModel.updateMainScrollPosition(scrollState.value)
+			}
+		}
+
+		// Stelle die Scroll-Position wieder her und setze dann den Fokus
+		LaunchedEffect(
+			state.selectedItem,
+			state.selectedPerson,
+			state.showAllTrendsGrid,
+			state.showSearchResultsGrid,
+		) {
+			val isBrowsing = state.selectedItem == null &&
+				state.selectedPerson == null &&
+				!state.showAllTrendsGrid &&
+				!state.showSearchResultsGrid
+
+			if (isBrowsing && state.mainScrollPosition > 0 && scrollState.value != state.mainScrollPosition) {
+				// Scroll zur gespeicherten Position
+				scrollState.animateScrollTo(state.mainScrollPosition)
+			}
+		}
+
 		val columnModifier = if (isShowingGrid) {
 			Modifier
 				.fillMaxSize()
@@ -1047,8 +1116,7 @@ private fun JellyseerrContent(
 									JellyseerrSearchCard(
 										item = item,
 										onClick = onSearchItemClick(viewModel, item),
-										focusRequester = focusRequesterForItem(item.id),
-										onFocus = { viewModel.updateLastFocusedItem(item.id) },
+										// do not overwrite last focused main-page card while inside grids
 									)
 								}
 							}
@@ -1129,11 +1197,14 @@ private fun JellyseerrContent(
 									} else {
 										Modifier
 									}
+									val focusKey = itemFocusKey("discover", item.id)
 
 									JellyseerrSearchCard(
 										item = item,
 										onClick = onSearchItemClick(viewModel, item),
 										modifier = cardModifier,
+										focusRequester = focusRequesterForItem(focusKey),
+										onFocus = { viewModel.updateLastFocusedItem(focusKey) },
 									)
 								}
 
@@ -1160,20 +1231,6 @@ private fun JellyseerrContent(
 								}
 							}
 						}
-					}
-
-				if (
-					state.query.isBlank() &&
-					state.selectedItem == null &&
-					state.lastFocusedItemId == null &&
-					state.lastFocusedViewAllKey == null &&
-					!state.showAllTrendsGrid
-				) {
-					LaunchedEffect(baseResults) {
-						if (baseResults.isNotEmpty()) {
-							focusRequester.requestFocus()
-						}
-					}
 					}
 				}
 
@@ -1223,15 +1280,22 @@ private fun JellyseerrContent(
 							val maxIndex = state.popularResults.lastIndex
 							val extraItems = 1
 
-							items(maxIndex + 1 + extraItems) { index ->
+							items(
+								count = maxIndex + 1 + extraItems,
+								key = { index ->
+									if (index <= maxIndex) "popular_movie_${state.popularResults[index].id}"
+									else "popular_movies_view_all"
+								}
+							) { index ->
 								when {
 									index in 0..maxIndex -> {
 										val item = state.popularResults[index]
+									val focusKey = itemFocusKey("popular_movies", item.id)
 									JellyseerrSearchCard(
 										item = item,
 										onClick = { viewModel.showDetailsForItem(item) },
-										focusRequester = focusRequesterForItem(item.id),
-										onFocus = { viewModel.updateLastFocusedItem(item.id) },
+										focusRequester = focusRequesterForItem(focusKey),
+										onFocus = { viewModel.updateLastFocusedItem(focusKey) },
 									)
 									}
 								index == maxIndex + 1 -> {
@@ -1281,15 +1345,22 @@ private fun JellyseerrContent(
 							val maxIndex = state.popularTvResults.lastIndex
 							val extraItems = 1
 
-							items(maxIndex + 1 + extraItems) { index ->
+							items(
+								count = maxIndex + 1 + extraItems,
+								key = { index ->
+									if (index <= maxIndex) "popular_tv_${state.popularTvResults[index].id}"
+									else "popular_tv_view_all"
+								}
+							) { index ->
 								when {
 									index in 0..maxIndex -> {
 										val item = state.popularTvResults[index]
+										val focusKey = itemFocusKey("popular_tv", item.id)
 										JellyseerrSearchCard(
 											item = item,
 											onClick = { viewModel.showDetailsForItem(item) },
-											focusRequester = focusRequesterForItem(item.id),
-											onFocus = { viewModel.updateLastFocusedItem(item.id) },
+											focusRequester = focusRequesterForItem(focusKey),
+											onFocus = { viewModel.updateLastFocusedItem(focusKey) },
 										)
 									}
 								index == maxIndex + 1 -> {
@@ -1341,15 +1412,22 @@ private fun JellyseerrContent(
 							val maxIndex = state.upcomingMovieResults.lastIndex
 							val extraItems = 1
 
-							items(maxIndex + 1 + extraItems) { index ->
+							items(
+								count = maxIndex + 1 + extraItems,
+								key = { index ->
+									if (index <= maxIndex) "upcoming_movie_${state.upcomingMovieResults[index].id}"
+									else "upcoming_movies_view_all"
+								}
+							) { index ->
 								when {
 									index in 0..maxIndex -> {
 										val item = state.upcomingMovieResults[index]
+										val focusKey = itemFocusKey("upcoming_movies", item.id)
 										JellyseerrSearchCard(
 											item = item,
 											onClick = { viewModel.showDetailsForItem(item) },
-											focusRequester = focusRequesterForItem(item.id),
-											onFocus = { viewModel.updateLastFocusedItem(item.id) },
+											focusRequester = focusRequesterForItem(focusKey),
+											onFocus = { viewModel.updateLastFocusedItem(focusKey) },
 										)
 									}
 								index == maxIndex + 1 -> {
@@ -1399,15 +1477,22 @@ private fun JellyseerrContent(
 							val maxIndex = state.upcomingTvResults.lastIndex
 							val extraItems = 1
 
-							items(maxIndex + 1 + extraItems) { index ->
+							items(
+								count = maxIndex + 1 + extraItems,
+								key = { index ->
+									if (index <= maxIndex) "upcoming_tv_${state.upcomingTvResults[index].id}"
+									else "upcoming_tv_view_all"
+								}
+							) { index ->
 								when {
 									index in 0..maxIndex -> {
 										val item = state.upcomingTvResults[index]
+										val focusKey = itemFocusKey("upcoming_tv", item.id)
 										JellyseerrSearchCard(
 											item = item,
 											onClick = { viewModel.showDetailsForItem(item) },
-											focusRequester = focusRequesterForItem(item.id),
-											onFocus = { viewModel.updateLastFocusedItem(item.id) },
+											focusRequester = focusRequesterForItem(focusKey),
+											onFocus = { viewModel.updateLastFocusedItem(focusKey) },
 										)
 									}
 									index == maxIndex + 1 -> {
@@ -1440,16 +1525,25 @@ private fun JellyseerrContent(
 					Spacer(modifier = Modifier.size(sectionInnerSpacing))
 
 					LazyRow(
-						horizontalArrangement = Arrangement.spacedBy(16.dp),
+						horizontalArrangement = Arrangement.spacedBy(12.dp),
 						contentPadding = PaddingValues(horizontal = 24.dp),
 						modifier = Modifier
 							.fillMaxWidth()
-							.height(200.dp),
+							.height(110.dp),
 					) {
-						items(state.movieGenres) { genre ->
+						items(
+							items = state.movieGenres,
+							key = { it.id }
+						) { genre ->
+							val genreKey = "movie_genre_${genre.id}"
 							JellyseerrGenreCard(
 								genre = genre,
-								onClick = { viewModel.showMovieGenre(genre) },
+								onClick = {
+									viewModel.updateLastFocusedViewAll(genreKey)
+									viewModel.showMovieGenre(genre)
+								},
+								focusRequester = focusRequesterForViewAll(genreKey),
+								onFocus = { viewModel.updateLastFocusedViewAll(genreKey) },
 							)
 						}
 				}
@@ -1468,16 +1562,25 @@ private fun JellyseerrContent(
 					Spacer(modifier = Modifier.size(sectionInnerSpacing))
 
 					LazyRow(
-						horizontalArrangement = Arrangement.spacedBy(16.dp),
+						horizontalArrangement = Arrangement.spacedBy(12.dp),
 						contentPadding = PaddingValues(horizontal = 24.dp),
 						modifier = Modifier
 							.fillMaxWidth()
-							.height(200.dp),
+							.height(110.dp),
 					) {
-						items(state.tvGenres) { genre ->
+						items(
+							items = state.tvGenres,
+							key = { it.id }
+						) { genre ->
+							val genreKey = "tv_genre_${genre.id}"
 							JellyseerrGenreCard(
 								genre = genre,
-								onClick = { viewModel.showTvGenre(genre) },
+								onClick = {
+									viewModel.updateLastFocusedViewAll(genreKey)
+									viewModel.showTvGenre(genre)
+								},
+								focusRequester = focusRequesterForViewAll(genreKey),
+								onFocus = { viewModel.updateLastFocusedViewAll(genreKey) },
 							)
 						}
 					}
@@ -1496,17 +1599,26 @@ private fun JellyseerrContent(
 					Spacer(modifier = Modifier.size(sectionInnerSpacing))
 
 					LazyRow(
-						horizontalArrangement = Arrangement.spacedBy(16.dp),
+						horizontalArrangement = Arrangement.spacedBy(12.dp),
 						contentPadding = PaddingValues(horizontal = 24.dp),
 						modifier = Modifier
 							.fillMaxWidth()
-							.height(200.dp),
+							.height(110.dp),
 					) {
-						items(JellyseerrStudioCards) { studio ->
+						items(
+							items = JellyseerrStudioCards,
+							key = { it.id }
+						) { studio ->
+							val studioKey = "movie_studio_${studio.id}"
 							JellyseerrCompanyCard(
 								name = studio.name,
 								logoUrl = studio.logoUrl,
-								onClick = { viewModel.showMovieStudio(studio) },
+								onClick = {
+									viewModel.updateLastFocusedViewAll(studioKey)
+									viewModel.showMovieStudio(studio)
+								},
+								focusRequester = focusRequesterForViewAll(studioKey),
+								onFocus = { viewModel.updateLastFocusedViewAll(studioKey) },
 							)
 						}
 					}
@@ -1525,17 +1637,26 @@ private fun JellyseerrContent(
 					Spacer(modifier = Modifier.size(sectionInnerSpacing))
 
 					LazyRow(
-						horizontalArrangement = Arrangement.spacedBy(16.dp),
+						horizontalArrangement = Arrangement.spacedBy(12.dp),
 						contentPadding = PaddingValues(horizontal = 24.dp),
 						modifier = Modifier
 							.fillMaxWidth()
-							.height(200.dp),
+							.height(110.dp),
 					) {
-						items(JellyseerrNetworkCards) { network ->
+						items(
+							items = JellyseerrNetworkCards,
+							key = { it.id }
+						) { network ->
+							val networkKey = "tv_network_${network.id}"
 							JellyseerrCompanyCard(
 								name = network.name,
 								logoUrl = network.logoUrl,
-								onClick = { viewModel.showTvNetwork(network) },
+								onClick = {
+									viewModel.updateLastFocusedViewAll(networkKey)
+									viewModel.showTvNetwork(network)
+								},
+								focusRequester = focusRequesterForViewAll(networkKey),
+								onFocus = { viewModel.updateLastFocusedViewAll(networkKey) },
 							)
 						}
 					}
@@ -1562,18 +1683,25 @@ private fun JellyseerrContent(
 						Spacer(modifier = Modifier.size(sectionInnerSpacing))
 
 						LazyRow(
-							horizontalArrangement = Arrangement.spacedBy(16.dp),
+							horizontalArrangement = Arrangement.spacedBy(12.dp),
 							contentPadding = PaddingValues(horizontal = 24.dp),
 							modifier = Modifier
 								.fillMaxWidth()
-								.height(200.dp),
+								.height(120.dp),
 						) {
-							items(state.recentRequests) { item ->
-								val focusRequester = recentRequestsFocusRequesters.getOrPut(item.id) { FocusRequester() }
+							itemsIndexed(
+								items = state.recentRequests,
+								key = { index, _ -> "recent_request_$index" }
+							) { index, item ->
+								val requestKey = "recent_request_$index"
 								JellyseerrRecentRequestCard(
 									item = item,
-									onClick = { viewModel.showDetailsForItem(item) },
-									focusRequester = focusRequester,
+									onClick = {
+										viewModel.updateLastFocusedViewAll(requestKey)
+										viewModel.showDetailsForItem(item)
+									},
+									focusRequester = focusRequesterForViewAll(requestKey),
+									onFocus = { viewModel.updateLastFocusedViewAll(requestKey) },
 								)
 							}
 						}
@@ -1714,6 +1842,8 @@ private fun JellyseerrPersonScreen(
     person: JellyseerrPersonDetails,
     credits: List<JellyseerrSearchItem>,
     onCreditClick: (JellyseerrSearchItem) -> Unit,
+    focusRequesterForItem: (String) -> FocusRequester,
+    onItemFocused: (String) -> Unit,
 ) {
     Column(
         modifier = Modifier
@@ -1759,9 +1889,12 @@ private fun JellyseerrPersonScreen(
                         .padding(vertical = 20.dp),
                 ) {
                     rowItems.forEach { item ->
+                        val focusKey = "person_${person.id}_$rowIndex-${item.id}"
                         JellyseerrSearchCard(
                             item = item,
                             onClick = { onCreditClick(item) },
+                            focusRequester = focusRequesterForItem(focusKey),
+                            onFocus = { onItemFocused(focusKey) },
                         )
                     }
                 }
@@ -1771,440 +1904,12 @@ private fun JellyseerrPersonScreen(
 }
 
 
-@Composable
-private fun JellyseerrViewAllCard(
-	onClick: () -> Unit,
-	posterUrls: List<String?> = emptyList(),
-	focusRequester: FocusRequester? = null,
-	onFocus: (() -> Unit)? = null,
-) {
-	val interactionSource = remember { MutableInteractionSource() }
-	val isFocused by interactionSource.collectIsFocusedAsState()
-	val scale = if (isFocused) 1.1f else 1f
-	val view = LocalView.current
-
-	LaunchedEffect(isFocused) {
-		if (isFocused) {
-			view.playSoundEffect(SoundEffectConstants.NAVIGATION_DOWN)
-			onFocus?.invoke()
-		}
-	}
-
-	Column(
-		modifier = Modifier
-			.width(150.dp)
-			.fillMaxSize()
-			.clickable(onClick = onClick, interactionSource = interactionSource, indication = null)
-			.then(
-				if (focusRequester != null) {
-					Modifier.focusRequester(focusRequester)
-				} else {
-					Modifier
-				}
-			)
-			.focusable(interactionSource = interactionSource)
-			.graphicsLayer(
-				scaleX = scale,
-				scaleY = scale,
-			)
-			.padding(vertical = 4.dp),
-		horizontalAlignment = Alignment.CenterHorizontally,
-	) {
-		Box(
-			modifier = Modifier
-				.fillMaxWidth()
-				.height(200.dp)
-				.clip(RoundedCornerShape(12.dp))
-				.border(
-					width = if (isFocused) 4.dp else 1.dp,
-					color = if (isFocused) Color.White else Color(0xFF888888),
-					shape = RoundedCornerShape(12.dp),
-				),
-		) {
-			// 2x2 Grid of posters with outer padding
-			Column(
-				modifier = Modifier
-					.fillMaxSize()
-					.padding(4.dp),
-				verticalArrangement = Arrangement.spacedBy(4.dp),
-			) {
-				Row(
-					modifier = Modifier
-						.fillMaxWidth()
-						.weight(1f),
-					horizontalArrangement = Arrangement.spacedBy(4.dp),
-				) {
-					posterUrls.getOrNull(0)?.let { posterUrl ->
-						AsyncImage(
-							url = posterUrl,
-							scaleType = android.widget.ImageView.ScaleType.CENTER_CROP,
-							modifier = Modifier
-								.weight(1f)
-								.fillMaxHeight()
-								.clip(RoundedCornerShape(4.dp)),
-						)
-					} ?: Box(
-						modifier = Modifier
-							.weight(1f)
-							.fillMaxHeight()
-							.clip(RoundedCornerShape(4.dp))
-							.background(Color(0xFF2A2A2A)),
-					)
-					posterUrls.getOrNull(1)?.let { posterUrl ->
-						AsyncImage(
-							url = posterUrl,
-							scaleType = android.widget.ImageView.ScaleType.CENTER_CROP,
-							modifier = Modifier
-								.weight(1f)
-								.fillMaxHeight()
-								.clip(RoundedCornerShape(4.dp)),
-						)
-					} ?: Box(
-						modifier = Modifier
-							.weight(1f)
-							.fillMaxHeight()
-							.clip(RoundedCornerShape(4.dp))
-							.background(Color(0xFF2A2A2A)),
-					)
-				}
-				Row(
-					modifier = Modifier
-						.fillMaxWidth()
-						.weight(1f),
-					horizontalArrangement = Arrangement.spacedBy(4.dp),
-				) {
-					posterUrls.getOrNull(2)?.let { posterUrl ->
-						AsyncImage(
-							url = posterUrl,
-							scaleType = android.widget.ImageView.ScaleType.CENTER_CROP,
-							modifier = Modifier
-								.weight(1f)
-								.fillMaxHeight()
-								.clip(RoundedCornerShape(4.dp)),
-						)
-					} ?: Box(
-						modifier = Modifier
-							.weight(1f)
-							.fillMaxHeight()
-							.clip(RoundedCornerShape(4.dp))
-							.background(Color(0xFF2A2A2A)),
-					)
-					posterUrls.getOrNull(3)?.let { posterUrl ->
-						AsyncImage(
-							url = posterUrl,
-							scaleType = android.widget.ImageView.ScaleType.CENTER_CROP,
-							modifier = Modifier
-								.weight(1f)
-								.fillMaxHeight()
-								.clip(RoundedCornerShape(4.dp)),
-						)
-					} ?: Box(
-						modifier = Modifier
-							.weight(1f)
-							.fillMaxHeight()
-							.clip(RoundedCornerShape(4.dp))
-							.background(Color(0xFF2A2A2A)),
-					)
-				}
-			}
-
-			// Dimmer overlay
-			Box(
-				modifier = Modifier
-					.fillMaxSize()
-					.background(Color.Black.copy(alpha = 0.5f)),
-			)
-
-			// Arrow icon in white circle and label inside card
-			Column(
-				modifier = Modifier.fillMaxSize(),
-				horizontalAlignment = Alignment.CenterHorizontally,
-				verticalArrangement = Arrangement.Center,
-			) {
-				Box(
-					modifier = Modifier
-						.size(32.dp)
-						.clip(CircleShape)
-						.background(Color.White),
-					contentAlignment = Alignment.Center,
-				) {
-					MaterialIcon(
-						imageVector = Icons.Filled.ArrowForward,
-						contentDescription = null,
-						tint = Color.Black,
-						modifier = Modifier.size(20.dp),
-					)
-				}
-
-				Spacer(modifier = Modifier.height(8.dp))
-
-				Text(
-					text = stringResource(R.string.jellyseerr_view_more),
-					color = Color.White,
-					fontSize = 12.sp,
-					fontWeight = FontWeight.Medium,
-				)
-			}
-		}
-	}
-}
-
 private fun onSearchItemClick(viewModel: JellyseerrViewModel, item: JellyseerrSearchItem): () -> Unit =
 	if (item.mediaType == "person") {
 		{ viewModel.showPersonFromSearchItem(item) }
 	} else {
 		{ viewModel.showDetailsForItem(item) }
 	}
-
-@Composable
-private fun JellyseerrSearchCard(
-	item: JellyseerrSearchItem,
-	onClick: () -> Unit,
-	modifier: Modifier = Modifier,
-	focusRequester: FocusRequester? = null,
-	onFocus: (() -> Unit)? = null,
-) {
-	val interactionSource = remember { MutableInteractionSource() }
-	val isFocused by interactionSource.collectIsFocusedAsState()
-	val scale = if (isFocused) 1.1f else 1f
-	val view = LocalView.current
-
-	LaunchedEffect(isFocused) {
-		if (isFocused) {
-			view.playSoundEffect(SoundEffectConstants.NAVIGATION_DOWN)
-			onFocus?.invoke()
-		}
-	}
-
-	Column(
-		modifier = modifier
-			.width(150.dp)
-			.fillMaxSize()
-			.clickable(onClick = onClick, interactionSource = interactionSource, indication = null)
-			.then(
-				if (focusRequester != null) {
-					Modifier.focusRequester(focusRequester)
-				} else {
-					Modifier
-				}
-			)
-			.focusable(interactionSource = interactionSource)
-			.graphicsLayer(
-				scaleX = scale,
-				scaleY = scale,
-			)
-			.padding(vertical = 4.dp),
-	) {
-		Box(
-			modifier = Modifier
-				.fillMaxWidth()
-				.height(200.dp)
-				.clip(RoundedCornerShape(12.dp))
-				.border(
-					width = if (isFocused) 4.dp else 1.dp,
-					color = if (isFocused) Color.White else Color(0xFF888888),
-					shape = RoundedCornerShape(12.dp),
-				),
-		) {
-			if (item.posterPath.isNullOrBlank()) {
-				// Placeholder wenn kein Poster verfügbar
-				Box(
-					modifier = Modifier
-						.fillMaxSize()
-						.background(Color(0xFF333333)),
-					contentAlignment = Alignment.Center,
-				) {
-					androidx.compose.foundation.Image(
-						imageVector = ImageVector.vectorResource(id = R.drawable.ic_clapperboard),
-						contentDescription = null,
-						modifier = Modifier.size(48.dp),
-						colorFilter = androidx.compose.ui.graphics.ColorFilter.tint(Color(0xFF888888)),
-					)
-				}
-			} else {
-				AsyncImage(
-					modifier = Modifier.fillMaxSize(),
-					url = item.posterPath,
-					aspectRatio = 2f / 3f,
-					scaleType = ImageView.ScaleType.CENTER_CROP,
-				)
-			}
-
-			val hasPendingRequest = item.requestStatus != null && item.requestStatus != 5
-
-			when {
-				hasPendingRequest -> {
-					Box(
-						modifier = Modifier
-							.align(Alignment.TopEnd)
-							.padding(6.dp)
-							.clip(RoundedCornerShape(999.dp))
-							.background(Color(0xFFAA5CC3)),
-					) {
-						androidx.compose.foundation.Image(
-							imageVector = ImageVector.vectorResource(id = R.drawable.ic_time),
-							contentDescription = null,
-							modifier = Modifier
-								.padding(4.dp)
-								.size(16.dp),
-						)
-					}
-				}
-				item.isPartiallyAvailable -> {
-					Box(
-						modifier = Modifier
-							.align(Alignment.TopEnd)
-							.padding(6.dp)
-							.clip(RoundedCornerShape(999.dp))
-							.background(Color(0xFF2E7D32)),
-					) {
-						androidx.compose.foundation.Image(
-							imageVector = ImageVector.vectorResource(id = R.drawable.ic_decrease),
-							contentDescription = null,
-							modifier = Modifier
-								.padding(4.dp)
-								.size(16.dp),
-						)
-					}
-				}
-				item.isAvailable -> {
-					Box(
-						modifier = Modifier
-							.align(Alignment.TopEnd)
-							.padding(6.dp)
-							.clip(RoundedCornerShape(999.dp))
-							.background(Color(0xFF2E7D32)),
-					) {
-						androidx.compose.foundation.Image(
-							imageVector = ImageVector.vectorResource(id = R.drawable.ic_check),
-							contentDescription = null,
-							modifier = Modifier
-								.padding(4.dp)
-								.size(16.dp),
-						)
-					}
-				}
-			}
-		}
-
-		Spacer(modifier = Modifier.size(4.dp))
-
-		Text(
-			text = item.title,
-			color = JellyfinTheme.colorScheme.onBackground,
-			maxLines = 2,
-			overflow = TextOverflow.Ellipsis,
-			modifier = Modifier.padding(horizontal = 4.dp),
-		)
-
-	}
-}
-
-@Composable
-private fun JellyseerrRequestRow(
-	request: JellyseerrRequest,
-	onClick: () -> Unit,
-) {
-	val interactionSource = remember { MutableInteractionSource() }
-	val isFocused by interactionSource.collectIsFocusedAsState()
-	val scale = if (isFocused) 1.1f else 1f
-
-	Column(
-		modifier = Modifier
-			.width(150.dp)
-			.fillMaxHeight()
-			.padding(vertical = 4.dp)
-			.clickable(onClick = onClick, interactionSource = interactionSource, indication = null)
-			.focusable(interactionSource = interactionSource)
-			.graphicsLayer(
-				scaleX = scale,
-				scaleY = scale,
-			),
-	) {
-		Box(
-			modifier = Modifier
-				.fillMaxWidth()
-				.height(160.dp)
-				.clip(RoundedCornerShape(12.dp))
-				.border(
-					width = if (isFocused) 4.dp else 1.dp,
-					color = if (isFocused) Color.White else Color(0xFF888888),
-					shape = RoundedCornerShape(12.dp),
-				),
-		) {
-			if (request.posterPath.isNullOrBlank()) {
-				// Placeholder wenn kein Poster verfügbar
-				Box(
-					modifier = Modifier
-						.fillMaxSize()
-						.background(Color(0xFF333333)),
-					contentAlignment = Alignment.Center,
-				) {
-					androidx.compose.foundation.Image(
-						imageVector = ImageVector.vectorResource(id = R.drawable.ic_clapperboard),
-						contentDescription = null,
-						modifier = Modifier.size(48.dp),
-						colorFilter = androidx.compose.ui.graphics.ColorFilter.tint(Color(0xFF888888)),
-					)
-				}
-			} else {
-				AsyncImage(
-					modifier = Modifier.fillMaxSize(),
-					url = request.posterPath,
-					aspectRatio = 2f / 3f,
-					scaleType = ImageView.ScaleType.CENTER_CROP,
-				)
-			}
-
-			when {
-				request.status == 5 -> {
-					Box(
-						modifier = Modifier
-							.align(Alignment.TopEnd)
-							.padding(6.dp)
-							.clip(RoundedCornerShape(999.dp))
-							.background(Color(0xFF2E7D32)),
-					) {
-						androidx.compose.foundation.Image(
-							imageVector = ImageVector.vectorResource(id = R.drawable.ic_check),
-							contentDescription = null,
-							modifier = Modifier
-								.padding(4.dp)
-								.size(16.dp),
-						)
-					}
-				}
-				request.status != null -> {
-					Box(
-						modifier = Modifier
-							.align(Alignment.TopEnd)
-							.padding(6.dp)
-							.clip(RoundedCornerShape(999.dp))
-							.background(Color(0xFFAA5CC3)),
-					) {
-						androidx.compose.foundation.Image(
-							imageVector = ImageVector.vectorResource(id = R.drawable.ic_time),
-							contentDescription = null,
-							modifier = Modifier
-								.padding(4.dp)
-								.size(16.dp),
-						)
-					}
-				}
-			}
-		}
-
-		Spacer(modifier = Modifier.size(4.dp))
-
-		Text(
-			text = request.title,
-			color = JellyfinTheme.colorScheme.onBackground,
-			maxLines = 2,
-			overflow = TextOverflow.Ellipsis,
-			modifier = Modifier.padding(horizontal = 4.dp),
-		)
-	}
-}
 
 @Composable
 private fun JellyseerrCastRow(
@@ -2235,6 +1940,7 @@ private fun JellyseerrRecentRequestCard(
 	item: JellyseerrSearchItem,
 	onClick: () -> Unit,
 	focusRequester: FocusRequester? = null,
+	onFocus: (() -> Unit)? = null,
 ) {
 	val interactionSource = remember { MutableInteractionSource() }
 	val isFocused by interactionSource.collectIsFocusedAsState()
@@ -2244,13 +1950,14 @@ private fun JellyseerrRecentRequestCard(
 	LaunchedEffect(isFocused) {
 		if (isFocused) {
 			view.playSoundEffect(SoundEffectConstants.NAVIGATION_DOWN)
+			onFocus?.invoke()
 		}
 	}
 
 	Box(
 		modifier = Modifier
-			.width(350.dp)
-			.height(180.dp)
+			.width(200.dp)
+			.fillMaxHeight()
 			.clickable(onClick = onClick, interactionSource = interactionSource, indication = null)
 			.then(
 				if (focusRequester != null) {
@@ -2264,235 +1971,166 @@ private fun JellyseerrRecentRequestCard(
 				scaleX = scale,
 				scaleY = scale,
 			)
-			.clip(RoundedCornerShape(12.dp))
-			.border(
-				width = if (isFocused) 3.dp else 1.dp,
-				color = if (isFocused) Color.White else Color(0xFF555555),
-				shape = RoundedCornerShape(12.dp),
-			),
+			.padding(vertical = 4.dp),
 	) {
-		// Backdrop Image
-		if (!item.backdropPath.isNullOrBlank()) {
-			AsyncImage(
-				modifier = Modifier.fillMaxSize(),
-				url = item.backdropPath,
-				aspectRatio = 16f / 9f,
-				scaleType = ImageView.ScaleType.CENTER_CROP,
-			)
-		} else {
+		Box(
+			modifier = Modifier
+				.fillMaxSize()
+				.clip(RoundedCornerShape(8.dp))
+				.border(
+					width = if (isFocused) 3.dp else 1.dp,
+					color = if (isFocused) Color.White else Color(0xFF555555),
+					shape = RoundedCornerShape(8.dp),
+				),
+		) {
+			// Backdrop Image
+			if (!item.backdropPath.isNullOrBlank()) {
+				AsyncImage(
+					modifier = Modifier.fillMaxSize(),
+					url = item.backdropPath,
+					aspectRatio = 16f / 9f,
+					scaleType = ImageView.ScaleType.CENTER_CROP,
+				)
+			} else {
+				Box(
+					modifier = Modifier
+						.fillMaxSize()
+						.background(Color(0xFF1A1A1A)),
+				)
+			}
+
+			// Dimmer overlay
 			Box(
 				modifier = Modifier
 					.fillMaxSize()
-					.background(Color(0xFF1A1A1A)),
-			)
-		}
-
-		// Dimmer overlay
-		Box(
-			modifier = Modifier
-				.fillMaxSize()
-				.background(
-					Brush.horizontalGradient(
-						colors = listOf(
-							Color.Black.copy(alpha = 0.85f),
-							Color.Black.copy(alpha = 0.4f),
+					.background(
+						Brush.horizontalGradient(
+							colors = listOf(
+								Color.Black.copy(alpha = 0.85f),
+								Color.Black.copy(alpha = 0.4f),
+							),
 						),
 					),
-				),
-		)
+			)
 
-		Row(
-			modifier = Modifier
-				.fillMaxSize()
-				.padding(12.dp),
-			horizontalArrangement = Arrangement.SpaceBetween,
-		) {
-			// Left side - Text content
-			Column(
+			Row(
 				modifier = Modifier
-					.weight(1f)
-					.fillMaxHeight(),
-				verticalArrangement = Arrangement.SpaceBetween,
+					.fillMaxSize()
+					.padding(8.dp),
+				horizontalArrangement = Arrangement.SpaceBetween,
 			) {
-				Column {
-					// Media type badge and year row
-					Row(
-						horizontalArrangement = Arrangement.spacedBy(8.dp),
-						verticalAlignment = Alignment.CenterVertically,
-					) {
-						// Media type badge
-						val mediaTypeText = if (item.mediaType == "tv") stringResource(R.string.lbl_tv_series) else stringResource(R.string.lbl_movies)
+				// Left side - Text content
+				Column(
+					modifier = Modifier
+						.weight(1f)
+						.fillMaxHeight(),
+					verticalArrangement = Arrangement.SpaceBetween,
+				) {
+					Column {
+						// Media type badge and year row
+						Row(
+							horizontalArrangement = Arrangement.spacedBy(4.dp),
+							verticalAlignment = Alignment.CenterVertically,
+						) {
+							// Media type badge
+							val mediaTypeText = if (item.mediaType == "tv") stringResource(R.string.lbl_tv_series) else stringResource(R.string.lbl_movies)
+							Box(
+								modifier = Modifier
+									.clip(RoundedCornerShape(3.dp))
+									.background(Color(0xFF424242))
+									.padding(horizontal = 4.dp, vertical = 1.dp),
+							) {
+								Text(
+									text = mediaTypeText,
+									color = Color.White,
+									fontSize = 8.sp,
+								)
+							}
+
+							// Year
+							val year = item.releaseDate?.take(4) ?: ""
+							if (year.isNotBlank()) {
+								Text(
+									text = year,
+									color = Color.White.copy(alpha = 0.7f),
+									fontSize = 10.sp,
+								)
+							}
+						}
+
+						Spacer(modifier = Modifier.height(2.dp))
+
+						// Title
+						Text(
+							text = item.title,
+							color = Color.White,
+							fontSize = 12.sp,
+							maxLines = 2,
+							overflow = TextOverflow.Ellipsis,
+						)
+					}
+
+					// Status Badge
+					val statusText = when {
+						item.isAvailable -> stringResource(R.string.jellyseerr_available_label)
+						item.isPartiallyAvailable -> stringResource(R.string.jellyseerr_partially_available_label)
+						item.requestStatus != null -> stringResource(R.string.jellyseerr_requested_label)
+						else -> ""
+					}
+
+					val statusColor = when {
+						item.isAvailable -> Color(0xFF2E7D32)
+						item.isPartiallyAvailable -> Color(0xFF0097A7)
+						item.requestStatus != null -> Color(0xFFDD8800)
+						else -> Color.Transparent
+					}
+
+					if (statusText.isNotBlank()) {
 						Box(
 							modifier = Modifier
 								.clip(RoundedCornerShape(4.dp))
-								.background(Color(0xFF424242))
+								.background(statusColor)
 								.padding(horizontal = 6.dp, vertical = 2.dp),
 						) {
 							Text(
-								text = mediaTypeText,
+								text = statusText,
 								color = Color.White,
-								fontSize = 10.sp,
-							)
-						}
-
-						// Year
-						val year = item.releaseDate?.take(4) ?: ""
-						if (year.isNotBlank()) {
-							Text(
-								text = year,
-								color = Color.White.copy(alpha = 0.7f),
-								fontSize = 14.sp,
+								fontSize = 9.sp,
 							)
 						}
 					}
-
-					Spacer(modifier = Modifier.height(4.dp))
-
-					// Title
-					Text(
-						text = item.title,
-						color = Color.White,
-						fontSize = 18.sp,
-						maxLines = 2,
-						overflow = TextOverflow.Ellipsis,
-					)
 				}
 
-				// Status Badge
-				val statusText = when {
-					item.isAvailable -> stringResource(R.string.jellyseerr_available_label)
-					item.isPartiallyAvailable -> stringResource(R.string.jellyseerr_partially_available_label)
-					item.requestStatus != null -> stringResource(R.string.jellyseerr_requested_label)
-					else -> ""
-				}
-
-				val statusColor = when {
-					item.isAvailable -> Color(0xFF2E7D32)
-					item.isPartiallyAvailable -> Color(0xFF0097A7)
-					item.requestStatus != null -> Color(0xFFDD8800)
-					else -> Color.Transparent
-				}
-
-				if (statusText.isNotBlank()) {
-					Box(
-						modifier = Modifier
-							.clip(RoundedCornerShape(6.dp))
-							.background(statusColor)
-							.padding(horizontal = 10.dp, vertical = 4.dp),
-					) {
-						Text(
-							text = statusText,
-							color = Color.White,
-							fontSize = 12.sp,
+				// Right side - Poster
+				Box(
+					modifier = Modifier
+						.width(50.dp)
+						.fillMaxHeight()
+						.clip(RoundedCornerShape(6.dp))
+						.background(Color.Gray.copy(alpha = 0.3f)),
+				) {
+					if (!item.posterPath.isNullOrBlank()) {
+						AsyncImage(
+							modifier = Modifier.fillMaxSize(),
+							url = item.posterPath,
+							aspectRatio = 2f / 3f,
+							scaleType = ImageView.ScaleType.CENTER_CROP,
 						)
+					} else {
+						Box(
+							modifier = Modifier.fillMaxSize(),
+							contentAlignment = Alignment.Center,
+						) {
+							androidx.compose.foundation.Image(
+								imageVector = ImageVector.vectorResource(id = R.drawable.ic_clapperboard),
+								contentDescription = null,
+								modifier = Modifier.size(20.dp),
+								colorFilter = androidx.compose.ui.graphics.ColorFilter.tint(Color(0xFF888888)),
+							)
+						}
 					}
 				}
 			}
-
-			// Right side - Poster
-			Box(
-				modifier = Modifier
-					.width(85.dp)
-					.fillMaxHeight()
-					.clip(RoundedCornerShape(8.dp))
-					.background(Color.Gray.copy(alpha = 0.3f)),
-			) {
-				if (!item.posterPath.isNullOrBlank()) {
-					AsyncImage(
-						modifier = Modifier.fillMaxSize(),
-						url = item.posterPath,
-						aspectRatio = 2f / 3f,
-						scaleType = ImageView.ScaleType.CENTER_CROP,
-					)
-				} else {
-					Box(
-						modifier = Modifier.fillMaxSize(),
-						contentAlignment = Alignment.Center,
-					) {
-						androidx.compose.foundation.Image(
-							imageVector = ImageVector.vectorResource(id = R.drawable.ic_clapperboard),
-							contentDescription = null,
-							modifier = Modifier.size(32.dp),
-							colorFilter = androidx.compose.ui.graphics.ColorFilter.tint(Color(0xFF888888)),
-						)
-					}
-				}
-			}
-		}
-	}
-}
-
-@Composable
-private fun JellyseerrCastCard(
-	person: JellyseerrCast,
-	onClick: () -> Unit,
-	focusRequester: FocusRequester? = null,
-) {
-	val interactionSource = remember { MutableInteractionSource() }
-	val isFocused by interactionSource.collectIsFocusedAsState()
-	val scale = if (isFocused) 1.05f else 1f
-	val view = LocalView.current
-
-	LaunchedEffect(isFocused) {
-		if (isFocused) {
-			view.playSoundEffect(SoundEffectConstants.NAVIGATION_DOWN)
-		}
-	}
-
-	val modifier = Modifier
-		.width(120.dp)
-		.padding(vertical = 4.dp)
-		.clickable(onClick = onClick, interactionSource = interactionSource, indication = null)
-		.focusable(interactionSource = interactionSource)
-		.graphicsLayer(
-			scaleX = scale,
-			scaleY = scale,
-		)
-
-	val modifierWithFocus = if (focusRequester != null) {
-		modifier.focusRequester(focusRequester)
-	} else {
-		modifier
-	}
-
-	Column(
-		horizontalAlignment = Alignment.CenterHorizontally,
-		modifier = modifierWithFocus,
-	) {
-		Box(
-			modifier = Modifier
-				.size(80.dp)
-				.clip(CircleShape)
-				.border(
-					width = if (isFocused) 4.dp else 1.dp,
-					color = if (isFocused) Color.White else Color(0xFF888888),
-					shape = CircleShape,
-				),
-		) {
-			AsyncImage(
-				modifier = Modifier.fillMaxSize(),
-				url = person.profilePath,
-				aspectRatio = 1f,
-				scaleType = ImageView.ScaleType.CENTER_CROP,
-			)
-		}
-
-		Spacer(modifier = Modifier.size(4.dp))
-
-		Text(
-			text = person.name,
-			color = JellyfinTheme.colorScheme.onBackground,
-			maxLines = 1,
-			overflow = TextOverflow.Ellipsis,
-		)
-
-		person.character?.takeIf { it.isNotBlank() }?.let { role ->
-			Text(
-				text = role,
-				color = JellyfinTheme.colorScheme.onBackground,
-				maxLines = 1,
-				overflow = TextOverflow.Ellipsis,
-			)
 		}
 	}
 }
@@ -2815,193 +2453,6 @@ private fun JellyseerrCastCard(
 	}
 }
 
-private suspend fun playJellyseerrTrailer(
-	context: Context,
-	apiClient: ApiClient,
-	playbackLauncher: PlaybackLauncher,
-	item: JellyseerrSearchItem,
-	searchTitle: String,
-) {
-	val trimmedSearchTitle = searchTitle.trim()
-
-	val jellyfinId = item.jellyfinId?.takeIf { it.isNotBlank() }
-	if (jellyfinId == null) {
-		launchYouTubeSearch(context, trimmedSearchTitle)
-		return
-	}
-
-	val uuid = jellyfinId.toUUIDOrNull()
-	if (uuid == null) {
-		Toast.makeText(
-			context,
-			context.getString(R.string.jellyseerr_trailer_error),
-			Toast.LENGTH_LONG
-		).show()
-		launchYouTubeSearch(context, trimmedSearchTitle)
-		return
-	}
-
-	val baseItem = runCatching {
-		withContext(Dispatchers.IO) {
-			apiClient.userLibraryApi.getItem(uuid).content
-		}
-	}.getOrNull()
-
-	if (baseItem == null) {
-		Toast.makeText(
-			context,
-			context.getString(R.string.jellyseerr_trailer_error),
-			Toast.LENGTH_LONG
-		).show()
-		launchYouTubeSearch(context, trimmedSearchTitle)
-		return
-	}
-
-	val trailersResult = runCatching {
-		withContext(Dispatchers.IO) {
-			apiClient.userLibraryApi.getLocalTrailers(itemId = uuid).content
-		}
-	}.getOrNull()
-
-	if (!trailersResult.isNullOrEmpty()) {
-		playbackLauncher.launch(context, trailersResult, position = 0)
-		return
-	}
-
-	val externalIntent = TrailerUtils.getExternalTrailerIntent(context, baseItem)
-	if (externalIntent != null) {
-		try {
-			context.startActivity(externalIntent)
-			return
-		} catch (exception: ActivityNotFoundException) {
-			Toast.makeText(
-				context,
-				context.getString(R.string.no_player_message),
-				Toast.LENGTH_LONG
-			).show()
-		}
-	}
-
-	launchYouTubeSearch(context, trimmedSearchTitle)
-}
-
-private fun launchYouTubeSearch(context: Context, title: String) {
-	val trimmedTitle = title.trim()
-	if (trimmedTitle.isBlank()) {
-		Toast.makeText(
-			context,
-			context.getString(R.string.jellyseerr_trailer_unavailable),
-			Toast.LENGTH_LONG
-		).show()
-		return
-	}
-
-	val query = URLEncoder.encode("$trimmedTitle trailer", Charsets.UTF_8.name())
-	val searchIntent = Intent(
-		Intent.ACTION_VIEW,
-		Uri.parse("https://www.youtube.com/results?search_query=$query")
-	)
-
-	try {
-		context.startActivity(searchIntent)
-	} catch (exception: ActivityNotFoundException) {
-		Toast.makeText(
-			context,
-			context.getString(R.string.no_player_message),
-			Toast.LENGTH_LONG
-		).show()
-	}
-}
-
-@Composable
-private fun JellyseerrGenreCard(
-	genre: JellyseerrGenreSlider,
-	onClick: () -> Unit,
-	modifier: Modifier = Modifier,
-) {
-	val interactionSource = remember { MutableInteractionSource() }
-	val isFocused by interactionSource.collectIsFocusedAsState()
-	val view = LocalView.current
-
-	// Sound beim Fokussieren
-	LaunchedEffect(isFocused) {
-		if (isFocused) {
-			view.playSoundEffect(SoundEffectConstants.NAVIGATION_DOWN)
-		}
-	}
-
-	val scale by animateFloatAsState(
-		targetValue = if (isFocused) 1.05f else 1f,
-		animationSpec = tween(durationMillis = 150),
-		label = "genre_card_scale"
-	)
-
-	Box(
-		modifier = modifier
-			.width(350.dp)
-			.height(180.dp)
-			.clickable(
-				interactionSource = interactionSource,
-				indication = null,
-				onClick = onClick,
-			)
-			.focusable(interactionSource = interactionSource)
-			.graphicsLayer(
-				scaleX = scale,
-				scaleY = scale,
-			)
-			.clip(RoundedCornerShape(12.dp))
-			.border(
-				width = if (isFocused) 3.dp else 1.dp,
-				color = if (isFocused) Color.White else Color(0xFF444444),
-				shape = RoundedCornerShape(12.dp),
-			),
-		contentAlignment = Alignment.Center,
-	) {
-		// Backdrop Image mit Duotone-Filter
-		if (!genre.backdropUrl.isNullOrBlank()) {
-			AsyncImage(
-				modifier = Modifier
-					.fillMaxSize()
-					.graphicsLayer(alpha = 0.7f),
-				url = genre.backdropUrl,
-				aspectRatio = 16f / 9f,
-				scaleType = ImageView.ScaleType.CENTER_CROP,
-			)
-		} else {
-			Box(
-				modifier = Modifier
-					.fillMaxSize()
-					.background(Color(0xFF2A2A2A)),
-			)
-		}
-
-		// Gradient Overlay für bessere Textlesbarkeit (stärkerer Dimmer)
-		Box(
-			modifier = Modifier
-				.fillMaxSize()
-				.background(
-					Brush.verticalGradient(
-						colors = listOf(
-							Color.Black.copy(alpha = 0.5f), // <-- Stärkerer Dimmer
-							Color.Black.copy(alpha = 0.8f), // <-- Stärkerer Dimmer
-						)
-					)
-				),
-		)
-
-		// Genre Name zentriert (größere Schrift)
-		Text(
-			text = genre.name,
-			color = Color.White,
-			fontSize = 24.sp, // <-- Größere Schrift
-			fontWeight = FontWeight.Bold,
-			textAlign = TextAlign.Center,
-			modifier = Modifier.padding(16.dp),
-		)
-	}
-}
-
 private val JellyseerrStudioCards = listOf(
 	JellyseerrCompany(
 		id = 2,
@@ -3172,72 +2623,3 @@ private val JellyseerrNetworkCards = listOf(
 		logoUrl = "https://image.tmdb.org/t/p/w780_filter(duotone,ffffff,bababa)/gIAcGTjKKr0KOHL5s4O36roJ8p7.png",
 	),
 )
-
-@Composable
-	private fun JellyseerrCompanyCard(
-		name: String,
-		logoUrl: String?,
-		onClick: () -> Unit,
-		modifier: Modifier = Modifier,
-	) {
-		val interactionSource = remember { MutableInteractionSource() }
-		val isFocused by interactionSource.collectIsFocusedAsState()
-		val scale = if (isFocused) 1.05f else 1f
-		val view = LocalView.current
-
-		LaunchedEffect(isFocused) {
-			if (isFocused) {
-				view.playSoundEffect(SoundEffectConstants.NAVIGATION_DOWN)
-			}
-		}
-
-		Box(
-			modifier = modifier
-				.width(350.dp)
-				.height(180.dp)
-				.clickable(onClick = onClick, interactionSource = interactionSource, indication = null)
-				.focusable(interactionSource = interactionSource)
-				.graphicsLayer(
-					scaleX = scale,
-					scaleY = scale,
-				)
-				.clip(RoundedCornerShape(12.dp))
-				.border(
-					width = if (isFocused) 3.dp else 1.dp,
-					color = if (isFocused) Color.White else Color(0xFF444444),
-					shape = RoundedCornerShape(12.dp),
-				),
-			contentAlignment = Alignment.Center,
-		) {
-			if (!logoUrl.isNullOrBlank()) {
-				AsyncImage(
-					modifier = Modifier
-						.fillMaxSize()
-						.padding(30.dp), // <-- Padding für das Logo
-					url = logoUrl,
-					aspectRatio = 16f / 9f,
-					scaleType = ImageView.ScaleType.CENTER_INSIDE,
-				)
-			} else {
-				Box(
-					modifier = Modifier
-						.fillMaxSize()
-						.background(Color(0xFF1A1A1A)),
-				)
-			}
-
-			// Vertikaler Dimmer (stärker am unteren Rand)
-			Box(
-				modifier = Modifier
-					.fillMaxSize()
-					.background(
-						Brush.verticalGradient(
-							colors = listOf(
-								Color.Black.copy(alpha = 0.2f),
-								Color.Black.copy(alpha = 0.8f),
-							),
-						)
-					),
-			)
-		}
-	}

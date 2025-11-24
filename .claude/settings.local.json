@@ -1,0 +1,10 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(gradlew.bat :app:compileDebugKotlin:*)",
+      "Bash(cmd.exe /c \"gradlew.bat :app:compileDebugKotlin --quiet\")"
+    ],
+    "deny": [],
+    "ask": []
+  }
+}

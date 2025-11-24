@@ -8,12 +8,15 @@ import org.jellyfin.androidtv.data.repository.JellyseerrCast
 import org.jellyfin.androidtv.data.repository.JellyseerrRepository
 import org.jellyfin.androidtv.data.repository.JellyseerrRequest
 import org.jellyfin.androidtv.data.repository.JellyseerrSearchItem
+import android.content.Context
+import org.jellyfin.androidtv.R
 
 internal class JellyseerrDetailActions(
 	private val repository: JellyseerrRepository,
 	private val state: MutableStateFlow<JellyseerrUiState>,
 	private val scope: CoroutineScope,
 	private val requestActions: JellyseerrRequestActions,
+	private val context: Context,
 	private val loadRecentRequests: suspend () -> Unit,
 ) {
 	fun loadSeasonEpisodes(tmdbId: Int, seasonNumber: Int) {
@@ -66,12 +69,12 @@ internal class JellyseerrDetailActions(
 					requestActions.refreshOwnRequests()
 					refreshCurrentDetails()
 					state.update {
-						it.copy(requestStatusMessage = "Anfrage gesendet")
+						it.copy(requestStatusMessage = context.getString(R.string.jellyseerr_request_sended))
 					}
 				}
 				.onFailure { error ->
 					state.update {
-						it.copy(errorMessage = error.message, requestStatusMessage = "Anfrage fehlgeschlagen")
+						it.copy(errorMessage = error.message, requestStatusMessage = context.getString(R.string.jellyseerr_request_error))
 					}
 				}
 		}
