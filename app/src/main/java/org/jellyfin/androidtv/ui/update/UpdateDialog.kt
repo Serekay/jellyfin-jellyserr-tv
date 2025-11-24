@@ -84,10 +84,12 @@ private fun UpdateDialogContent(
 ) {
 	val installButtonFocusRequester = remember { FocusRequester() }
 	val cancelButtonFocusRequester = remember { FocusRequester() }
+	val okButtonFocusRequester = remember { FocusRequester() }
 
 	LaunchedEffect(state.updatePhase) {
 		when (state.updatePhase) {
 			UpdatePhase.AVAILABLE -> installButtonFocusRequester.requestFocus()
+			UpdatePhase.UP_TO_DATE, UpdatePhase.ERROR -> okButtonFocusRequester.requestFocus()
 			else -> Unit
 		}
 	}
@@ -258,7 +260,7 @@ private fun UpdateDialogContent(
 					SimpleButton(
 						text = stringResource(R.string.lbl_ok),
 						onClick = onDismiss,
-						modifier = Modifier.focusRequester(cancelButtonFocusRequester),
+						modifier = Modifier.focusRequester(okButtonFocusRequester),
 						backgroundColor = Color(0xFF00A4DC),
 						contentColor = Color.White
 					)
