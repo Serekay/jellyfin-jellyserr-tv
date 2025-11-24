@@ -252,11 +252,45 @@ private fun JellyseerrScreen(
 					color = Color.White,
 				)
 			} else {
-				JellyseerrContent(
-					viewModel = viewModel,
-					onShowSeasonDialog = { showSeasonDialog = true },
-					firstCastFocusRequester = firstCastFocusRequester,
-				)
+				// Box um Browse und Detail-Ansichten zu überlagern
+				Box(modifier = Modifier.fillMaxSize()) {
+					// Browse-Ansicht (JellyseerrContent) - bleibt immer im Tree
+					JellyseerrContent(
+						viewModel = viewModel,
+						onShowSeasonDialog = { showSeasonDialog = true },
+						firstCastFocusRequester = firstCastFocusRequester,
+					)
+
+					// Detail-Overlay - wird über der Browse-Ansicht angezeigt
+					if (selectedItem != null) {
+						JellyseerrDetail(
+							item = selectedItem,
+							details = state.selectedMovie,
+							seasonEpisodes = state.seasonEpisodes,
+							requestStatusMessage = state.requestStatusMessage,
+							onRequestClick = { seasons ->
+								viewModel.request(selectedItem, seasons)
+							},
+							onShowSeasonDialog = { showSeasonDialog = true },
+							onCastClick = { cast ->
+								viewModel.showPerson(cast)
+							},
+							firstCastFocusRequester = firstCastFocusRequester,
+						)
+					}
+
+					// Person-Overlay - wird über der Browse-Ansicht angezeigt
+					val selectedPerson = state.selectedPerson
+					if (selectedPerson != null) {
+						JellyseerrPersonScreen(
+							person = selectedPerson,
+							credits = state.personCredits,
+							onCreditClick = { item -> viewModel.showDetailsForItem(item) },
+							focusRequesterForItem = { key -> FocusRequester() },
+							onItemFocused = { key -> viewModel.updateLastFocusedItem(key) },
+						)
+					}
+				}
 			}
 		}
 
@@ -956,40 +990,15 @@ private fun JellyseerrContent(
 
 	val selectedItem = state.selectedItem
 	val selectedPerson = state.selectedPerson
+	val isShowingDetail = selectedItem != null || selectedPerson != null
 
-	if (selectedItem != null) {
-		// Automatisch alle Staffel-Episoden laden um Verfügbarkeit für den Haupt-Button zu prüfen
-		val availableSeasons = state.selectedMovie?.seasons?.filter { it.seasonNumber > 0 } ?: emptyList()
-		LaunchedEffect(selectedItem.id, availableSeasons) {
-			if (selectedItem.mediaType == "tv") {
-				availableSeasons.forEach { season ->
-					val seasonKey = SeasonKey(selectedItem.id, season.seasonNumber)
-					if (!state.seasonEpisodes.containsKey(seasonKey)) {
-						viewModel.loadSeasonEpisodes(selectedItem.id, season.seasonNumber)
-					}
-				}
-			}
-		}
-
-		JellyseerrDetail(
-			item = selectedItem,
-			details = state.selectedMovie,
-			seasonEpisodes = state.seasonEpisodes,
-			requestStatusMessage = state.requestStatusMessage,
-			onRequestClick = { seasons -> viewModel.request(selectedItem, seasons) },
-			onCastClick = { castMember -> viewModel.showPerson(castMember) },
-			onShowSeasonDialog = onShowSeasonDialog,
-			firstCastFocusRequester = firstCastFocusRequester,
-		)
-	} else if (selectedPerson != null) {
-		JellyseerrPersonScreen(
-			person = selectedPerson,
-			credits = state.personCredits,
-			onCreditClick = { viewModel.showDetailsForItemFromPerson(it) },
-			focusRequesterForItem = focusRequesterForItem,
-			onItemFocused = { viewModel.updateLastFocusedItem(it) },
-		)
-	} else {
+	// Browse-Ansicht - bleibt IMMER im Compose-Tree für bessere Performance und Fokus-Erhaltung
+	// Nur die Sichtbarkeit und Fokussierbarkeit wird gesteuert
+	Box(
+		modifier = Modifier
+			.fillMaxSize()
+			.graphicsLayer(alpha = if (isShowingDetail) 0f else 1f)
+	) {
 		val scrollState = rememberScrollState(initial = state.mainScrollPosition)
 		val isShowingGrid = state.showAllTrendsGrid || state.showSearchResultsGrid
 
