@@ -5,6 +5,7 @@ local.properties
 /.idea
 .gradle
 .kotlin/
+.claude/
 build/
 captures/
 dist/
