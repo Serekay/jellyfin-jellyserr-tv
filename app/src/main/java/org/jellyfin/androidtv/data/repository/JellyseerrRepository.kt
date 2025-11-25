@@ -3,7 +3,6 @@ package org.jellyfin.androidtv.data.repository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.withContext
-import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
@@ -133,15 +132,6 @@ private data class JellyseerrSearchItemDto(
 	val releaseDate: String? = null,
 	val firstAirDate: String? = null,
 	val mediaInfo: JellyseerrMediaInfoDto? = null,
-)
-
-@Serializable
-private data class JellyseerrMediaInfoDto(
-	val id: Int? = null,
-	val status: Int? = null,
-	val status4k: Int? = null,
-	val jellyfinMediaId: String? = null,
-	val jellyfinMediaId4k: String? = null,
 )
 
 @Serializable
@@ -1330,6 +1320,11 @@ private data class JellyseerrEpisodeRaw(
 						.map { credit ->
 							val posterUrl = posterImageUrl(credit.posterPath)
 							val backdropUrl = backdropImageUrl(credit.backdropPath)
+							val releaseDate = credit.releaseDate ?: credit.firstAirDate
+							val status = credit.mediaInfo?.status
+							val isAvailable = status == 5
+							val isPartiallyAvailable = status == 4
+							val jellyfinId = credit.mediaInfo?.jellyfinMediaId ?: credit.mediaInfo?.jellyfinMediaId4k
 							JellyseerrSearchItem(
 								id = credit.id,
 								mediaType = credit.mediaType ?: "movie",
@@ -1337,6 +1332,10 @@ private data class JellyseerrEpisodeRaw(
 								overview = credit.overview,
 								posterPath = posterUrl,
 								backdropPath = backdropUrl,
+								releaseDate = releaseDate,
+								isAvailable = isAvailable,
+								isPartiallyAvailable = isPartiallyAvailable,
+								jellyfinId = jellyfinId,
 							)
 						}
 				}

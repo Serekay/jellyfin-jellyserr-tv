@@ -66,6 +66,15 @@ data class JellyseerrMediaDto(
 )
 
 @Serializable
+data class JellyseerrMediaInfoDto(
+	val id: Int? = null,
+	val status: Int? = null,
+	val status4k: Int? = null,
+	val jellyfinMediaId: String? = null,
+	val jellyfinMediaId4k: String? = null,
+)
+
+@Serializable
 data class JellyseerrPersonDetails(
 	val id: Int,
 	val name: String,
@@ -151,6 +160,9 @@ data class JellyseerrPersonCredit(
 	val title: String? = null,
 	val name: String? = null,
 	val adult: Boolean? = null,
+	val releaseDate: String? = null,
+	val firstAirDate: String? = null,
+	val mediaInfo: JellyseerrMediaInfoDto? = null,
 )
 
 @Serializable
