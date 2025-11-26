@@ -240,7 +240,11 @@ private fun JellyseerrScreen(
 		Column(modifier = Modifier.fillMaxSize()) {
 			val state by viewModel.uiState.collectAsState()
 
-			val showToolbar = !state.showAllTrendsGrid && state.selectedPerson == null
+			// Show toolbar in normal browse mode or when viewing details/person
+			// Hide toolbar only in grid view when not viewing details
+			val showToolbar = state.selectedItem != null ||
+				state.selectedPerson != null ||
+				(!state.showAllTrendsGrid && !state.showSearchResultsGrid)
 
 			if (showToolbar) {
 				MainToolbar(MainToolbarActiveButton.Requests)
@@ -2453,17 +2457,29 @@ private fun JellyseerrDetail(
 			Column(
 				modifier = Modifier.weight(1f),
 			) {
-				Text(text = details?.title ?: item.title, color = JellyfinTheme.colorScheme.onBackground)
+				val year = details?.releaseDate?.take(4)
+				val titleWithYear = buildString {
+					append(details?.title ?: item.title)
+					year?.let { append(" ($it)") }
+				}
+				Text(text = titleWithYear, color = JellyfinTheme.colorScheme.onBackground)
 
 				Spacer(modifier = Modifier.size(4.dp))
 
-				val year = details?.releaseDate?.take(4)
 				val runtime = details?.runtime
 				val rating = details?.voteAverage
+				val seasonCount = if (isTv) details?.seasons?.filter { it.seasonNumber > 0 }?.size else null
 
 				val metaParts = buildList {
-					year?.let { add(it) }
-					runtime?.let { add("${it} min") }
+					// For TV shows, add season count instead of runtime
+					if (isTv) {
+						seasonCount?.let { count ->
+							val seasonText = if (count == 1) "1 " + stringResource(R.string.lbl_seasons) else "$count " + stringResource(R.string.lbl_seasons)
+							add(seasonText)
+						}
+					} else {
+						runtime?.let { add("${it} min") }
+					}
 					rating?.let { add(String.format("%.1f/10", it)) }
 				}
 
@@ -2473,13 +2489,20 @@ private fun JellyseerrDetail(
 						horizontalArrangement = Arrangement.spacedBy(8.dp),
 					) {
 						if (certification != null) {
+							// FSK color scheme: 0 = White, 6 = Yellow, 12 = Blue, 16 = Dark Blue, 18 = Red
 							val badgeColor = when (ageValue?.toIntOrNull()) {
-								null -> Color(0xFF616161)
-								in 0..6 -> Color(0xFF2E7D32)
-								in 7..11 -> Color(0xFFF9A825)
-								in 12..15 -> Color(0xFFEF6C00)
-								in 16..17 -> Color(0xFFC62828)
-								else -> Color(0xFF6A1B9A)
+								null -> Color(0xFF888888) // Gray for non-numeric ratings
+								0 -> Color(0xFFE0E0E0) // White/Light gray for FSK 0
+								6 -> Color(0xFFFDD835) // Yellow for FSK 6
+								12 -> Color(0xFF66BB6A) // Green for FSK 12
+								16 -> Color(0xFF1565C0) // Dark Blue for FSK 16
+								18 -> Color(0xFFD32F2F) // Red for FSK 18
+								else -> Color(0xFF888888) // Gray for other values
+							}
+							// Text color: black for light backgrounds (0, 6), white for dark backgrounds
+							val textColor = when (ageValue?.toIntOrNull()) {
+								0, 6 -> Color.Black
+								else -> Color.White
 							}
 							Box(
 								modifier = Modifier
@@ -2489,13 +2512,21 @@ private fun JellyseerrDetail(
 							) {
 								Text(
 									text = ageValue ?: certification,
-									color = Color.White,
+									color = textColor,
 									fontSize = 12.sp,
 								)
 							}
 						}
 
 						if (metaParts.isNotEmpty()) {
+							// If there's a badge, show a separator before the meta text
+							if (certification != null) {
+								Text(
+									text = "|",
+									color = JellyfinTheme.colorScheme.onBackground,
+									fontSize = 12.sp,
+								)
+							}
 							Text(
 								text = metaParts.joinToString(" | "),
 								color = JellyfinTheme.colorScheme.onBackground,

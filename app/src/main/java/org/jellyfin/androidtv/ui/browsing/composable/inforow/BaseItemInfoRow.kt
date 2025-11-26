@@ -373,7 +373,11 @@ fun BaseItemInfoRow(
 			else -> {
 				InfoRowDate(item)
 				if (includeRuntime) item.runTimeTicks?.ticks?.let { BaseItemInfoRowRuntime(it) }
-				item.officialRating?.let { InfoRowParentalRating(it) }
+				timber.log.Timber.d("BaseItemInfoRow: Item ${item.name}, type=${item.type}, officialRating='${item.officialRating}'")
+				item.officialRating?.let {
+					timber.log.Timber.d("BaseItemInfoRow: Displaying parental rating: $it")
+					InfoRowParentalRating(it)
+				}
 				mediaSource?.let { InfoRowMediaDetails(it) }
 			}
 		}

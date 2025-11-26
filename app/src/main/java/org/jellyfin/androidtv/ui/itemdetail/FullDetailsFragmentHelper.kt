@@ -12,6 +12,7 @@ import org.jellyfin.androidtv.R
 import org.jellyfin.androidtv.data.model.DataRefreshService
 import org.jellyfin.androidtv.data.repository.ItemMutationRepository
 import org.jellyfin.androidtv.data.repository.ItemRepository
+import org.jellyfin.androidtv.data.repository.JellyseerrRepository
 import org.jellyfin.androidtv.ui.navigation.Destinations
 import org.jellyfin.androidtv.ui.navigation.NavigationRepository
 import org.jellyfin.androidtv.util.TimeUtils
@@ -396,5 +397,82 @@ fun FullDetailsFragment.getLiveTvChannel(
 		}.onSuccess { channel ->
 			callback(channel)
 		}
+	}
+}
+
+/**
+ * Enriches a BaseItemDto with certification (age rating) from Jellyseerr if the item
+ * doesn't already have an officialRating set.
+ *
+ * @param item The BaseItemDto to enrich
+ * @return The enriched BaseItemDto with certification from Jellyseerr, or the original item if
+ *         enrichment is not possible or not needed
+ */
+suspend fun FullDetailsFragment.enrichWithJellyseerrCertification(item: BaseItemDto): BaseItemDto {
+	Timber.d("enrichWithJellyseerrCertification: Starting for item ${item.name}, type=${item.type}, current officialRating=${item.officialRating}")
+
+	// Only enrich if officialRating is not set
+	if (!item.officialRating.isNullOrBlank()) {
+		Timber.d("enrichWithJellyseerrCertification: Item already has officialRating, skipping")
+		return item
+	}
+
+	// Only enrich movies and series
+	if (item.type != BaseItemKind.MOVIE && item.type != BaseItemKind.SERIES) {
+		Timber.d("enrichWithJellyseerrCertification: Item type ${item.type} not supported, skipping")
+		return item
+	}
+
+	// Get Jellyseerr repository
+	val jellyseerrRepository by inject<JellyseerrRepository>()
+
+	// Get TMDB ID from provider IDs
+	val tmdbId = item.providerIds?.get("Tmdb")?.toIntOrNull()
+	if (tmdbId == null) {
+		Timber.d("enrichWithJellyseerrCertification: No TMDB ID found in providerIds: ${item.providerIds}")
+		return item
+	}
+
+	Timber.d("enrichWithJellyseerrCertification: Found TMDB ID: $tmdbId")
+
+	return try {
+		// Fetch details from Jellyseerr
+		val result = withContext(Dispatchers.IO) {
+			when (item.type) {
+				BaseItemKind.MOVIE -> jellyseerrRepository.getMovieDetails(tmdbId)
+				BaseItemKind.SERIES -> jellyseerrRepository.getTvDetails(tmdbId)
+				else -> return@withContext null
+			}
+		}
+
+		Timber.d("enrichWithJellyseerrCertification: Jellyseerr result: ${result?.isSuccess}, certification=${result?.getOrNull()?.certification}")
+
+		// Extract certification and update item if available
+		result?.getOrNull()?.certification?.takeIf { it.isNotBlank() }?.let { certification ->
+			Timber.i("enrichWithJellyseerrCertification: Enriching ${item.name} with certification: $certification")
+			val enrichedItem = item.copy(officialRating = certification)
+			Timber.d("enrichWithJellyseerrCertification: Enriched item officialRating=${enrichedItem.officialRating}")
+			enrichedItem
+		} ?: run {
+			Timber.d("enrichWithJellyseerrCertification: No certification found in Jellyseerr response")
+			item
+		}
+	} catch (e: Exception) {
+		Timber.w(e, "enrichWithJellyseerrCertification: Failed to enrich item ${item.name}")
+		item
+	}
+}
+
+/**
+ * Sets the base item and enriches it with Jellyseerr certification if needed.
+ * This is a wrapper around the original setBaseItem that adds certification enrichment.
+ *
+ * @param item The BaseItemDto to set
+ * @param onEnriched Callback that receives the enriched item
+ */
+fun FullDetailsFragment.setBaseItemWithEnrichment(item: BaseItemDto, onEnriched: (BaseItemDto) -> Unit) {
+	lifecycleScope.launch {
+		val enrichedItem = enrichWithJellyseerrCertification(item)
+		onEnriched(enrichedItem)
 	}
 }

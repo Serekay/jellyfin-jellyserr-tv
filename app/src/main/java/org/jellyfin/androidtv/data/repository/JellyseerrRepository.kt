@@ -955,6 +955,7 @@ override suspend fun search(query: String, page: Int): Result<JellyseerrSearchRe
 
 @Serializable
 private data class MediaInfo(
+	val certification: String? = null,
 	val seasons: List<MediaInfoSeason> = emptyList(),
 	val requests: List<MediaInfoRequest> = emptyList(),
 )
@@ -989,6 +990,54 @@ private data class MediaInfo(
 	)
 
 @Serializable
+private data class ReleaseResult(
+	val iso_3166_1: String,
+	val release_dates: List<ReleaseDate> = emptyList(),
+)
+
+@Serializable
+private data class ReleaseDate(
+	val certification: String? = null,
+	val type: Int? = null,
+)
+
+@Serializable
+private data class Releases(
+	val results: List<ReleaseResult> = emptyList(),
+)
+
+@Serializable
+private data class JellyseerrMovieDetailsRaw(
+	val id: Int,
+	val title: String? = null,
+	val name: String? = null,
+	val originalTitle: String? = null,
+	val overview: String? = null,
+	val posterPath: String? = null,
+	val backdropPath: String? = null,
+	val releaseDate: String? = null,
+	val firstAirDate: String? = null,
+	val runtime: Int? = null,
+	val voteAverage: Double? = null,
+	val certification: String? = null,
+	val genres: List<JellyseerrGenre> = emptyList(),
+	val credits: JellyseerrCredits? = null,
+	val mediaInfo: MediaInfo? = null,
+	val releases: Releases? = null,
+) 
+
+@Serializable
+private data class ContentRating(
+	val iso_3166_1: String,
+	val rating: String? = null,
+)
+
+@Serializable
+private data class ContentRatings(
+	val results: List<ContentRating> = emptyList(),
+)
+
+@Serializable
 private data class JellyseerrTvDetailsRaw(
 	val id: Int,
 	val name: String? = null,
@@ -1003,6 +1052,7 @@ private data class JellyseerrTvDetailsRaw(
 	val credits: JellyseerrCredits? = null,
 	val seasons: List<JellyseerrSeason> = emptyList(),
 	val mediaInfo: MediaInfo? = null,
+	val content_ratings: ContentRatings? = null,
 )
 
 @Serializable
@@ -1049,7 +1099,9 @@ private data class JellyseerrEpisodeRaw(
 				if (!response.isSuccessful) throw IllegalStateException("HTTP ${response.code}")
 
 				val body = response.body?.string() ?: throw IllegalStateException("Empty body")
-				val raw = json.decodeFromString(JellyseerrMovieDetails.serializer(), body)
+				Timber.d("Jellyseerr getMovieDetails raw response: $body")
+				val raw = json.decodeFromString(JellyseerrMovieDetailsRaw.serializer(), body)
+				Timber.d("Jellyseerr getMovieDetails decoded: certification='${raw.certification}', mediaInfo.certification='${raw.mediaInfo?.certification}'")
 
 				val mappedCredits = raw.credits?.let { credits ->
 					val mappedCast = credits.cast.map { castMember ->
@@ -1059,9 +1111,61 @@ private data class JellyseerrEpisodeRaw(
 					credits.copy(cast = mappedCast)
 				}
 
-				raw.copy(
+				// Extract certification from releases structure (TMDB format)
+				// Get user's country code from system locale (e.g., "DE" for Germany)
+				val userCountry = java.util.Locale.getDefault().country.uppercase()
+
+				// Log all available certifications for debugging
+				raw.releases?.results?.forEach { release ->
+					release.release_dates.forEach { releaseDate ->
+						if (releaseDate.certification?.isNotBlank() == true) {
+							Timber.d("Jellyseerr getMovieDetails available certification: ${release.iso_3166_1} = '${releaseDate.certification}'")
+						}
+					}
+				}
+
+				// Try to find certification for user's region first
+				val certificationFromReleases = raw.releases?.results
+					?.find { it.iso_3166_1 == userCountry }
+					?.release_dates
+					?.find { it.certification?.isNotBlank() == true }
+					?.certification
+					?: run {
+						// Fallback to US certification
+						raw.releases?.results
+							?.find { it.iso_3166_1 == "US" }
+							?.release_dates
+							?.find { it.certification?.isNotBlank() == true }
+							?.certification
+					}
+					?: run {
+						// Final fallback: any certification available
+						raw.releases?.results
+							?.flatMap { it.release_dates }
+							?.find { it.certification?.isNotBlank() == true }
+							?.certification
+					}
+
+				val finalCertification = raw.certification
+					?: certificationFromReleases
+					?: raw.mediaInfo?.certification
+
+				Timber.i("Jellyseerr getMovieDetails for ${raw.title}: userCountry='$userCountry', finalCertification='$finalCertification'")
+
+				JellyseerrMovieDetails(
+					id = raw.id,
+					title = raw.title ?: raw.name,
+					name = raw.name,
+					originalTitle = raw.originalTitle,
+					overview = raw.overview,
 					posterPath = posterImageUrl(raw.posterPath),
 					backdropPath = backdropImageUrl(raw.backdropPath),
+					releaseDate = raw.releaseDate,
+					firstAirDate = raw.firstAirDate,
+					runtime = raw.runtime,
+					voteAverage = raw.voteAverage,
+					certification = finalCertification,
+					genres = raw.genres,
 					credits = mappedCredits ?: raw.credits,
 				)
 			}
@@ -1142,6 +1246,40 @@ private data class JellyseerrEpisodeRaw(
 					)
 				}
 
+				// Extract certification from content_ratings structure (TMDB format for TV)
+				// Get user's country code from system locale (e.g., "DE" for Germany)
+				val userCountry = java.util.Locale.getDefault().country.uppercase()
+
+				// Log all available certifications for debugging
+				raw.content_ratings?.results?.forEach { rating ->
+					if (rating.rating?.isNotBlank() == true) {
+						Timber.d("Jellyseerr getTvDetails available certification: ${rating.iso_3166_1} = '${rating.rating}'")
+					}
+				}
+
+				// Try to find certification for user's region first
+				val certificationFromRatings = raw.content_ratings?.results
+					?.find { it.iso_3166_1 == userCountry }
+					?.rating
+					?: run {
+						// Fallback to US certification
+						raw.content_ratings?.results
+							?.find { it.iso_3166_1 == "US" }
+							?.rating
+					}
+					?: run {
+						// Final fallback: any certification available
+						raw.content_ratings?.results
+							?.find { it.rating?.isNotBlank() == true }
+							?.rating
+					}
+
+				val finalCertification = raw.certification
+					?: certificationFromRatings
+					?: raw.mediaInfo?.certification
+
+				Timber.i("Jellyseerr getTvDetails for ${raw.name}: userCountry='$userCountry', finalCertification='$finalCertification'")
+
 				JellyseerrMovieDetails(
 					id = raw.id,
 					title = raw.name,
@@ -1152,7 +1290,7 @@ private data class JellyseerrEpisodeRaw(
 					releaseDate = raw.firstAirDate,
 					runtime = raw.episodeRunTime.firstOrNull(),
 					voteAverage = raw.voteAverage,
-					certification = raw.certification,
+					certification = finalCertification,
 					genres = raw.genres,
 					credits = mappedCredits ?: raw.credits,
 					seasons = mappedSeasons,

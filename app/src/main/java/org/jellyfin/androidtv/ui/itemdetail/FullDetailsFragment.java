@@ -487,21 +487,26 @@ public class FullDetailsFragment extends Fragment implements RecordingIndicatorV
     public void setBaseItem(BaseItemDto item) {
         if (!getLifecycle().getCurrentState().isAtLeast(Lifecycle.State.STARTED)) return;
 
-        mBaseItem = item;
         backgroundService.getValue().setBackground(item);
-        if (mBaseItem != null) {
-            if (mChannelId != null) {
-                mBaseItem = JavaCompat.copyWithParentId(mBaseItem, mChannelId);
-                mBaseItem = JavaCompat.copyWithDates(
-                        mBaseItem,
-                        mProgramInfo.getStartDate(),
-                        mProgramInfo.getEndDate(),
-                        mBaseItem.getOfficialRating(),
-                        mProgramInfo.getRunTimeTicks()
-                );
+
+        // Enrich with Jellyseerr certification if available
+        FullDetailsFragmentHelperKt.setBaseItemWithEnrichment(this, item, enrichedItem -> {
+            mBaseItem = enrichedItem;
+            if (mBaseItem != null) {
+                if (mChannelId != null) {
+                    mBaseItem = JavaCompat.copyWithParentId(mBaseItem, mChannelId);
+                    mBaseItem = JavaCompat.copyWithDates(
+                            mBaseItem,
+                            mProgramInfo.getStartDate(),
+                            mProgramInfo.getEndDate(),
+                            mBaseItem.getOfficialRating(),
+                            mProgramInfo.getRunTimeTicks()
+                    );
+                }
+                new BuildDorTask().execute(mBaseItem);
             }
-            new BuildDorTask().execute(item);
-        }
+            return null;
+        });
     }
 
     protected void addItemRow(MutableObjectAdapter<Row> parent, ItemRowAdapter row, int index, String headerText) {
