@@ -251,52 +251,8 @@ internal class JellyseerrDiscoveryActions(
 	}
 
 	fun showAllTrends() {
-		scope.launch {
-			state.update {
-				it.copy(
-					showAllTrendsGrid = true,
-					showSearchResultsGrid = false,
-					isLoading = true,
-					errorMessage = null,
-					lastFocusedItemId = null,
-					discoverTitle = null,
-					discoverGenre = null,
-					discoverCompany = null,
-					discoverGenreMediaType = null,
-				)
-			}
-
-			val currentRequests = state.value.ownRequests
-
-			val discoverResult = repository.discoverTrending(page = 1)
-
-			if (discoverResult.isFailure) {
-				val error = discoverResult.exceptionOrNull()
-				state.update {
-					it.copy(
-						isLoading = false,
-						errorMessage = error?.message,
-						showAllTrendsGrid = true,
-						showSearchResultsGrid = false,
-						lastFocusedItemId = null,
-					)
-				}
-				return@launch
-			}
-
-			val results = discoverResult.getOrThrow()
-			val resultsWithAvailability = repository.markAvailableInJellyfin(results).getOrElse { results }
-			val marked = JellyseerrRequestMarkers.markItemsWithRequests(resultsWithAvailability, currentRequests)
-
-			state.update {
-				it.copy(
-					isLoading = false,
-					results = marked,
-					discoverCurrentPage = 1,
-					discoverHasMore = results.isNotEmpty(),
-					discoverCategory = JellyseerrDiscoverCategory.TRENDING,
-				)
-			}
+		showDiscoveryGrid(JellyseerrDiscoverCategory.TRENDING) { page ->
+			repository.discoverTrending(page)
 		}
 	}
 
@@ -319,200 +275,26 @@ internal class JellyseerrDiscoveryActions(
 	}
 
 	fun showAllPopularMovies() {
-		scope.launch {
-			state.update {
-				it.copy(
-					showAllTrendsGrid = true,
-					showSearchResultsGrid = false,
-					isLoading = true,
-					errorMessage = null,
-					lastFocusedItemId = null,
-					discoverTitle = null,
-					discoverGenre = null,
-					discoverCompany = null,
-					discoverGenreMediaType = null,
-				)
-			}
-
-			val currentRequests = state.value.ownRequests
-
-			val discoverResult = repository.discoverMovies(page = 1)
-
-			if (discoverResult.isFailure) {
-				val error = discoverResult.exceptionOrNull()
-				state.update {
-					it.copy(
-						isLoading = false,
-						errorMessage = error?.message,
-						showAllTrendsGrid = true,
-						showSearchResultsGrid = false,
-						lastFocusedItemId = null,
-					)
-				}
-				return@launch
-			}
-
-			val results = discoverResult.getOrThrow()
-			val resultsWithAvailability = repository.markAvailableInJellyfin(results).getOrElse { results }
-			val marked = JellyseerrRequestMarkers.markItemsWithRequests(resultsWithAvailability, currentRequests)
-
-			state.update {
-				it.copy(
-					isLoading = false,
-					results = marked,
-					discoverCurrentPage = 1,
-					discoverHasMore = results.isNotEmpty(),
-					discoverCategory = JellyseerrDiscoverCategory.POPULAR_MOVIES,
-				)
-			}
+		showDiscoveryGrid(JellyseerrDiscoverCategory.POPULAR_MOVIES) { page ->
+			repository.discoverMovies(page)
 		}
 	}
 
 	fun showAllUpcomingMovies() {
-		scope.launch {
-			state.update {
-				it.copy(
-					showAllTrendsGrid = true,
-					showSearchResultsGrid = false,
-					isLoading = true,
-					errorMessage = null,
-					lastFocusedItemId = null,
-					discoverTitle = null,
-					discoverGenre = null,
-					discoverCompany = null,
-					discoverGenreMediaType = null,
-				)
-			}
-
-			val currentRequests = state.value.ownRequests
-
-			val discoverResult = repository.discoverUpcomingMovies(page = 1)
-
-			if (discoverResult.isFailure) {
-				val error = discoverResult.exceptionOrNull()
-				state.update {
-					it.copy(
-						isLoading = false,
-						errorMessage = error?.message,
-						showAllTrendsGrid = true,
-					)
-				}
-				return@launch
-			}
-
-			val results = discoverResult.getOrThrow()
-			val resultsWithAvailability = repository.markAvailableInJellyfin(results).getOrElse { results }
-			val marked = JellyseerrRequestMarkers.markItemsWithRequests(resultsWithAvailability, currentRequests)
-
-			state.update {
-				it.copy(
-					isLoading = false,
-					results = marked,
-					discoverCurrentPage = 1,
-					discoverHasMore = results.isNotEmpty(),
-					discoverCategory = JellyseerrDiscoverCategory.UPCOMING_MOVIES,
-				)
-			}
+		showDiscoveryGrid(JellyseerrDiscoverCategory.UPCOMING_MOVIES) { page ->
+			repository.discoverUpcomingMovies(page)
 		}
 	}
 
 	fun showAllPopularTv() {
-		scope.launch {
-			state.update {
-				it.copy(
-					showAllTrendsGrid = true,
-					showSearchResultsGrid = false,
-					isLoading = true,
-					errorMessage = null,
-					lastFocusedItemId = null,
-					discoverTitle = null,
-					discoverGenre = null,
-					discoverCompany = null,
-					discoverGenreMediaType = null,
-				)
-			}
-
-			val currentRequests = state.value.ownRequests
-
-			val discoverResult = repository.discoverTv(page = 1)
-
-			if (discoverResult.isFailure) {
-				val error = discoverResult.exceptionOrNull()
-				state.update {
-					it.copy(
-						isLoading = false,
-						errorMessage = error?.message,
-						showAllTrendsGrid = true,
-						showSearchResultsGrid = false,
-						lastFocusedItemId = null,
-					)
-				}
-				return@launch
-			}
-
-			val results = discoverResult.getOrThrow()
-			val resultsWithAvailability = repository.markAvailableInJellyfin(results).getOrElse { results }
-			val marked = JellyseerrRequestMarkers.markItemsWithRequests(resultsWithAvailability, currentRequests)
-
-			state.update {
-				it.copy(
-					isLoading = false,
-					results = marked,
-					discoverCurrentPage = 1,
-					discoverHasMore = results.isNotEmpty(),
-					discoverCategory = JellyseerrDiscoverCategory.POPULAR_TV,
-				)
-			}
+		showDiscoveryGrid(JellyseerrDiscoverCategory.POPULAR_TV) { page ->
+			repository.discoverTv(page)
 		}
 	}
 
 	fun showAllUpcomingTv() {
-		scope.launch {
-			state.update {
-				it.copy(
-					showAllTrendsGrid = true,
-					showSearchResultsGrid = false,
-					isLoading = true,
-					errorMessage = null,
-					lastFocusedItemId = null,
-					discoverTitle = null,
-					discoverGenre = null,
-					discoverCompany = null,
-					discoverGenreMediaType = null,
-				)
-			}
-
-			val currentRequests = state.value.ownRequests
-
-			val discoverResult = repository.discoverUpcomingTv(page = 1)
-
-			if (discoverResult.isFailure) {
-				val error = discoverResult.exceptionOrNull()
-				state.update {
-					it.copy(
-						isLoading = false,
-						errorMessage = error?.message,
-						showAllTrendsGrid = true,
-						showSearchResultsGrid = false,
-						lastFocusedItemId = null,
-					)
-				}
-				return@launch
-			}
-
-			val results = discoverResult.getOrThrow()
-			val resultsWithAvailability = repository.markAvailableInJellyfin(results).getOrElse { results }
-			val marked = JellyseerrRequestMarkers.markItemsWithRequests(resultsWithAvailability, currentRequests)
-
-			state.update {
-				it.copy(
-					isLoading = false,
-					results = marked,
-					discoverCurrentPage = 1,
-					discoverHasMore = results.isNotEmpty(),
-					discoverCategory = JellyseerrDiscoverCategory.UPCOMING_TV,
-				)
-			}
+		showDiscoveryGrid(JellyseerrDiscoverCategory.UPCOMING_TV) { page ->
+			repository.discoverUpcomingTv(page)
 		}
 	}
 
@@ -851,5 +633,62 @@ internal class JellyseerrDiscoveryActions(
 			}
 			.onFailure { _ ->
 			}
+	}
+
+	/**
+	 * Generic function to show discovery grid.
+	 * Reduces code duplication across showAllTrends, showAllPopularMovies, etc.
+	 */
+	private fun showDiscoveryGrid(
+		category: JellyseerrDiscoverCategory,
+		fetcher: suspend (Int) -> Result<List<JellyseerrSearchItem>>,
+	) {
+		scope.launch {
+			state.update {
+				it.copy(
+					showAllTrendsGrid = true,
+					showSearchResultsGrid = false,
+					isLoading = true,
+					errorMessage = null,
+					lastFocusedItemId = null,
+					discoverTitle = null,
+					discoverGenre = null,
+					discoverCompany = null,
+					discoverGenreMediaType = null,
+				)
+			}
+
+			val currentRequests = state.value.ownRequests
+
+			val discoverResult = fetcher(1)
+
+			if (discoverResult.isFailure) {
+				val error = discoverResult.exceptionOrNull()
+				state.update {
+					it.copy(
+						isLoading = false,
+						errorMessage = error?.message,
+						showAllTrendsGrid = true,
+						showSearchResultsGrid = false,
+						lastFocusedItemId = null,
+					)
+				}
+				return@launch
+			}
+
+			val results = discoverResult.getOrThrow()
+			val resultsWithAvailability = repository.markAvailableInJellyfin(results).getOrElse { results }
+			val marked = JellyseerrRequestMarkers.markItemsWithRequests(resultsWithAvailability, currentRequests)
+
+			state.update {
+				it.copy(
+					isLoading = false,
+					results = marked,
+					discoverCurrentPage = 1,
+					discoverHasMore = results.isNotEmpty(),
+					discoverCategory = category,
+				)
+			}
+		}
 	}
 }

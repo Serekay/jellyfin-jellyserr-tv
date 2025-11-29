@@ -466,476 +466,174 @@ internal fun JellyseerrContent(
 
 				// Beliebte Filme
 				if (state.selectedItem == null && state.selectedPerson == null && state.query.isBlank()) {
-					Spacer(modifier = Modifier.size(sectionSpacing))
-
-					Text(
-						text = stringResource(R.string.jellyseerr_popular_title),
-					color = JellyfinTheme.colorScheme.onBackground,
-					fontSize = sectionTitleFontSize,
+					JellyseerrContentSection(
+						title = stringResource(R.string.jellyseerr_popular_title),
+						items = state.popularResults,
+						scrollKey = "popular",
+						scrollPosition = state.scrollPositions["popular"],
+						onScrollPositionChange = { key, index, offset ->
+							viewModel.saveScrollPosition(key, index, offset)
+						},
+						onItemClick = { item -> viewModel.showDetailsForItem(item) },
+						onViewAllClick = { viewModel.showAllPopularMovies() },
+						viewAllKey = VIEW_ALL_POPULAR_MOVIES,
+						itemFocusKey = { id -> itemFocusKey("popular_movies", id) },
+						focusRequesterForItem = focusRequesterForItem,
+						focusRequesterForViewAll = focusRequesterForViewAll,
+						onItemFocused = { key -> viewModel.updateLastFocusedItem(key) },
+						onViewAllFocused = { key -> viewModel.updateLastFocusedViewAll(key) },
+						sectionSpacing = sectionSpacing,
+						sectionInnerSpacing = sectionInnerSpacing,
+						sectionTitleFontSize = sectionTitleFontSize,
 					)
-
-					if (state.popularResults.isEmpty()) {
-						Spacer(modifier = Modifier.size(sectionInnerSpacing))
-						Text(
-							text = stringResource(R.string.jellyseerr_no_results),
-							modifier = Modifier.padding(horizontal = 24.dp),
-							color = JellyfinTheme.colorScheme.onBackground,
-						)
-					} else {
-						Spacer(modifier = Modifier.size(sectionInnerSpacing))
-
-						val popularListState = rememberLazyListState(
-							initialFirstVisibleItemIndex = state.scrollPositions["popular"]?.index ?: 0,
-							initialFirstVisibleItemScrollOffset = state.scrollPositions["popular"]?.offset ?: 0,
-						)
-
-						LaunchedEffect(popularListState.firstVisibleItemIndex, popularListState.firstVisibleItemScrollOffset) {
-							if (popularListState.firstVisibleItemIndex > 0 || popularListState.firstVisibleItemScrollOffset > 0) {
-								viewModel.saveScrollPosition(
-									"popular",
-									popularListState.firstVisibleItemIndex,
-									popularListState.firstVisibleItemScrollOffset
-								)
-							}
-						}
-
-						LazyRow(
-							state = popularListState,
-							horizontalArrangement = Arrangement.spacedBy(12.dp),
-							contentPadding = PaddingValues(horizontal = 24.dp),
-							modifier = Modifier
-								.fillMaxWidth()
-								.height(250.dp),
-						) {
-							val maxIndex = state.popularResults.lastIndex
-							val extraItems = 1
-
-							items(
-								count = maxIndex + 1 + extraItems,
-								key = { index ->
-									if (index <= maxIndex) "popular_movie_${state.popularResults[index].id}"
-									else "popular_movies_view_all"
-								}
-							) { index ->
-								when {
-									index in 0..maxIndex -> {
-										val item = state.popularResults[index]
-									val focusKey = itemFocusKey("popular_movies", item.id)
-									JellyseerrSearchCard(
-										item = item,
-										onClick = { viewModel.showDetailsForItem(item) },
-										focusRequester = focusRequesterForItem(focusKey),
-										onFocus = { viewModel.updateLastFocusedItem(focusKey) },
-									)
-									}
-								index == maxIndex + 1 -> {
-									val posterUrls = remember(state.popularResults) {
-										state.popularResults.shuffled().take(4).mapNotNull { it.posterPath }
-									}
-									JellyseerrViewAllCard(
-										onClick = { viewModel.showAllPopularMovies() },
-										posterUrls = posterUrls,
-										focusRequester = focusRequesterForViewAll(VIEW_ALL_POPULAR_MOVIES),
-										onFocus = { viewModel.updateLastFocusedViewAll(VIEW_ALL_POPULAR_MOVIES) },
-									)
-								}
-								}
-							}
-						}
-					}
 				}
 
 				// Beliebte Serien
 				if (state.selectedItem == null && state.selectedPerson == null && state.query.isBlank()) {
-					Spacer(modifier = Modifier.size(sectionSpacing))
-
-					Text(
-						text = stringResource(R.string.jellyseerr_popular_tv_title),
-					color = JellyfinTheme.colorScheme.onBackground,
-					fontSize = sectionTitleFontSize,
+					JellyseerrContentSection(
+						title = stringResource(R.string.jellyseerr_popular_tv_title),
+						items = state.popularTvResults,
+						scrollKey = "popular_tv",
+						scrollPosition = state.scrollPositions["popular_tv"],
+						onScrollPositionChange = { key, index, offset ->
+							viewModel.saveScrollPosition(key, index, offset)
+						},
+						onItemClick = { item -> viewModel.showDetailsForItem(item) },
+						onViewAllClick = { viewModel.showAllPopularTv() },
+						viewAllKey = VIEW_ALL_POPULAR_TV,
+						itemFocusKey = { id -> itemFocusKey("popular_tv", id) },
+						focusRequesterForItem = focusRequesterForItem,
+						focusRequesterForViewAll = focusRequesterForViewAll,
+						onItemFocused = { key -> viewModel.updateLastFocusedItem(key) },
+						onViewAllFocused = { key -> viewModel.updateLastFocusedViewAll(key) },
+						sectionSpacing = sectionSpacing,
+						sectionInnerSpacing = sectionInnerSpacing,
+						sectionTitleFontSize = sectionTitleFontSize,
 					)
-
-					if (state.popularTvResults.isEmpty()) {
-						Spacer(modifier = Modifier.size(sectionInnerSpacing))
-						Text(
-							text = stringResource(R.string.jellyseerr_no_results),
-							modifier = Modifier.padding(horizontal = 24.dp),
-							color = JellyfinTheme.colorScheme.onBackground,
-						)
-					} else {
-						Spacer(modifier = Modifier.size(sectionInnerSpacing))
-
-						LazyRow(
-							horizontalArrangement = Arrangement.spacedBy(12.dp),
-							contentPadding = PaddingValues(horizontal = 24.dp),
-							modifier = Modifier
-								.fillMaxWidth()
-								.height(250.dp),
-						) {
-							val maxIndex = state.popularTvResults.lastIndex
-							val extraItems = 1
-
-							items(
-								count = maxIndex + 1 + extraItems,
-								key = { index ->
-									if (index <= maxIndex) "popular_tv_${state.popularTvResults[index].id}"
-									else "popular_tv_view_all"
-								}
-							) { index ->
-								when {
-									index in 0..maxIndex -> {
-										val item = state.popularTvResults[index]
-										val focusKey = itemFocusKey("popular_tv", item.id)
-										JellyseerrSearchCard(
-											item = item,
-											onClick = { viewModel.showDetailsForItem(item) },
-											focusRequester = focusRequesterForItem(focusKey),
-											onFocus = { viewModel.updateLastFocusedItem(focusKey) },
-										)
-									}
-								index == maxIndex + 1 -> {
-									val posterUrls = remember(state.popularTvResults) {
-										state.popularTvResults.shuffled().take(4).mapNotNull { it.posterPath }
-									}
-									JellyseerrViewAllCard(
-										onClick = { viewModel.showAllPopularTv() },
-										posterUrls = posterUrls,
-										focusRequester = focusRequesterForViewAll(VIEW_ALL_POPULAR_TV),
-										onFocus = { viewModel.updateLastFocusedViewAll(VIEW_ALL_POPULAR_TV) },
-									)
-								}
-								}
-							}
-						}
-					}
 				}
 
 
 				// Demnächst erscheinende Filme
 				if (state.selectedItem == null && state.selectedPerson == null && state.query.isBlank()) {
-					Spacer(modifier = Modifier.size(sectionSpacing))
-
-					Text(
-						text = stringResource(R.string.jellyseerr_upcoming_movies_title),
-					color = JellyfinTheme.colorScheme.onBackground,
-					fontSize = sectionTitleFontSize,
+					JellyseerrContentSection(
+						title = stringResource(R.string.jellyseerr_upcoming_movies_title),
+						items = state.upcomingMovieResults,
+						scrollKey = "upcoming_movies",
+						scrollPosition = state.scrollPositions["upcoming_movies"],
+						onScrollPositionChange = { key, index, offset ->
+							viewModel.saveScrollPosition(key, index, offset)
+						},
+						onItemClick = { item -> viewModel.showDetailsForItem(item) },
+						onViewAllClick = { viewModel.showAllUpcomingMovies() },
+						viewAllKey = VIEW_ALL_UPCOMING_MOVIES,
+						itemFocusKey = { id -> itemFocusKey("upcoming_movies", id) },
+						focusRequesterForItem = focusRequesterForItem,
+						focusRequesterForViewAll = focusRequesterForViewAll,
+						onItemFocused = { key -> viewModel.updateLastFocusedItem(key) },
+						onViewAllFocused = { key -> viewModel.updateLastFocusedViewAll(key) },
+						sectionSpacing = sectionSpacing,
+						sectionInnerSpacing = sectionInnerSpacing,
+						sectionTitleFontSize = sectionTitleFontSize,
 					)
-
-
-					if (state.upcomingMovieResults.isEmpty()) {
-						Spacer(modifier = Modifier.size(sectionInnerSpacing))
-						Text(
-							text = stringResource(R.string.jellyseerr_no_results),
-							modifier = Modifier.padding(horizontal = 24.dp),
-							color = JellyfinTheme.colorScheme.onBackground,
-						)
-					} else {
-						Spacer(modifier = Modifier.size(sectionInnerSpacing))
-
-						LazyRow(
-							horizontalArrangement = Arrangement.spacedBy(12.dp),
-							contentPadding = PaddingValues(horizontal = 24.dp),
-							modifier = Modifier
-								.fillMaxWidth()
-								.height(250.dp),
-						) {
-							val maxIndex = state.upcomingMovieResults.lastIndex
-							val extraItems = 1
-
-							items(
-								count = maxIndex + 1 + extraItems,
-								key = { index ->
-									if (index <= maxIndex) "upcoming_movie_${state.upcomingMovieResults[index].id}"
-									else "upcoming_movies_view_all"
-								}
-							) { index ->
-								when {
-									index in 0..maxIndex -> {
-										val item = state.upcomingMovieResults[index]
-										val focusKey = itemFocusKey("upcoming_movies", item.id)
-										JellyseerrSearchCard(
-											item = item,
-											onClick = { viewModel.showDetailsForItem(item) },
-											focusRequester = focusRequesterForItem(focusKey),
-											onFocus = { viewModel.updateLastFocusedItem(focusKey) },
-										)
-									}
-								index == maxIndex + 1 -> {
-									val posterUrls = remember(state.upcomingMovieResults) {
-										state.upcomingMovieResults.shuffled().take(4).mapNotNull { it.posterPath }
-									}
-									JellyseerrViewAllCard(
-										onClick = { viewModel.showAllUpcomingMovies() },
-										posterUrls = posterUrls,
-										focusRequester = focusRequesterForViewAll(VIEW_ALL_UPCOMING_MOVIES),
-										onFocus = { viewModel.updateLastFocusedViewAll(VIEW_ALL_UPCOMING_MOVIES) },
-									)
-								}
-								}
-							}
-						}
-					}
 				}
 
 				// Demnächst erscheinende Serien
 				if (state.selectedItem == null && state.selectedPerson == null && state.query.isBlank()) {
-					Spacer(modifier = Modifier.size(sectionSpacing))
-
-					Text(
-						text = stringResource(R.string.jellyseerr_upcoming_tv_title),
-					color = JellyfinTheme.colorScheme.onBackground,
-					fontSize = sectionTitleFontSize,
+					JellyseerrContentSection(
+						title = stringResource(R.string.jellyseerr_upcoming_tv_title),
+						items = state.upcomingTvResults,
+						scrollKey = "upcoming_tv",
+						scrollPosition = state.scrollPositions["upcoming_tv"],
+						onScrollPositionChange = { key, index, offset ->
+							viewModel.saveScrollPosition(key, index, offset)
+						},
+						onItemClick = { item -> viewModel.showDetailsForItem(item) },
+						onViewAllClick = { viewModel.showAllUpcomingTv() },
+						viewAllKey = VIEW_ALL_UPCOMING_TV,
+						itemFocusKey = { id -> itemFocusKey("upcoming_tv", id) },
+						focusRequesterForItem = focusRequesterForItem,
+						focusRequesterForViewAll = focusRequesterForViewAll,
+						onItemFocused = { key -> viewModel.updateLastFocusedItem(key) },
+						onViewAllFocused = { key -> viewModel.updateLastFocusedViewAll(key) },
+						sectionSpacing = sectionSpacing,
+						sectionInnerSpacing = sectionInnerSpacing,
+						sectionTitleFontSize = sectionTitleFontSize,
 					)
-
-					if (state.upcomingTvResults.isEmpty()) {
-						Spacer(modifier = Modifier.size(sectionInnerSpacing))
-						Text(
-							text = stringResource(R.string.jellyseerr_no_results),
-							modifier = Modifier.padding(horizontal = 24.dp),
-							color = JellyfinTheme.colorScheme.onBackground,
-						)
-					} else {
-						Spacer(modifier = Modifier.size(sectionInnerSpacing))
-
-						LazyRow(
-							horizontalArrangement = Arrangement.spacedBy(12.dp),
-							contentPadding = PaddingValues(horizontal = 24.dp),
-							modifier = Modifier
-								.fillMaxWidth()
-								.height(250.dp),
-						) {
-							val maxIndex = state.upcomingTvResults.lastIndex
-							val extraItems = 1
-
-							items(
-								count = maxIndex + 1 + extraItems,
-								key = { index ->
-									if (index <= maxIndex) "upcoming_tv_${state.upcomingTvResults[index].id}"
-									else "upcoming_tv_view_all"
-								}
-							) { index ->
-								when {
-									index in 0..maxIndex -> {
-										val item = state.upcomingTvResults[index]
-										val focusKey = itemFocusKey("upcoming_tv", item.id)
-										JellyseerrSearchCard(
-											item = item,
-											onClick = { viewModel.showDetailsForItem(item) },
-											focusRequester = focusRequesterForItem(focusKey),
-											onFocus = { viewModel.updateLastFocusedItem(focusKey) },
-										)
-									}
-									index == maxIndex + 1 -> {
-										val posterUrls = remember(state.upcomingTvResults) {
-											state.upcomingTvResults.shuffled().take(4).mapNotNull { it.posterPath }
-										}
-										JellyseerrViewAllCard(
-											onClick = { viewModel.showAllUpcomingTv() },
-											posterUrls = posterUrls,
-											focusRequester = focusRequesterForViewAll(VIEW_ALL_UPCOMING_TV),
-											onFocus = { viewModel.updateLastFocusedViewAll(VIEW_ALL_UPCOMING_TV) },
-										)
-									}
-								}
-							}
-						}
-					}
 				}
 
 				// Film-Genres
-				if (state.selectedItem == null && state.selectedPerson == null && state.query.isBlank() && state.movieGenres.isNotEmpty()) {
-					Spacer(modifier = Modifier.size(sectionSpacing))
-
-					Text(
-						text = stringResource(R.string.jellyseerr_movie_genres_title),
-						color = JellyfinTheme.colorScheme.onBackground,
-						fontSize = sectionTitleFontSize,
+				if (state.selectedItem == null && state.selectedPerson == null && state.query.isBlank()) {
+					JellyseerrGenreSection(
+						title = stringResource(R.string.jellyseerr_movie_genres_title),
+						genres = state.movieGenres,
+						onGenreClick = { genre -> viewModel.showMovieGenre(genre) },
+						genreFocusKey = { id -> "movie_genre_$id" },
+						focusRequesterForGenre = focusRequesterForViewAll,
+						onGenreFocused = { key -> viewModel.updateLastFocusedViewAll(key) },
+						sectionSpacing = sectionSpacing,
+						sectionInnerSpacing = sectionInnerSpacing,
+						sectionTitleFontSize = sectionTitleFontSize,
 					)
-
-					Spacer(modifier = Modifier.size(sectionInnerSpacing))
-
-					LazyRow(
-						horizontalArrangement = Arrangement.spacedBy(12.dp),
-						contentPadding = PaddingValues(horizontal = 24.dp),
-						modifier = Modifier
-							.fillMaxWidth()
-							.height(110.dp),
-					) {
-						items(
-							items = state.movieGenres,
-							key = { it.id }
-						) { genre ->
-							val genreKey = "movie_genre_${genre.id}"
-							JellyseerrGenreCard(
-								genre = genre,
-								onClick = {
-									viewModel.updateLastFocusedViewAll(genreKey)
-									viewModel.showMovieGenre(genre)
-								},
-								focusRequester = focusRequesterForViewAll(genreKey),
-								onFocus = { viewModel.updateLastFocusedViewAll(genreKey) },
-							)
-						}
 				}
-			}
 
-			// Serien-Genres
-			if (state.selectedItem == null && state.selectedPerson == null && state.query.isBlank() && state.tvGenres.isNotEmpty()) {
-					Spacer(modifier = Modifier.size(sectionSpacing))
-
-					Text(
-						text = stringResource(R.string.jellyseerr_tv_genres_title),
-						color = JellyfinTheme.colorScheme.onBackground,
-						fontSize = sectionTitleFontSize,
+				// Serien-Genres
+				if (state.selectedItem == null && state.selectedPerson == null && state.query.isBlank()) {
+					JellyseerrGenreSection(
+						title = stringResource(R.string.jellyseerr_tv_genres_title),
+						genres = state.tvGenres,
+						onGenreClick = { genre -> viewModel.showTvGenre(genre) },
+						genreFocusKey = { id -> "tv_genre_$id" },
+						focusRequesterForGenre = focusRequesterForViewAll,
+						onGenreFocused = { key -> viewModel.updateLastFocusedViewAll(key) },
+						sectionSpacing = sectionSpacing,
+						sectionInnerSpacing = sectionInnerSpacing,
+						sectionTitleFontSize = sectionTitleFontSize,
 					)
-
-					Spacer(modifier = Modifier.size(sectionInnerSpacing))
-
-					LazyRow(
-						horizontalArrangement = Arrangement.spacedBy(12.dp),
-						contentPadding = PaddingValues(horizontal = 24.dp),
-						modifier = Modifier
-							.fillMaxWidth()
-							.height(110.dp),
-					) {
-						items(
-							items = state.tvGenres,
-							key = { it.id }
-						) { genre ->
-							val genreKey = "tv_genre_${genre.id}"
-							JellyseerrGenreCard(
-								genre = genre,
-								onClick = {
-									viewModel.updateLastFocusedViewAll(genreKey)
-									viewModel.showTvGenre(genre)
-								},
-								focusRequester = focusRequesterForViewAll(genreKey),
-								onFocus = { viewModel.updateLastFocusedViewAll(genreKey) },
-							)
-						}
-					}
 				}
 
 				// Filmstudios
 				if (state.selectedItem == null && state.selectedPerson == null && state.query.isBlank()) {
-					Spacer(modifier = Modifier.size(sectionSpacing))
-
-					Text(
-						text = stringResource(R.string.jellyseerr_movie_studios_title),
-						color = JellyfinTheme.colorScheme.onBackground,
-						fontSize = sectionTitleFontSize,
+					JellyseerrCompanySection(
+						title = stringResource(R.string.jellyseerr_movie_studios_title),
+						companies = JellyseerrStudioCards,
+						onCompanyClick = { studio -> viewModel.showMovieStudio(studio) },
+						companyFocusKey = { id -> "movie_studio_$id" },
+						focusRequesterForCompany = focusRequesterForViewAll,
+						onCompanyFocused = { key -> viewModel.updateLastFocusedViewAll(key) },
+						sectionSpacing = sectionSpacing,
+						sectionInnerSpacing = sectionInnerSpacing,
+						sectionTitleFontSize = sectionTitleFontSize,
 					)
-
-					Spacer(modifier = Modifier.size(sectionInnerSpacing))
-
-					LazyRow(
-						horizontalArrangement = Arrangement.spacedBy(12.dp),
-						contentPadding = PaddingValues(horizontal = 24.dp),
-						modifier = Modifier
-							.fillMaxWidth()
-							.height(110.dp),
-					) {
-						items(
-							items = JellyseerrStudioCards,
-							key = { it.id }
-						) { studio ->
-							val studioKey = "movie_studio_${studio.id}"
-							JellyseerrCompanyCard(
-								name = studio.name,
-								logoUrl = studio.logoUrl,
-								onClick = {
-									viewModel.updateLastFocusedViewAll(studioKey)
-									viewModel.showMovieStudio(studio)
-								},
-								focusRequester = focusRequesterForViewAll(studioKey),
-								onFocus = { viewModel.updateLastFocusedViewAll(studioKey) },
-							)
-						}
-					}
 				}
 
 				// Sender
 				if (state.selectedItem == null && state.selectedPerson == null && state.query.isBlank()) {
-					Spacer(modifier = Modifier.size(sectionSpacing))
-
-					Text(
-						text = stringResource(R.string.jellyseerr_tv_networks_title),
-						color = JellyfinTheme.colorScheme.onBackground,
-						fontSize = sectionTitleFontSize,
+					JellyseerrCompanySection(
+						title = stringResource(R.string.jellyseerr_tv_networks_title),
+						companies = JellyseerrNetworkCards,
+						onCompanyClick = { network -> viewModel.showTvNetwork(network) },
+						companyFocusKey = { id -> "tv_network_$id" },
+						focusRequesterForCompany = focusRequesterForViewAll,
+						onCompanyFocused = { key -> viewModel.updateLastFocusedViewAll(key) },
+						sectionSpacing = sectionSpacing,
+						sectionInnerSpacing = sectionInnerSpacing,
+						sectionTitleFontSize = sectionTitleFontSize,
 					)
-
-					Spacer(modifier = Modifier.size(sectionInnerSpacing))
-
-					LazyRow(
-						horizontalArrangement = Arrangement.spacedBy(12.dp),
-						contentPadding = PaddingValues(horizontal = 24.dp),
-						modifier = Modifier
-							.fillMaxWidth()
-							.height(110.dp),
-					) {
-						items(
-							items = JellyseerrNetworkCards,
-							key = { it.id }
-						) { network ->
-							val networkKey = "tv_network_${network.id}"
-							JellyseerrCompanyCard(
-								name = network.name,
-								logoUrl = network.logoUrl,
-								onClick = {
-									viewModel.updateLastFocusedViewAll(networkKey)
-									viewModel.showTvNetwork(network)
-								},
-								focusRequester = focusRequesterForViewAll(networkKey),
-								onFocus = { viewModel.updateLastFocusedViewAll(networkKey) },
-							)
-						}
-					}
 				}
 
 				// Bisherige Anfragen (eigene Anfragen)
 				if (state.selectedItem == null && state.selectedPerson == null && state.query.isBlank()) {
-					Spacer(modifier = Modifier.size(sectionSpacing))
-
-					Text(
-						text = stringResource(R.string.jellyseerr_recent_requests_title),
-						color = JellyfinTheme.colorScheme.onBackground,
-						fontSize = sectionTitleFontSize,
+					JellyseerrRecentRequestsSection(
+						title = stringResource(R.string.jellyseerr_recent_requests_title),
+						requests = state.recentRequests,
+						onRequestClick = { item -> viewModel.showDetailsForItem(item) },
+						requestFocusKey = { index -> "recent_request_$index" },
+						focusRequesterForRequest = focusRequesterForViewAll,
+						onRequestFocused = { key -> viewModel.updateLastFocusedViewAll(key) },
+						sectionSpacing = sectionSpacing,
+						sectionInnerSpacing = sectionInnerSpacing,
+						sectionTitleFontSize = sectionTitleFontSize,
 					)
-
-					if (state.recentRequests.isEmpty()) {
-						Spacer(modifier = Modifier.size(sectionInnerSpacing))
-						Text(
-							text = stringResource(R.string.jellyseerr_no_results),
-							modifier = Modifier.padding(horizontal = 24.dp),
-							color = JellyfinTheme.colorScheme.onBackground,
-						)
-					} else {
-						Spacer(modifier = Modifier.size(sectionInnerSpacing))
-
-						LazyRow(
-							horizontalArrangement = Arrangement.spacedBy(12.dp),
-							contentPadding = PaddingValues(horizontal = 24.dp),
-							modifier = Modifier
-								.fillMaxWidth()
-								.height(120.dp),
-						) {
-							itemsIndexed(
-								items = state.recentRequests,
-								key = { index, _ -> "recent_request_$index" }
-							) { index, item ->
-								val requestKey = "recent_request_$index"
-								JellyseerrRecentRequestCard(
-									item = item,
-									onClick = {
-										viewModel.updateLastFocusedViewAll(requestKey)
-										viewModel.showDetailsForItem(item)
-									},
-									focusRequester = focusRequesterForViewAll(requestKey),
-									onFocus = { viewModel.updateLastFocusedViewAll(requestKey) },
-								)
-							}
-						}
-					}
 				}
 			}
 		}
@@ -1152,173 +850,3 @@ internal fun JellyseerrRecentRequestCard(
 }
 
 
-private val JellyseerrStudioCards = listOf(
-	JellyseerrCompany(
-		id = 2,
-		name = "Disney",
-		logoUrl = "https://image.tmdb.org/t/p/w780_filter(duotone,ffffff,bababa)/wdrCwmRnLFJhEoH8GSfymY85KHT.png",
-	),
-	JellyseerrCompany(
-		id = 127928,
-		name = "20th Century Studios",
-		logoUrl = "https://image.tmdb.org/t/p/w780_filter(duotone,ffffff,bababa)/h0rjX5vjW5r8yEnUBStFarjcLT4.png",
-	),
-	JellyseerrCompany(
-		id = 34,
-		name = "Sony Pictures",
-		logoUrl = "https://image.tmdb.org/t/p/w780_filter(duotone,ffffff,bababa)/GagSvqWlyPdkFHMfQ3pNq6ix9P.png",
-	),
-	JellyseerrCompany(
-		id = 174,
-		name = "Warner Bros. Pictures",
-		logoUrl = "https://image.tmdb.org/t/p/w780_filter(duotone,ffffff,bababa)/ky0xOc5OrhzkZ1N6KyUxacfQsCk.png",
-	),
-	JellyseerrCompany(
-		id = 33,
-		name = "Universal",
-		logoUrl = "https://image.tmdb.org/t/p/w780_filter(duotone,ffffff,bababa)/8lvHyhjr8oUKOOy2dKXoALWKdp0.png",
-	),
-	JellyseerrCompany(
-		id = 4,
-		name = "Paramount",
-		logoUrl = "https://image.tmdb.org/t/p/w780_filter(duotone,ffffff,bababa)/fycMZt242LVjagMByZOLUGbCvv3.png",
-	),
-	JellyseerrCompany(
-		id = 3,
-		name = "Pixar",
-		logoUrl = "https://image.tmdb.org/t/p/w780_filter(duotone,ffffff,bababa)/1TjvGVDMYsj6JBxOAkUHpPEwLf7.png",
-	),
-	JellyseerrCompany(
-		id = 521,
-		name = "Dreamworks",
-		logoUrl = "https://image.tmdb.org/t/p/w780_filter(duotone,ffffff,bababa)/kP7t6RwGz2AvvTkvnI1uteEwHet.png",
-	),
-	JellyseerrCompany(
-		id = 420,
-		name = "Marvel Studios",
-		logoUrl = "https://image.tmdb.org/t/p/w780_filter(duotone,ffffff,bababa)/hUzeosd33nzE5MCNsZxCGEKTXaQ.png",
-	),
-	JellyseerrCompany(
-		id = 9993,
-		name = "DC",
-		logoUrl = "https://image.tmdb.org/t/p/w780_filter(duotone,ffffff,bababa)/2Tc1P3Ac8M479naPp1kYT3izLS5.png",
-	),
-	JellyseerrCompany(
-		id = 41077,
-		name = "A24",
-		logoUrl = "https://image.tmdb.org/t/p/w780_filter(duotone,ffffff,bababa)/1ZXsGaFPgrgS6ZZGS37AqD5uU12.png",
-	),
-)
-
-private val JellyseerrNetworkCards = listOf(
-	JellyseerrCompany(
-		id = 213,
-		name = "Netflix",
-		logoUrl = "https://image.tmdb.org/t/p/w780_filter(duotone,ffffff,bababa)/wwemzKWzjKYJFfCeiB57q3r4Bcm.png",
-	),
-	JellyseerrCompany(
-		id = 2739,
-		name = "Disney+",
-		logoUrl = "https://image.tmdb.org/t/p/w780_filter(duotone,ffffff,bababa)/gJ8VX6JSu3ciXHuC2dDGAo2lvwM.png",
-	),
-	JellyseerrCompany(
-		id = 1024,
-		name = "Prime Video",
-		logoUrl = "https://image.tmdb.org/t/p/w780_filter(duotone,ffffff,bababa)/ifhbNuuVnlwYy5oXA5VIb2YR8AZ.png",
-	),
-	JellyseerrCompany(
-		id = 2552,
-		name = "Apple TV+",
-		logoUrl = "https://image.tmdb.org/t/p/w780_filter(duotone,ffffff,bababa)/4KAy34EHvRM25Ih8wb82AuGU7zJ.png",
-	),
-	JellyseerrCompany(
-		id = 453,
-		name = "Hulu",
-		logoUrl = "https://image.tmdb.org/t/p/w780_filter(duotone,ffffff,bababa)/pqUTCleNUiTLAVlelGxUgWn1ELh.png",
-	),
-	JellyseerrCompany(
-		id = 49,
-		name = "HBO",
-		logoUrl = "https://image.tmdb.org/t/p/w780_filter(duotone,ffffff,bababa)/tuomPhY2UtuPTqqFnKMVHvSb724.png",
-	),
-	JellyseerrCompany(
-		id = 4353,
-		name = "Discovery+",
-		logoUrl = "https://image.tmdb.org/t/p/w780_filter(duotone,ffffff,bababa)/1D1bS3Dyw4ScYnFWTlBOvJXC3nb.png",
-	),
-	JellyseerrCompany(
-		id = 2,
-		name = "ABC",
-		logoUrl = "https://image.tmdb.org/t/p/w780_filter(duotone,ffffff,bababa)/ndAvF4JLsliGreX87jAc9GdjmJY.png",
-	),
-	JellyseerrCompany(
-		id = 19,
-		name = "FOX",
-		logoUrl = "https://image.tmdb.org/t/p/w780_filter(duotone,ffffff,bababa)/1DSpHrWyOORkL9N2QHX7Adt31mQ.png",
-	),
-	JellyseerrCompany(
-		id = 359,
-		name = "Cinemax",
-		logoUrl = "https://image.tmdb.org/t/p/w780_filter(duotone,ffffff,bababa)/6mSHSquNpfLgDdv6VnOOvC5Uz2h.png",
-	),
-	JellyseerrCompany(
-		id = 174,
-		name = "AMC",
-		logoUrl = "https://image.tmdb.org/t/p/w780_filter(duotone,ffffff,bababa)/pmvRmATOCaDykE6JrVoeYxlFHw3.png",
-	),
-	JellyseerrCompany(
-		id = 67,
-		name = "Showtime",
-		logoUrl = "https://image.tmdb.org/t/p/w780_filter(duotone,ffffff,bababa)/Allse9kbjiP6ExaQrnSpIhkurEi.png",
-	),
-	JellyseerrCompany(
-		id = 318,
-		name = "Starz",
-		logoUrl = "https://image.tmdb.org/t/p/w780_filter(duotone,ffffff,bababa)/8GJjw3HHsAJYwIWKIPBPfqMxlEa.png",
-	),
-	JellyseerrCompany(
-		id = 71,
-		name = "The CW",
-		logoUrl = "https://image.tmdb.org/t/p/w780_filter(duotone,ffffff,bababa)/ge9hzeaU7nMtQ4PjkFlc68dGAJ9.png",
-	),
-	JellyseerrCompany(
-		id = 6,
-		name = "NBC",
-		logoUrl = "https://image.tmdb.org/t/p/w780_filter(duotone,ffffff,bababa)/o3OedEP0f9mfZr33jz2BfXOUK5.png",
-	),
-	JellyseerrCompany(
-		id = 16,
-		name = "CBS",
-		logoUrl = "https://image.tmdb.org/t/p/w780_filter(duotone,ffffff,bababa)/nm8d7P7MJNiBLdgIzUK0gkuEA4r.png",
-	),
-	JellyseerrCompany(
-		id = 4330,
-		name = "Paramount+",
-		logoUrl = "https://image.tmdb.org/t/p/w780_filter(duotone,ffffff,bababa)/fi83B1oztoS47xxcemFdPMhIzK.png",
-	),
-	JellyseerrCompany(
-		id = 4,
-		name = "BBC One",
-		logoUrl = "https://image.tmdb.org/t/p/w780_filter(duotone,ffffff,bababa)/mVn7xESaTNmjBUyUtGNvDQd3CT1.png",
-	),
-	JellyseerrCompany(
-		id = 56,
-		name = "Cartoon Network",
-		logoUrl = "https://image.tmdb.org/t/p/w780_filter(duotone,ffffff,bababa)/c5OC6oVCg6QP4eqzW6XIq17CQjI.png",
-	),
-	JellyseerrCompany(
-		id = 80,
-		name = "Adult Swim",
-		logoUrl = "https://image.tmdb.org/t/p/w780_filter(duotone,ffffff,bababa)/9AKyspxVzywuaMuZ1Bvilu8sXly.png",
-	),
-	JellyseerrCompany(
-		id = 13,
-		name = "Nickelodeon",
-		logoUrl = "https://image.tmdb.org/t/p/w780_filter(duotone,ffffff,bababa)/ikZXxg6GnwpzqiZbRPhJGaZapqB.png",
-	),
-	JellyseerrCompany(
-		id = 3353,
-		name = "Peacock",
-		logoUrl = "https://image.tmdb.org/t/p/w780_filter(duotone,ffffff,bababa)/gIAcGTjKKr0KOHL5s4O36roJ8p7.png",
-	),
-)
