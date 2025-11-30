@@ -14,6 +14,7 @@ import org.jellyfin.androidtv.data.repository.JellyseerrGenreSlider
 import org.jellyfin.androidtv.data.repository.JellyseerrRepository
 import org.jellyfin.androidtv.data.repository.JellyseerrRequest
 import org.jellyfin.androidtv.data.repository.JellyseerrSearchItem
+import org.jellyfin.androidtv.ui.jellyseerr.JellyseerrDetailActions.OverlaySnapshot
 
 class JellyseerrViewModel(
 	private val repository: JellyseerrRepository,
@@ -27,6 +28,8 @@ class JellyseerrViewModel(
 	private val detailActions = JellyseerrDetailActions(repository, _uiState, viewModelScope, requestActions, context) {
 		discoveryActions.loadRecentRequests()
 	}
+	private var pendingOverlayAfterExternalPlayback: OverlaySnapshot? = null
+	private var pendingOverlayToken: Int = 0
 
 	init {
 		viewModelScope.launch {
@@ -175,6 +178,32 @@ class JellyseerrViewModel(
 		detailActions.closeDetails()
 	}
 
+	fun rememberOverlayForExternalPlayback() {
+		val snapshot = detailActions.snapshotOverlayWithStack() ?: return
+		val token = ++lastGlobalOverlayToken
+		pendingOverlayAfterExternalPlayback = snapshot
+		pendingOverlayToken = token
+		lastGlobalOverlaySnapshot = snapshot
+		lastGlobalOverlayToken = token
+	}
+
+	fun restoreOverlayAfterExternalPlayback() {
+		val overlay = when {
+			pendingOverlayAfterExternalPlayback != null && pendingOverlayToken == lastGlobalOverlayToken -> pendingOverlayAfterExternalPlayback
+			lastGlobalOverlaySnapshot != null -> lastGlobalOverlaySnapshot
+			else -> null
+		} ?: return
+
+		val current = _uiState.value
+		if (current.selectedItem == null && current.selectedPerson == null) {
+			detailActions.restoreOverlay(overlay)
+		}
+
+		pendingOverlayAfterExternalPlayback = null
+		pendingOverlayToken = 0
+		lastGlobalOverlaySnapshot = null
+	}
+
 	fun saveScrollPosition(key: String, index: Int, offset: Int) {
 		_uiState.update {
 			val newPositions = it.scrollPositions.toMutableMap()
@@ -197,5 +226,11 @@ class JellyseerrViewModel(
 
 	fun closePerson() {
 		detailActions.closePerson()
+	}
+
+	companion object {
+		// Static snapshot to survive ViewModel recreation while the app is backgrounded (e.g., during external trailer playback)
+		private var lastGlobalOverlaySnapshot: OverlaySnapshot? = null
+		private var lastGlobalOverlayToken: Int = 0
 	}
 }

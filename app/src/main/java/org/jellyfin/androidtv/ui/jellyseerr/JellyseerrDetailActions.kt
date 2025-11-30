@@ -42,7 +42,18 @@ import org.jellyfin.androidtv.ui.jellyseerr.JellyseerrOverlayEntry.Person
 		else -> null
 	}
 
+	data class OverlaySnapshot(
+		val entry: JellyseerrOverlayEntry,
+		val stack: List<JellyseerrOverlayEntry>,
+	)
+
 	fun snapshotOverlay(): JellyseerrOverlayEntry? = currentOverlayEntry(state.value)
+
+	fun snapshotOverlayWithStack(): OverlaySnapshot? {
+		val current = state.value
+		val entry = currentOverlayEntry(current) ?: return null
+		return OverlaySnapshot(entry, current.overlayStack)
+	}
 
 	fun restoreOverlay(entry: JellyseerrOverlayEntry) {
 		state.update {
@@ -64,6 +75,36 @@ import org.jellyfin.androidtv.ui.jellyseerr.JellyseerrOverlayEntry.Person
 					selectedPerson = entry.person,
 					personCredits = entry.credits,
 					overlayStack = emptyList(),
+					isLoading = false,
+					errorMessage = null,
+					requestStatusMessage = null,
+				)
+			}
+		}
+	}
+
+	fun restoreOverlay(snapshot: OverlaySnapshot) {
+		val entry = snapshot.entry
+		val stack = snapshot.stack
+		state.update {
+			when (entry) {
+				is Detail -> it.copy(
+					selectedItem = entry.item,
+					selectedMovie = entry.details,
+					selectedPerson = null,
+					personCredits = emptyList(),
+					overlayStack = stack,
+					isLoading = false,
+					errorMessage = null,
+					requestStatusMessage = null,
+				)
+
+				is Person -> it.copy(
+					selectedItem = null,
+					selectedMovie = null,
+					selectedPerson = entry.person,
+					personCredits = entry.credits,
+					overlayStack = stack,
 					isLoading = false,
 					errorMessage = null,
 					requestStatusMessage = null,

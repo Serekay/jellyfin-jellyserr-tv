@@ -156,5 +156,9 @@
             android:excludeFromRecents="true" />
 
         <activity android:name=".ui.playback.ExternalPlayerActivity" />
+        <activity
+            android:name=".ui.jellyseerr.JellyseerrYouTubePlayerActivity"
+            android:exported="false"
+            android:theme="@style/Theme.Jellyfin" />
     </application>
 </manifest>

@@ -336,6 +336,7 @@ internal fun JellyseerrDetail(
 	onGenreClick: (JellyseerrGenre) -> Unit,
 	onShowSeasonDialog: () -> Unit,
     onCollectionItemClick: (JellyseerrSearchItem) -> Unit,
+	onBeforeExternalTrailer: () -> Unit = {},
     firstCastFocusRequester: FocusRequester = remember { FocusRequester() },
 ) {
 	val requestButtonFocusRequester = remember { FocusRequester() }
@@ -573,6 +574,7 @@ internal fun JellyseerrDetail(
                 Button(
                     onClick = {
                         coroutineScope.launch {
+                            onBeforeExternalTrailer()
                             playJellyseerrTrailer(context, apiClient, playbackLauncher, item, availableTitle)
                         }
                     },
@@ -1037,4 +1039,3 @@ internal fun JellyseerrDetail(
 
     // initial focus handled above in LaunchedEffect keyed by item.id
 }
-

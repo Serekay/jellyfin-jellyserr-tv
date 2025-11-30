@@ -119,17 +119,26 @@ import androidx.compose.material.icons.filled.ArrowForward
 import androidx.compose.material.icons.filled.Check
 import androidx.compose.material.icons.filled.Remove
 import androidx.compose.material.icons.filled.Schedule
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 
 class JellyseerrFragment : Fragment() {
+	private val viewModel: JellyseerrViewModel by viewModel()
+
 	override fun onCreateView(
 		inflater: LayoutInflater,
 		container: ViewGroup?,
 		savedInstanceState: Bundle?,
 	) = content {
 		JellyfinTheme {
-			JellyseerrScreen()
+			JellyseerrScreen(viewModel = viewModel)
 		}
+	}
+
+	override fun onResume() {
+		super.onResume()
+		// Restore detail overlay when coming back from external trailer playback
+		viewModel.restoreOverlayAfterExternalPlayback()
 	}
 }
 
@@ -276,6 +285,7 @@ private fun JellyseerrScreen(
 							},
 							ownRequests = state.ownRequests,
 							onShowSeasonDialog = { showSeasonDialog = true },
+							onBeforeExternalTrailer = { viewModel.rememberOverlayForExternalPlayback() },
 							onCastClick = { cast ->
 								viewModel.showPerson(cast)
 							},

@@ -1,6 +1,5 @@
 package org.jellyfin.androidtv.ui.jellyseerr
 
-import android.content.ActivityNotFoundException
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
@@ -72,17 +71,14 @@ suspend fun playJellyseerrTrailer(
 		return
 	}
 
+	// Try remote trailers (YouTube/IMDb) from Jellyfin metadata, same as Jellyfin detail flow
 	val externalIntent = TrailerUtils.getExternalTrailerIntent(context, baseItem)
 	if (externalIntent != null) {
 		try {
 			context.startActivity(externalIntent)
 			return
-		} catch (exception: ActivityNotFoundException) {
-			Toast.makeText(
-				context,
-				context.getString(R.string.no_player_message),
-				Toast.LENGTH_LONG
-			).show()
+		} catch (e: Exception) {
+			Toast.makeText(context, context.getString(R.string.no_player_message), Toast.LENGTH_LONG).show()
 		}
 	}
 
@@ -101,14 +97,10 @@ private fun launchYouTubeSearch(context: Context, title: String) {
 	}
 
 	val query = URLEncoder.encode("$trimmedTitle trailer", Charsets.UTF_8.name())
-	val searchIntent = Intent(
-		Intent.ACTION_VIEW,
-		Uri.parse("https://www.youtube.com/results?search_query=$query")
-	)
-
+	val searchIntent = Intent(Intent.ACTION_VIEW, Uri.parse("https://www.youtube.com/results?search_query=$query"))
 	try {
 		context.startActivity(searchIntent)
-	} catch (exception: ActivityNotFoundException) {
+	} catch (exception: Exception) {
 		Toast.makeText(
 			context,
 			context.getString(R.string.no_player_message),
