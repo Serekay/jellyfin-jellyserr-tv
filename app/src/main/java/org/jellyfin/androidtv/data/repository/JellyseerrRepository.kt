@@ -14,9 +14,11 @@ import kotlinx.serialization.json.int
 import kotlinx.serialization.json.intOrNull
 import kotlinx.serialization.json.contentOrNull
 import okhttp3.MediaType.Companion.toMediaType
+import okhttp3.HttpUrl.Companion.toHttpUrlOrNull
 import okhttp3.OkHttpClient
 import okhttp3.Request
 import okhttp3.RequestBody.Companion.toRequestBody
+import org.jellyfin.androidtv.auth.repository.ServerRepository
 import org.jellyfin.androidtv.auth.repository.SessionRepository
 import org.jellyfin.androidtv.auth.repository.UserRepository
 import org.jellyfin.androidtv.preference.UserPreferences
@@ -161,6 +163,7 @@ private data class JellyseerrUser(
 		private val userPreferences: UserPreferences,
 		private val sessionRepository: SessionRepository,
 		private val userRepository: UserRepository,
+		private val serverRepository: ServerRepository,
 		private val apiClient: ApiClient,
 	) : JellyseerrRepository {
 
@@ -231,6 +234,77 @@ private data class JellyseerrUser(
 	@Volatile
 	private var cachedConfig: Config? = null
 
+	private fun isPrivateHost(host: String): Boolean {
+		val lower = host.lowercase()
+		if (lower == "localhost") return true
+
+		val parts = host.split(".").mapNotNull { it.toIntOrNull() }
+		if (parts.size == 4) {
+			val (a, b, _, _) = parts
+			return when (a) {
+				10 -> true
+				172 -> b in 16..31
+				192 -> b == 168
+				169 -> b == 254
+				127 -> true
+				else -> false
+			}
+		}
+		return false
+	}
+
+	private fun looksLikeTailscaleHost(host: String): Boolean {
+		val lower = host.lowercase()
+		return lower.startsWith("100.") ||
+			lower.startsWith("fd7a:") ||
+			lower.endsWith(".ts.net") ||
+			lower.endsWith(".beta.tailscale.net")
+	}
+
+	private fun normalizeBaseUrl(baseUrl: String): String {
+		val trimmed = baseUrl.trim().trimEnd('/')
+		val parsed = trimmed.toHttpUrlOrNull() ?: return trimmed
+		val host = parsed.host
+
+		// Tailscale-spezifische Hosts niemals überschreiben
+		if (looksLikeTailscaleHost(host)) return trimmed
+
+		// Only rewrite obvious private/loopback hosts when we know we talk to Jellyfin over Tailscale
+		if (!isPrivateHost(host)) return trimmed
+
+		val jellyfinBase = apiClient.baseUrl?.toHttpUrlOrNull() ?: return trimmed
+		val jellyfinHost = jellyfinBase.host
+		if (!looksLikeTailscaleHost(jellyfinHost)) return trimmed
+
+		val rewritten = parsed.newBuilder()
+			.host(jellyfinHost)
+			.build()
+			.toString()
+			.trimEnd('/')
+
+		if (rewritten != trimmed) {
+			Timber.i("Rewriting Jellyseerr base URL for Tailscale: $trimmed -> $rewritten")
+		}
+
+		return rewritten
+	}
+
+	private suspend fun chooseBestBase(defaultBase: String, tailscaleBase: String?): String {
+		val tsBase = tailscaleBase?.takeIf { it.isNotBlank() } ?: return defaultBase
+
+		// Use Tailscale base only when the server is flagged for Tailscale AND
+		// the current Jellyfin connection host is a Tailscale host.
+		val jfHost = apiClient.baseUrl?.toHttpUrlOrNull()?.host
+		val preferTailscale = tailscaleEnabledForCurrentServer() && jfHost != null && looksLikeTailscaleHost(jfHost)
+		return if (preferTailscale) tsBase else defaultBase
+	}
+
+	private suspend fun tailscaleEnabledForCurrentServer(): Boolean {
+		val serverId = sessionRepository.currentSession.value?.serverId ?: return false
+		val server = serverRepository.getServer(serverId, eagerUpdate = false) ?: return false
+		return server.tailscaleEnabled
+	}
+
 private fun mapSearchItemDtoToModel(dto: JellyseerrSearchItemDto): JellyseerrSearchItem {
 	val posterUrl = posterImageUrl(dto.posterPath) ?: profileImageUrl(dto.profilePath)
 	val backdropUrl = backdropImageUrl(dto.backdropPath)
@@ -273,21 +347,51 @@ private fun mapCompanyDtoToModel(dto: JellyseerrCompanyDto): JellyseerrCompany =
 	private var cachedUserId: Int? = null
 
 	private fun getConfig(): Config? {
-		cachedConfig?.let { return it }
+		cachedConfig?.let { current ->
+			val normalized = normalizeBaseUrl(current.baseUrl).trimEnd('/')
+			val serverTs = runBlocking { tailscaleEnabledForCurrentServer() }
+			val host = normalized.toHttpUrlOrNull()?.host
+			val hostIsTs = host?.let { looksLikeTailscaleHost(it) } == true
+			val jfHost = apiClient.baseUrl?.toHttpUrlOrNull()?.host
+			val jfIsTs = jfHost?.let { looksLikeTailscaleHost(it) } == true
+
+			// Refresh from bridge if the cached base is TS but Jellyfin host is not TS (likely local),
+			// or vice versa.
+			val shouldRefresh = serverTs && (
+				(jfIsTs && !hostIsTs) ||
+				(!jfIsTs && hostIsTs)
+			)
+
+			if (shouldRefresh) {
+				val refreshed = runBlocking { fetchBridgeConfig().getOrNull() }
+				if (refreshed != null) {
+					cachedConfig = refreshed
+					return refreshed
+				}
+			}
+
+			if (normalized != current.baseUrl) {
+				Config(normalized, current.apiKey).also { cachedConfig = it }
+				return cachedConfig
+			}
+			return current
+		}
 
 		val url = userPreferences[UserPreferences.jellyseerrUrl].trim()
 		val apiKey = userPreferences[UserPreferences.jellyseerrApiKey].trim()
 
 		if (url.isNotBlank() && apiKey.isNotBlank()) {
-			return Config(url.trimEnd('/'), apiKey).also { cachedConfig = it }
+			val normalizedUrl = normalizeBaseUrl(url).trimEnd('/')
+			return Config(normalizedUrl, apiKey).also { cachedConfig = it }
 		}
 
 		// Fallback: try to fetch config from Jellyfin via the Requests Bridge plugin
 		val fetched = runBlocking { fetchBridgeConfig().getOrNull() }
 		if (fetched != null) {
-			userPreferences[UserPreferences.jellyseerrUrl] = fetched.baseUrl
-			userPreferences[UserPreferences.jellyseerrApiKey] = fetched.apiKey
-			cachedConfig = fetched
+			val normalized = fetched.copy(baseUrl = normalizeBaseUrl(fetched.baseUrl).trimEnd('/'))
+			userPreferences[UserPreferences.jellyseerrUrl] = normalized.baseUrl
+			userPreferences[UserPreferences.jellyseerrApiKey] = normalized.apiKey
+			cachedConfig = normalized
 		}
 
 		return cachedConfig
@@ -314,9 +418,9 @@ private fun mapCompanyDtoToModel(dto: JellyseerrCompanyDto): JellyseerrCompany =
 
 		fun Request.Builder.addAuth(): Request.Builder = header("Authorization", authorization)
 
-		val baseResult = runCatching {
+		fun fetchBase(path: String): Result<String> = runCatching {
 			val request = Request.Builder()
-				.url("$jellyfinBase/plugins/requests/apibase")
+				.url("$jellyfinBase/plugins/requests/$path")
 				.addAuth()
 				.build()
 
@@ -328,15 +432,18 @@ private fun mapCompanyDtoToModel(dto: JellyseerrCompanyDto): JellyseerrCompany =
 				val success = jsonObj.optBoolean("success", false)
 				val apiBase = jsonObj.optString("apiBase").trim()
 				if (!success || apiBase.isBlank()) {
-					throw IllegalStateException("Jellyseerr base URL not configured in Requests Bridge")
+					throw IllegalStateException("Jellyseerr base URL not configured in Requests Bridge ($path)")
 				}
 				apiBase.trimEnd('/')
 			}
 		}
 
+		val baseResult = fetchBase("apibase")
 		if (baseResult.isFailure) return@withContext Result.failure(baseResult.exceptionOrNull()!!)
 
-		val apiBase = baseResult.getOrThrow()
+		// Optional: Tailscale URL supplied by the plugin for VPN-only setups
+		val tailscaleBase = fetchBase("tailscale/apibase").getOrNull()
+		val apiBase = chooseBestBase(baseResult.getOrThrow(), tailscaleBase)
 
 		val keyResult = runCatching {
 			val request = Request.Builder()
@@ -360,7 +467,8 @@ private fun mapCompanyDtoToModel(dto: JellyseerrCompanyDto): JellyseerrCompany =
 
 		if (keyResult.isFailure) return@withContext Result.failure(keyResult.exceptionOrNull()!!)
 
-		Result.success(Config(apiBase, keyResult.getOrThrow()))
+		val normalizedBase = normalizeBaseUrl(apiBase).trimEnd('/')
+		Result.success(Config(normalizedBase, keyResult.getOrThrow()))
 	}
 
 	private suspend fun resolveCurrentUserId(config: Config): Result<Int> = withContext(Dispatchers.IO) {

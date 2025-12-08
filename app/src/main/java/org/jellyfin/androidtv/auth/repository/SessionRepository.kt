@@ -23,6 +23,7 @@ import org.jellyfin.sdk.api.client.extensions.clientLogApi
 import org.jellyfin.sdk.api.client.extensions.userApi
 import org.jellyfin.sdk.model.DeviceInfo
 import org.jellyfin.sdk.model.serializer.toUUIDOrNull
+import org.jellyfin.androidtv.tailscale.TailscaleManager
 import timber.log.Timber
 import java.util.UUID
 
@@ -75,11 +76,19 @@ class SessionRepositoryImpl(
 			when {
 				alwaysAuthenticate -> destroyCurrentSession()
 				autoLoginBehavior == DISABLED -> destroyCurrentSession()
-				autoLoginBehavior == LAST_USER && !destroyOnly -> setCurrentSession(createLastUserSession())
+				autoLoginBehavior == LAST_USER && !destroyOnly -> {
+					val session = createLastUserSession()
+					session?.let { ensureTailscaleForServer(it.serverId) }
+					setCurrentSession(session)
+				}
 				autoLoginBehavior == SPECIFIC_USER && !destroyOnly -> {
 					val serverId = authenticationPreferences[AuthenticationPreferences.autoLoginServerId].toUUIDOrNull()
 					val userId = authenticationPreferences[AuthenticationPreferences.autoLoginUserId].toUUIDOrNull()
-					if (serverId != null && userId != null) setCurrentSession(createUserSession(serverId, userId))
+					if (serverId != null && userId != null) {
+						val session = createUserSession(serverId, userId)
+						session?.let { ensureTailscaleForServer(it.serverId) }
+						setCurrentSession(session)
+					}
 				}
 			}
 
@@ -96,6 +105,8 @@ class SessionRepositoryImpl(
 
 		_state.value = SessionRepositoryState.SWITCHING_SESSION
 		Timber.i("Switching current session to user $userId")
+
+		ensureTailscaleForServer(serverId)
 
 		val session = createUserSession(serverId, userId)
 		if (session == null) {
@@ -172,6 +183,22 @@ class SessionRepositoryImpl(
 
 		return if (lastUserId != null && lastServerId != null) createUserSession(lastServerId, lastUserId)
 		else null
+	}
+
+	private suspend fun ensureTailscaleForServer(serverId: UUID) {
+		val server = serverRepository.getServer(serverId, eagerUpdate = false)
+		if (server?.tailscaleEnabled != true) return
+
+		Timber.i("Ensuring Tailscale is running for server ${server.name} before session restore/switch")
+
+		// Versuche den VPN zu starten und warte bis zu 30s auf Running,
+		// wie im Erst-Login-Flow (nur ohne Dialog/Toast).
+		kotlinx.coroutines.withTimeoutOrNull(30_000L) {
+			val connected = TailscaleManager.autoStartIfEnabled(server)
+			if (!connected) {
+				Timber.w("Tailscale konnte nicht automatisch starten (server=${server.name})")
+			}
+		}
 	}
 
 	private fun createUserSession(serverId: UUID, userId: UUID): Session? {

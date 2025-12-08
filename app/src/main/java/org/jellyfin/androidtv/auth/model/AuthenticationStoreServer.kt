@@ -23,4 +23,5 @@ data class AuthenticationStoreServer(
 	@SerialName("last_used") val lastUsed: Long = Instant.now().toEpochMilli(),
 	@SerialName("last_refreshed") val lastRefreshed: Long = Instant.now().toEpochMilli(),
 	val users: Map<UUID, AuthenticationStoreUser> = emptyMap(),
+	@SerialName("tailscale_enabled") val tailscaleEnabled: Boolean = false,
 )

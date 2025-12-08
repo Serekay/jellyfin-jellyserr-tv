@@ -1,12 +1,12 @@
 package org.jellyfin.androidtv
 
-import android.app.Application
 import android.content.Context
 import androidx.work.BackoffPolicy
 import androidx.work.ExistingPeriodicWorkPolicy
 import androidx.work.PeriodicWorkRequestBuilder
 import androidx.work.WorkManager
 import androidx.work.await
+import com.tailscale.ipn.App
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -15,16 +15,19 @@ import org.jellyfin.androidtv.data.eventhandling.SocketHandler
 import org.jellyfin.androidtv.data.repository.NotificationsRepository
 import org.jellyfin.androidtv.integration.LeanbackChannelWorker
 import org.jellyfin.androidtv.telemetry.TelemetryService
+import org.jellyfin.androidtv.tailscale.TailscaleManager
 import org.koin.android.ext.android.inject
 import java.util.concurrent.TimeUnit
 
 @Suppress("unused")
-class JellyfinApplication : Application() {
+class JellyfinApplication : App() {
 	override fun onCreate() {
 		super.onCreate()
 
 		// Don't run in ACRA service
 		if (ACRA.isACRASenderServiceProcess()) return
+
+		TailscaleManager.init(this)
 
 		val notificationsRepository by inject<NotificationsRepository>()
 		notificationsRepository.addDefaultNotifications()

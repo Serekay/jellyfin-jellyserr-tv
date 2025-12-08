@@ -654,4 +654,33 @@
 	<string name="jellyseerr_search_button">Search in Jellyseerr</string>
 	<string name="jellyseerr_search_hint">Search Jellyseerr for movies, series and actors</string>
 	<string name="jellyseerr_search_description">Use the remote to type your search query</string>
+
+	<!-- Tailscale -->
+	<string name="tailscale_enable_title">Tailscale VPN verwenden</string>
+	<string name="tailscale_enable_summary_on">Für diesen Server wird der Tailscale VPN-Tunnel genutzt.</string>
+	<string name="tailscale_enable_summary_off">Tailscale ist für diesen Server ausgeschaltet.</string>
+	<string name="tailscale_login_code_title">Login-Code anfordern</string>
+	<string name="tailscale_login_code_summary">Öffnet einen Anmeldecode, um das Gerät im Tailnet zu autorisieren.</string>
+	<string name="tailscale_connect_title">VPN verbinden</string>
+	<string name="tailscale_connect_summary">Startet den eingebetteten Tailscale-VPN-Dienst.</string>
+	<string name="tailscale_disconnect_title">VPN trennen</string>
+	<string name="tailscale_disconnect_summary">Beendet den Tailscale-VPN-Tunnel für dieses Gerät.</string>
+	<string name="tailscale_disconnect_done">Tailscale-Verbindung getrennt.</string>
+	<string name="tailscale_reset_auth_title">Auth zurücksetzen</string>
+	<string name="tailscale_reset_auth_summary">Bereinigt den Login-Status (hilft bei 204/\"bereits angemeldet\").</string>
+	<string name="tailscale_reset_auth_success">Tailscale-Auth zurückgesetzt.</string>
+	<string name="tailscale_enable_first">Tailscale erst für diesen Server aktivieren.</string>
+	<string name="tailscale_section_title">Tailscale</string>
+	<string name="tailscale_setup_button">Tailscale verbinden</string>
+	<string name="tailscale_setup_toast_code">Login-Code: %1$s</string>
+	<string name="tailscale_setup_toast_error">Tailscale Login-Code konnte nicht abgerufen werden.</string>
+	<string name="connection_type_label">Wie möchtest du dich verbinden?</string>
+	<string name="connect_local_button">Lokal verbinden</string>
+	<string name="connect_tailscale_button">Über Tailscale VPN</string>
+	<string name="tailscale_connecting_title">Tailscale VPN wird verbunden…</string>
+	<string name="tailscale_connecting_message">Gib deinem Admin diesen Code:\n\n%1$s\n\nWarte auf Freischaltung im Dashboard…</string>
+	<string name="tailscale_connected_title">Verbunden!</string>
+	<string name="tailscale_connected_message">Tailscale VPN ist jetzt verbunden. Du kannst nun deinen Server eingeben (z.B. "pflix").</string>
+	<string name="tailscale_debug_button">Tailscale Diagnose</string>
+	<string name="tailscale_debug_title">Tailscale Status</string>
 </resources>

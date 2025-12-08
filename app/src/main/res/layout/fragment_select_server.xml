@@ -49,6 +49,14 @@
             android:text="@string/welcome_content" />
 
         <Button
+            android:id="@+id/tailscale_setup_button"
+            style="@style/Button.Default"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:text="@string/tailscale_setup_button" />
+
+        <Button
             android:id="@+id/enter_server_address"
             style="@style/Button.Default"
             android:layout_width="match_parent"

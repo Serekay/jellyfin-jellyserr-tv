@@ -85,11 +85,19 @@ class StartupViewModel(
 		viewModelScope.launch { serverRepository.loadStoredServers() }
 	}
 
+	suspend fun getServerById(id: UUID): Server? {
+		serverRepository.loadStoredServers()
+		return serverRepository.storedServers.value.find { it.id == id }
+	}
+
 	suspend fun getLastServer(): Server? {
 		serverRepository.loadStoredServers()
 		return serverRepository.storedServers.value.maxByOrNull { it.dateLastAccessed }
 	}
 
 	suspend fun updateServer(server: Server): Boolean = serverRepository.updateServer(server)
-}
 
+	fun setTailscaleEnabled(server: UUID, enabled: Boolean) {
+		viewModelScope.launch { serverRepository.setTailscaleEnabled(server, enabled) }
+	}
+}

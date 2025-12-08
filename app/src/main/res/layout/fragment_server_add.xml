@@ -30,14 +30,52 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/address_label"
+        android:id="@+id/connection_type_label"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:text="@string/lbl_valid_server_address"
+        android:layout_marginTop="24dp"
+        android:text="@string/connection_type_label"
+        android:textSize="16sp"
+        android:textStyle="bold"
         app:layout_constraintEnd_toStartOf="@id/center"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/title" />
+
+    <Button
+        android:id="@+id/connect_local"
+        style="@style/Button.Default"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:text="@string/connect_local_button"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/connection_type_label" />
+
+    <Button
+        android:id="@+id/connect_tailscale"
+        style="@style/Button.Default"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:text="@string/connect_tailscale_button"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/connect_local" />
+
+    <!-- Server-Adresse Section (initially hidden) -->
+    <TextView
+        android:id="@+id/address_label"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:text="@string/lbl_valid_server_address"
+        android:visibility="gone"
+        app:layout_constraintEnd_toStartOf="@id/center"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/connect_tailscale" />
 
     <EditText
         android:id="@+id/address"
@@ -47,22 +85,11 @@
         android:layout_marginTop="8dp"
         android:imeOptions="actionDone"
         android:inputType="textUri"
-        android:nextFocusDown="@id/confirm"
-        android:nextFocusForward="@id/confirm"
         android:privateImeOptions="horizontalAlignment=right"
+        android:visibility="gone"
         app:layout_constraintEnd_toStartOf="@id/center"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/address_label" />
-
-    <Button
-        android:id="@+id/confirm"
-        style="@style/Button.Default"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:text="@string/action_connect"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/address" />
 
     <TextView
         android:id="@+id/error"
@@ -71,6 +98,6 @@
         android:layout_marginTop="16dp"
         app:layout_constraintEnd_toStartOf="@id/center"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/confirm"
+        app:layout_constraintTop_toBottomOf="@id/address"
         tools:text="@string/server_connecting" />
 </androidx.constraintlayout.widget.ConstraintLayout>

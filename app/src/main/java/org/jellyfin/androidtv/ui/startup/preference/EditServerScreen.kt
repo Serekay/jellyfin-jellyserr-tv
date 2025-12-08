@@ -1,16 +1,21 @@
 package org.jellyfin.androidtv.ui.startup.preference
 
 import androidx.core.os.bundleOf
+import androidx.lifecycle.lifecycleScope
 import org.jellyfin.androidtv.R
 import org.jellyfin.androidtv.auth.repository.ServerUserRepository
 import org.jellyfin.androidtv.ui.preference.dsl.OptionsFragment
 import org.jellyfin.androidtv.ui.preference.dsl.action
+import org.jellyfin.androidtv.ui.preference.dsl.checkbox
 import org.jellyfin.androidtv.ui.preference.dsl.link
 import org.jellyfin.androidtv.ui.preference.dsl.optionsScreen
 import org.jellyfin.androidtv.ui.startup.StartupViewModel
+import org.jellyfin.androidtv.tailscale.TailscaleManager
 import org.jellyfin.androidtv.util.getValue
 import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.activityViewModel
+import kotlinx.coroutines.launch
+import android.widget.Toast
 import java.time.Instant
 import java.time.LocalDateTime
 import java.time.ZoneId
@@ -57,6 +62,84 @@ class EditServerScreen : OptionsFragment() {
 							EditUserScreen.ARG_SERVER_UUID to server.id,
 							EditUserScreen.ARG_USER_UUID to user.id,
 						))
+					}
+				}
+			}
+		}
+
+		category {
+			setTitle(R.string.tailscale_section_title)
+
+			checkbox {
+				type = org.jellyfin.androidtv.ui.preference.dsl.OptionsItemCheckbox.Type.SWITCH
+				setTitle(R.string.tailscale_enable_title)
+				setContent(R.string.tailscale_enable_summary_on, R.string.tailscale_enable_summary_off)
+				bind {
+					get { server.tailscaleEnabled }
+					set { enabled ->
+						if (enabled != server.tailscaleEnabled) {
+							server.tailscaleEnabled = enabled
+							startupViewModel.setTailscaleEnabled(serverUUID, enabled)
+						}
+					}
+					default { false }
+				}
+			}
+
+			action {
+				setTitle(R.string.tailscale_login_code_title)
+				setContent(R.string.tailscale_login_code_summary)
+				onActivate = {
+					if (!server.tailscaleEnabled) {
+						Toast.makeText(requireContext(), R.string.tailscale_enable_first, Toast.LENGTH_SHORT).show()
+					} else {
+						lifecycleScope.launch {
+							val result = TailscaleManager.requestLoginCode()
+							val message = result.fold(
+								onSuccess = { code -> getString(R.string.tailscale_setup_toast_code, code) },
+								onFailure = { it.message ?: getString(R.string.tailscale_setup_toast_error) }
+							)
+							requireContext().let { ctx ->
+								Toast.makeText(ctx, message, Toast.LENGTH_LONG).show()
+							}
+						}
+					}
+				}
+			}
+
+			action {
+				setTitle(R.string.tailscale_connect_title)
+				setContent(R.string.tailscale_connect_summary)
+				onActivate = {
+					if (!server.tailscaleEnabled) {
+						Toast.makeText(requireContext(), R.string.tailscale_enable_first, Toast.LENGTH_SHORT).show()
+					} else {
+						lifecycleScope.launch {
+							TailscaleManager.startVpn()
+						}
+					}
+				}
+			}
+
+			action {
+				setTitle(R.string.tailscale_disconnect_title)
+				setContent(R.string.tailscale_disconnect_summary)
+				onActivate = {
+					TailscaleManager.stopVpn()
+					Toast.makeText(requireContext(), R.string.tailscale_disconnect_done, Toast.LENGTH_SHORT).show()
+				}
+			}
+
+			action {
+				setTitle(R.string.tailscale_reset_auth_title)
+				setContent(R.string.tailscale_reset_auth_summary)
+				onActivate = {
+					lifecycleScope.launch {
+						val msg = TailscaleManager.resetAuthPublic().fold(
+							onSuccess = { getString(R.string.tailscale_reset_auth_success) },
+							onFailure = { it.message ?: getString(R.string.tailscale_setup_toast_error) }
+						)
+						Toast.makeText(requireContext(), msg, Toast.LENGTH_SHORT).show()
 					}
 				}
 			}

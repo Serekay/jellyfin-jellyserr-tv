@@ -16,6 +16,7 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.first
@@ -26,6 +27,7 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import org.jellyfin.androidtv.JellyfinApplication
 import org.jellyfin.androidtv.R
+import org.jellyfin.androidtv.auth.model.Server
 import org.jellyfin.androidtv.auth.repository.SessionRepository
 import org.jellyfin.androidtv.auth.repository.SessionRepositoryState
 import org.jellyfin.androidtv.auth.repository.UserRepository
@@ -40,6 +42,7 @@ import org.jellyfin.androidtv.ui.startup.fragment.SelectServerFragment
 import org.jellyfin.androidtv.ui.startup.fragment.ServerFragment
 import org.jellyfin.androidtv.ui.startup.fragment.SplashFragment
 import org.jellyfin.androidtv.ui.startup.fragment.StartupToolbarFragment
+import org.jellyfin.androidtv.tailscale.TailscaleManager
 import org.jellyfin.androidtv.util.applyTheme
 import org.jellyfin.sdk.api.client.ApiClient
 import org.jellyfin.sdk.api.client.extensions.userLibraryApi
@@ -113,6 +116,11 @@ class StartupActivity : FragmentActivity() {
 
 				showSplash()
 
+				val server = startupViewModel.getServerById(session.serverId)
+				if (server != null) {
+					ensureTailscaleReady(server)
+				}
+
 				val currentUser = userRepository.currentUser.first { it != null }
 				Timber.i("CurrentUser changed to ${currentUser?.id} while waiting for startup.")
 
@@ -124,8 +132,12 @@ class StartupActivity : FragmentActivity() {
 				mediaManager.clearAudioQueue()
 
 				val server = startupViewModel.getLastServer()
-				if (server != null) showServer(server.id)
-				else showServerSelection()
+				if (server != null) {
+					lifecycleScope.launch {
+						ensureTailscaleReady(server)
+						showServer(server.id)
+					}
+				} else showServerSelection()
 			}
 		}.launchIn(lifecycleScope)
 
@@ -199,5 +211,36 @@ class StartupActivity : FragmentActivity() {
 	override fun onNewIntent(intent: Intent) {
 		super.onNewIntent(intent)
 		setIntent(intent)
+	}
+
+	private suspend fun ensureTailscaleReady(server: Server): Boolean = withContext(Dispatchers.IO) {
+		if (!server.tailscaleEnabled) return@withContext true
+
+		Timber.d("StartupActivity: Ensuring Tailscale connection for server ${server.name} (single attempt, 30s timeout)")
+
+		// If already connected, continue immediately
+		if (TailscaleManager.isConnected()) {
+			Timber.d("StartupActivity: Tailscale already connected")
+			return@withContext true
+		}
+
+		val connected = kotlinx.coroutines.withTimeoutOrNull(60_000L) {
+			TailscaleManager.autoStartIfEnabled(server)
+		} ?: false
+
+		if (!connected) {
+			Timber.w("StartupActivity: Tailscale VPN failed to auto-start within timeout")
+			withContext(Dispatchers.Main) {
+				Toast.makeText(
+					this@StartupActivity,
+					"Tailscale VPN konnte nicht gestartet werden. Bitte manuell verbinden.",
+					Toast.LENGTH_LONG
+				).show()
+			}
+		} else {
+			Timber.d("StartupActivity: Tailscale VPN ready")
+		}
+
+		connected
 	}
 }

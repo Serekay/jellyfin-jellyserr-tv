@@ -50,6 +50,7 @@ interface ServerRepository {
 	suspend fun getServer(id: UUID, eagerUpdate: Boolean = false): Server?
 	suspend fun updateServer(server: Server, force: Boolean = false): Boolean
 	suspend fun deleteServer(server: UUID): Boolean
+	suspend fun setTailscaleEnabled(server: UUID, enabled: Boolean)
 
 	companion object {
 		val minimumServerVersion = Jellyfin.minimumVersion.copy(build = null)
@@ -242,6 +243,12 @@ class ServerRepositoryImpl(
 		return success
 	}
 
+	override suspend fun setTailscaleEnabled(server: UUID, enabled: Boolean) {
+		val entry = authenticationStore.getServer(server) ?: return
+		authenticationStore.putServer(server, entry.copy(tailscaleEnabled = enabled))
+		loadStoredServers()
+	}
+
 	// Helper functions
 	private fun AuthenticationStoreServer.asServer(id: UUID) = Server(
 		id = id,
@@ -252,6 +259,7 @@ class ServerRepositoryImpl(
 		splashscreenEnabled = splashscreenEnabled,
 		setupCompleted = setupCompleted,
 		dateLastAccessed = Instant.ofEpochMilli(lastUsed),
+		tailscaleEnabled = tailscaleEnabled,
 	)
 
 	/**

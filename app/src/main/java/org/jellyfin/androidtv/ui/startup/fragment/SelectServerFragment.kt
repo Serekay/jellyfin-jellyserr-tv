@@ -44,6 +44,7 @@ import org.jellyfin.androidtv.ui.SpacingItemDecoration
 import org.jellyfin.androidtv.ui.base.JellyfinTheme
 import org.jellyfin.androidtv.ui.base.Text
 import org.jellyfin.androidtv.ui.startup.StartupViewModel
+import org.jellyfin.androidtv.tailscale.TailscaleManager
 import org.jellyfin.androidtv.util.ListAdapter
 import org.jellyfin.androidtv.util.MenuBuilder
 import org.jellyfin.androidtv.util.getSummary
@@ -193,6 +194,9 @@ class SelectServerFragment : Fragment() {
 				replace<ServerAddFragment>(R.id.content_view)
 			}
 		}
+
+		// Disable the legacy setup button; flow is handled per Server now.
+		binding.tailscaleSetupButton.visibility = View.GONE
 
 		// App info
 		@Suppress("SetTextI18n")

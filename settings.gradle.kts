@@ -11,6 +11,8 @@ include(":playback:jellyfin")
 include(":playback:media3:exoplayer")
 include(":playback:media3:session")
 include(":preference")
+include(":tailscale-embedded")
+include(":tailscale-full")
 
 pluginManagement {
 	repositories {
