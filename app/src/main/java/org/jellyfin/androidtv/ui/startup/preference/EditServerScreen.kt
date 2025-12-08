@@ -81,22 +81,71 @@ class EditServerScreen : OptionsFragment() {
 		progressDialog = null
 	}
 
+	private fun showRestartDialog() {
+		AlertDialog.Builder(requireContext())
+			.setTitle(R.string.restart_required_title)
+			.setMessage(R.string.restart_required_message)
+			.setCancelable(false)
+			.setPositiveButton(R.string.restart_now) { _, _ ->
+				val context = requireActivity()
+				val packageManager = context.packageManager
+				val intent = packageManager.getLaunchIntentForPackage(context.packageName)
+				val componentName = intent!!.component
+				val mainIntent = Intent.makeRestartActivityTask(componentName)
+				context.startActivity(mainIntent)
+				Runtime.getRuntime().exit(0)
+			}
+			.show()
+	}
+
 	private fun showAddressInputDialog(server: Server, onAddressSet: (String) -> Unit) {
 		val editText = EditText(requireContext()).apply {
 			setText(server.address)
 		}
-		AlertDialog.Builder(requireContext())
+		val dialog = AlertDialog.Builder(requireContext())
 			.setTitle(R.string.edit_server_address_title)
 			.setMessage(R.string.edit_server_address_message)
 			.setView(editText)
-			.setPositiveButton(R.string.lbl_ok) { _, _ ->
-				val newAddress = editText.text.toString()
-				if (newAddress.isNotBlank()) {
-					onAddressSet(newAddress)
+			.setPositiveButton(R.string.lbl_ok, null) // Set to null. We override the handler later.
+			.setNegativeButton(R.string.lbl_cancel, null)
+			.create()
+
+		dialog.setOnShowListener {
+			val positiveButton = dialog.getButton(AlertDialog.BUTTON_POSITIVE)
+			positiveButton.setOnClickListener {
+				val newAddress = editText.text.toString().trim()
+				if (newAddress.isBlank()) {
+					editText.error = getString(R.string.server_field_empty)
+					return@setOnClickListener
+				}
+
+				// Reset error and show progress
+				editText.error = null
+				showProgressDialog()
+
+				lifecycleScope.launch {
+					val isValid = try {
+						startupViewModel.testServerAddress(newAddress)
+					} catch (e: Exception) {
+						false
+					}
+
+					hideProgressDialog()
+
+					if (isValid) {
+						onAddressSet(newAddress)
+						dialog.dismiss()
+					} else {
+						AlertDialog.Builder(requireContext())
+							.setTitle(R.string.server_connection_failed_title)
+							.setMessage(R.string.server_connection_failed_message)
+							.setPositiveButton(R.string.lbl_ok) { _, _ -> }
+							.show()
+					}
 				}
 			}
-			.setNegativeButton(R.string.lbl_cancel, null)
-			.show()
+		}
+		dialog.show()
 	}
 
 	override val screen by optionsScreen {
@@ -194,9 +243,7 @@ class EditServerScreen : OptionsFragment() {
 									showAddressInputDialog(server) { newAddress ->
 										startupViewModel.setServerAddress(serverUUID, newAddress)
 										startupViewModel.setTailscaleEnabled(serverUUID, true)
-										Toast.makeText(requireContext(), "Server updated. Please restart the app.", Toast.LENGTH_LONG).show()
-										isSwitching = false
-										rebuild()
+										showRestartDialog()
 									}
 
 								} catch (e: Exception) {
@@ -216,7 +263,7 @@ class EditServerScreen : OptionsFragment() {
 									showAddressInputDialog(server) { newAddress ->
 										startupViewModel.setServerAddress(serverUUID, newAddress)
 										startupViewModel.setTailscaleEnabled(serverUUID, false)
-										Toast.makeText(requireContext(), "Server updated. Please restart the app.", Toast.LENGTH_LONG).show()
+										showRestartDialog()
 									}
 								} finally {
 									isSwitching = false

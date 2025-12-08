@@ -657,9 +657,13 @@
 
 	<!-- Tailscale switching flow -->
 	<string name="edit_server_address_title">Serveradresse</string>
-	<string name="edit_server_address_message">Gib die neue Adresse für deinen Server ein (z. B. "pflix").</string>
+	<string name="edit_server_address_message">Gib die neue Adresse für deinen Server ein.</string>
 	<string name="connection_status_local">Lokal</string>
 	<string name="connection_status_vpn">VPN</string>
 	<string name="tailscale_switching_progress">Verbinde…</string>
 	<string name="tailscale_connect_failed_toast">Verbindung fehlgeschlagen. Bitte prüfe deine Tailscale-Verbindung.</string>
+
+	<!-- Connection Error Dialog -->
+	<string name="server_connection_failed_title">Verbindung fehlgeschlagen</string>
+	<string name="server_connection_failed_message">Die eingegebene Adresse ist nicht erreichbar. Bitte überprüfe die Adresse und versuche es erneut.</string>
 </resources>

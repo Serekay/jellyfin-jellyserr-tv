@@ -104,4 +104,8 @@ class StartupViewModel(
 	fun setServerAddress(server: UUID, address: String) {
 		viewModelScope.launch { serverRepository.setServerAddress(server, address) }
 	}
+
+	suspend fun testServerAddress(address: String): Boolean {
+		return serverRepository.testAddress(address)
+	}
 }

@@ -52,6 +52,7 @@ interface ServerRepository {
 	suspend fun deleteServer(server: UUID): Boolean
 	suspend fun setTailscaleEnabled(server: UUID, enabled: Boolean)
 	suspend fun setServerAddress(server: UUID, address: String)
+	suspend fun testAddress(address: String): Boolean
 
 	companion object {
 		val minimumServerVersion = Jellyfin.minimumVersion.copy(build = null)
@@ -254,6 +255,17 @@ class ServerRepositoryImpl(
 		val entry = authenticationStore.getServer(server) ?: return
 		authenticationStore.putServer(server, entry.copy(address = address))
 		loadStoredServers()
+	}
+
+	override suspend fun testAddress(address: String): Boolean {
+		val addressCandidates = jellyfin.discovery.getAddressCandidates(address)
+		val greatRecommendation = jellyfin.discovery.getRecommendedServers(addressCandidates).firstOrNull { recommendedServer ->
+			when (recommendedServer.score) {
+				RecommendedServerInfoScore.GREAT, RecommendedServerInfoScore.GOOD -> true
+				else -> false
+			}
+		}
+		return greatRecommendation != null
 	}
 
 	// Helper functions

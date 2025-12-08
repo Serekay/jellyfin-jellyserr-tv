@@ -436,7 +436,7 @@ object TailscaleManager {
 	 * Sucht einen Peer anhand des Hostnamens und gibt dessen primäre Tailscale-IP zurück.
 	 * Verwendet die LocalAPI /status Antwort.
 	 *
-	 * @param hostname Der Hostname des Peers (z.B. "pflix")
+	 * @param hostname Der Hostname des Peers
 	 * @return Die IP-Adresse des Peers oder null wenn nicht gefunden
 	 */
 	suspend fun getPeerIpByHostname(hostname: String): String? = withContext(Dispatchers.IO) {
