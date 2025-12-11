@@ -4,12 +4,15 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Jellyarc Download</title>
+    <link rel="icon" type="image/png" href="icon.png">
     <style>
+        @import url('https://fonts.googleapis.com/css2?family=Righteous&display=swap');
+
         * { box-sizing: border-box; margin: 0; padding: 0; }
 
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            background: #1a1a2e;
+            background: linear-gradient(135deg, #0f0f1a 0%, #1a1a2e 50%, #16213e 100%);
             color: #eee;
             min-height: 100vh;
             display: flex;
@@ -24,9 +27,29 @@
         }
 
         h1 {
-            font-size: 3rem;
-            margin-bottom: 20px;
-            color: #fff;
+            font-family: 'Righteous', cursive;
+            font-size: 4rem;
+            margin-bottom: 30px;
+            background: linear-gradient(135deg, #a78bfa 0%, #818cf8 50%, #6366f1 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-shadow: 0 0 60px rgba(129, 140, 248, 0.5);
+            letter-spacing: 3px;
+        }
+
+        .icon {
+            width: 200px;
+            height: 200px;
+            margin-bottom: 40px;
+            border-radius: 40px;
+            border: 4px solid rgba(129, 140, 248, 0.6);
+            box-shadow:
+                0 0 40px rgba(99, 102, 241, 0.4),
+                0 20px 60px rgba(0, 0, 0, 0.5),
+                inset 0 0 30px rgba(129, 140, 248, 0.1);
+            background: linear-gradient(145deg, #252550 0%, #1a1a35 100%);
+            padding: 15px;
         }
 
         .status {
@@ -39,16 +62,22 @@
             font-size: 1.2rem;
             color: #818cf8;
             margin-bottom: 20px;
+            font-weight: 500;
         }
 
         .manual-link {
-            color: #666;
+            color: #555;
             font-size: 0.9rem;
         }
 
         .manual-link a {
             color: #818cf8;
             text-decoration: none;
+            transition: color 0.2s;
+        }
+
+        .manual-link a:hover {
+            color: #a78bfa;
         }
 
         .spinner {
@@ -69,6 +98,7 @@
 <body>
     <div class="container">
         <h1>Jellyarc</h1>
+        <img src="icon.png" alt="Jellyarc" class="icon">
         <div class="spinner" id="spinner"></div>
         <div class="status" id="status">Starting download...</div>
         <div class="version" id="version"></div>
