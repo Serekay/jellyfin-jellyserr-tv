@@ -660,100 +660,100 @@
     <string name="jellyseerr_update_installing_message">אנא המתן בזמן שהמתקין מתכונן.</string>
     <string name="jellyseerr_update_install_button">התקן</string>
 
-    <string name="jellyseerr_collection_label">%1$s collection</string>
-    <string name="jellyseerr_collection_show">Show</string>
-    <string name="jellyseerr_no_description">No description currently available.</string>
-    <string name="jellyseerr_search_title">Search</string>
-    <string name="jellyseerr_search_button">Search in Jellyseerr</string>
-    <string name="jellyseerr_search_hint">Search Jellyseerr for movies, series and actors</string>
-    <string name="jellyseerr_search_description">Use the remote to type your search query</string>
+    <string name="jellyseerr_collection_label">אוסף %1$s</string>
+    <string name="jellyseerr_collection_show">הצג</string>
+    <string name="jellyseerr_no_description">אין תיאור זמין כרגע.</string>
+    <string name="jellyseerr_search_title">חיפוש</string>
+    <string name="jellyseerr_search_button">חפש ב-Jellyseerr</string>
+    <string name="jellyseerr_search_hint">חפש סרטים, סדרות ושחקנים ב-Jellyseerr</string>
+    <string name="jellyseerr_search_description">השתמש בשלט כדי להקליד את שאילתת החיפוש</string>
 
     <!-- Tailscale -->
-    <string name="tailscale_enable_title">Use Tailscale VPN</string>
-    <string name="tailscale_enable_summary_on">This server is using the Tailscale VPN tunnel.</string>
-    <string name="tailscale_enable_summary_off">Tailscale is turned off for this server.</string>
-    <string name="tailscale_login_code_title">Request login code</string>
-    <string name="tailscale_login_code_summary">Opens a login code to authorize the device on the Tailnet.</string>
-    <string name="tailscale_connect_title">Connect VPN</string>
-    <string name="tailscale_connect_summary">Starts the embedded Tailscale VPN service.</string>
-    <string name="tailscale_disconnect_title">Disconnect VPN</string>
-    <string name="tailscale_disconnect_summary">Stops the Tailscale VPN tunnel for this device.</string>
-    <string name="tailscale_disconnect_done">Tailscale connection disconnected.</string>
-    <string name="tailscale_reset_auth_title">Reset auth</string>
-    <string name="tailscale_reset_auth_summary">Clears the login status (helps with 204/"already logged in").</string>
-    <string name="tailscale_reset_auth_success">Tailscale auth reset.</string>
-    <string name="tailscale_enable_first">Enable Tailscale for this server first.</string>
+    <string name="tailscale_enable_title">השתמש ב-Tailscale VPN</string>
+    <string name="tailscale_enable_summary_on">שרת זה משתמש במנהרת Tailscale VPN.</string>
+    <string name="tailscale_enable_summary_off">Tailscale כבוי עבור שרת זה.</string>
+    <string name="tailscale_login_code_title">בקש קוד התחברות</string>
+    <string name="tailscale_login_code_summary">פותח קוד התחברות לאישור המכשיר ב-Tailnet.</string>
+    <string name="tailscale_connect_title">התחבר ל-VPN</string>
+    <string name="tailscale_connect_summary">מפעיל את שירות Tailscale VPN המובנה.</string>
+    <string name="tailscale_disconnect_title">נתק VPN</string>
+    <string name="tailscale_disconnect_summary">מפסיק את מנהרת Tailscale VPN עבור מכשיר זה.</string>
+    <string name="tailscale_disconnect_done">חיבור Tailscale נותק.</string>
+    <string name="tailscale_reset_auth_title">אפס אימות</string>
+    <string name="tailscale_reset_auth_summary">מנקה את סטטוס ההתחברות (עוזר עם 204/"כבר מחובר").</string>
+    <string name="tailscale_reset_auth_success">אימות Tailscale אופס.</string>
+    <string name="tailscale_enable_first">הפעל תחילה את Tailscale עבור שרת זה.</string>
     <string name="tailscale_section_title">Tailscale</string>
-    <string name="tailscale_setup_button">Connect Tailscale</string>
-    <string name="tailscale_setup_toast_code">Login code: %1$s</string>
-    <string name="tailscale_setup_toast_error">Unable to fetch the Tailscale login code.</string>
-    <string name="connection_type_label">How would you like to connect?</string>
-    <string name="connect_local_button">Connect locally</string>
-    <string name="connect_tailscale_button">Over Tailscale VPN</string>
-    <string name="tailscale_connecting_title">Tailscale VPN is connecting...</string>
-    <string name="tailscale_connecting_message">Give your admin this code:\n\n%1$s\n\nWait for approval in the dashboard...</string>
-    <string name="tailscale_connected_title">Connected!</string>
-    <string name="tailscale_connected_message">Tailscale VPN is now connected. You can now enter your server.</string>
-    <string name="tailscale_debug_button">Tailscale diagnostics</string>
-    <string name="tailscale_debug_title">Tailscale status</string>
+    <string name="tailscale_setup_button">התחבר ל-Tailscale</string>
+    <string name="tailscale_setup_toast_code">קוד התחברות: %1$s</string>
+    <string name="tailscale_setup_toast_error">לא ניתן לאחזר את קוד ההתחברות של Tailscale.</string>
+    <string name="connection_type_label">כיצד תרצה להתחבר?</string>
+    <string name="connect_local_button">התחבר מקומית</string>
+    <string name="connect_tailscale_button">דרך Tailscale VPN</string>
+    <string name="tailscale_connecting_title">Tailscale VPN מתחבר...</string>
+    <string name="tailscale_connecting_message">תן למנהל שלך את הקוד הזה:\n\n%1$s\n\nהמתן לאישור בלוח הבקרה...</string>
+    <string name="tailscale_connected_title">מחובר!</string>
+    <string name="tailscale_connected_message">Tailscale VPN מחובר כעת. כעת תוכל להזין את כתובת השרת שלך.</string>
+    <string name="tailscale_debug_button">אבחון Tailscale</string>
+    <string name="tailscale_debug_title">סטטוס Tailscale</string>
 
     <!-- Tailscale switching flow -->
-    <string name="edit_server_address_title">Enter Server Address</string>
-    <string name="edit_server_address_message">Please contact your server administrator to get the exact server URL (including port if required).\n\nExample: http://192.168.1.100:8096</string>
+    <string name="edit_server_address_title">הזן כתובת שרת</string>
+    <string name="edit_server_address_message">אנא פנה למנהל השרת שלך כדי לקבל את כתובת השרת המדויקת (כולל פורט אם נדרש).\n\nדוגמה: http://192.168.1.100:8096</string>
     <string name="edit_server_address_hint">http://your-server-address:port</string>
-    <string name="connection_status_local">Local</string>
+    <string name="connection_status_local">מקומי</string>
     <string name="connection_status_vpn">VPN</string>
-    <string name="tailscale_switching_progress">Connecting…</string>
-    <string name="tailscale_connect_failed_toast">Failed to connect. Please check your Tailscale connection.</string>
+    <string name="tailscale_switching_progress">מתחבר…</string>
+    <string name="tailscale_connect_failed_toast">ההתחברות נכשלה. אנא בדוק את חיבור ה-Tailscale שלך.</string>
 
     <!-- Server Address Selection -->
-    <string name="server_address_selection_title">Select Server Address</string>
-    <string name="server_address_selection_message">If your server administrator has configured the plugin, you can connect automatically. Otherwise, please enter the server address manually.</string>
-    <string name="server_address_auto">Automatic (via Plugin)</string>
-    <string name="server_address_manual">Manual Entry</string>
-    <string name="fetching_server_url">Fetching server URL from plugin…</string>
-    <string name="server_url_fetch_failed_title">Automatic Address Failed</string>
-    <string name="server_url_fetch_failed_message">Could not automatically retrieve server address:\n\n%1$s\n\nWould you like to enter the address manually?</string>
+    <string name="server_address_selection_title">בחר כתובת שרת</string>
+    <string name="server_address_selection_message">אם מנהל השרת שלך הגדיר את התוסף, תוכל להתחבר אוטומטית. אחרת, אנא הזן את כתובת השרת ידנית.</string>
+    <string name="server_address_auto">אוטומטי (דרך תוסף)</string>
+    <string name="server_address_manual">הזנה ידנית</string>
+    <string name="fetching_server_url">מאחזר כתובת שרת מהתוסף…</string>
+    <string name="server_url_fetch_failed_title">כתובת אוטומטית נכשלה</string>
+    <string name="server_url_fetch_failed_message">לא ניתן לאחזר אוטומטית את כתובת השרת:\n\n%1$s\n\nהאם תרצה להזין את הכתובת ידנית?</string>
 
     <!-- Connection Error Dialog -->
-    <string name="server_connection_failed_title">Connection Failed</string>
-    <string name="server_connection_failed_message">The entered address is not reachable. Please check the address and try again.</string>
+    <string name="server_connection_failed_title">החיבור נכשל</string>
+    <string name="server_connection_failed_message">הכתובת שהוזנה אינה נגישה. אנא בדוק את הכתובת ונסה שוב.</string>
 
     <!-- Restart Dialog -->
-    <string name="restart_required_title">Restart Required</string>
-    <string name="restart_required_message">The app needs to restart for the changes to take effect.</string>
-    <string name="restart_now">Restart Now</string>
+    <string name="restart_required_title">נדרשת הפעלה מחדש</string>
+    <string name="restart_required_message">האפליקציה צריכה להפעיל מחדש כדי שהשינויים ייכנסו לתוקף.</string>
+    <string name="restart_now">הפעל מחדש עכשיו</string>
 
     <!-- Remove Server Confirmation -->
-    <string name="remove_server_confirm_title">Remove Server?</string>
-    <string name="remove_server_confirm_message">Are you sure you want to remove this server?\n\nThis will also remove all associated accounts. The app will restart after removal.</string>
+    <string name="remove_server_confirm_title">להסיר שרת?</string>
+    <string name="remove_server_confirm_message">האם אתה בטוח שברצונך להסיר שרת זה?\n\nפעולה זו תסיר גם את כל החשבונות המשויכים. האפליקציה תופעל מחדש לאחר ההסרה.</string>
 
     <!-- Tailscale Already Logged In Dialog -->
-    <string name="tailscale_already_logged_in_title">Important: Remove Device First</string>
-    <string name="tailscale_already_logged_in_message">For the best results, please remove this device from your Tailscale Dashboard first:\n\n1. Open your Tailscale Dashboard\n2. Find and remove this device from the list\n3. Click OK to continue with the activation\n\nThis ensures a clean connection setup.</string>
+    <string name="tailscale_already_logged_in_title">חשוב: הסר תחילה את המכשיר</string>
+    <string name="tailscale_already_logged_in_message">לתוצאות הטובות ביותר, אנא הסר תחילה את המכשיר הזה מלוח הבקרה של Tailscale:\n\n1. פתח את לוח הבקרה של Tailscale\n2. מצא והסר מכשיר זה מהרשימה\n3. לחץ אישור כדי להמשיך בהפעלה\n\nזה מבטיח הגדרת חיבור נקייה.</string>
 
     <!-- Tailscale Progress Steps -->
-    <string name="tailscale_step_permission">Checking VPN permission…</string>
-    <string name="tailscale_step_stopping_vpn">Stopping VPN connection…</string>
-    <string name="tailscale_step_requesting_code">Requesting login code…</string>
-    <string name="tailscale_step_starting_vpn">Starting VPN connection…</string>
-    <string name="tailscale_step_connecting">Connecting to VPN…</string>
+    <string name="tailscale_step_permission">בודק הרשאת VPN…</string>
+    <string name="tailscale_step_stopping_vpn">מפסיק חיבור VPN…</string>
+    <string name="tailscale_step_requesting_code">מבקש קוד התחברות…</string>
+    <string name="tailscale_step_starting_vpn">מפעיל חיבור VPN…</string>
+    <string name="tailscale_step_connecting">מתחבר ל-VPN…</string>
 
     <!-- Tailscale Error Messages -->
-    <string name="tailscale_error_title">Error</string>
-    <string name="tailscale_auth_required_title">Authentication Required</string>
-    <string name="tailscale_auth_required_message">VPN could not connect.\n\nPlease open the Tailscale app, sign in, and try again.\n\nIf the device already exists in your dashboard, remove it first and try again.</string>
-    <string name="tailscale_login_code_failed">Failed to request login code:\n\n%1$s</string>
-    <string name="tailscale_login_code_timeout_title">Login Code Timeout</string>
-    <string name="tailscale_login_code_timeout_message">No login code received from Tailscale.\n\nThis can be caused by Android TV bugs. Please try:\n\n1. Restart your TV completely\n2. Open the app again\n3. Try VPN setup again</string>
-    <string name="tailscale_vpn_timeout_title">VPN Timeout</string>
-    <string name="tailscale_vpn_timeout_message">Tailscale login was successful, but VPN could not connect.\n\nThis can be caused by Android TV bugs. Please try:\n\n1. Restart your TV completely\n2. Open the app again\n3. Try VPN setup again\n\nIf the problem persists, check your Tailscale Dashboard.</string>
-    <string name="tailscale_login_timeout_title">Login Timeout</string>
-    <string name="tailscale_login_timeout_message">Login could not be completed.\n\nThis can be caused by Android TV bugs. Please try:\n\n1. Restart your TV completely\n2. Open the app again\n3. Try VPN setup again\n\nAlso check if the device was authorized in the Tailscale Dashboard.</string>
-    <string name="tailscale_retry_button">Try Again</string>
-    <string name="tailscale_auth_success_title">Authentication Successful</string>
-    <string name="tailscale_auth_success_message">Tailscale VPN has been successfully connected!\n\nYou can now enter your server address for VPN access.</string>
-    <string name="tailscale_vpn_permission_required">VPN permission required. Please allow and try again.</string>
-    <string name="tailscale_vpn_permission_needed">VPN permission required.</string>
-    <string name="tailscale_error_generic">Error: %1$s</string>
+    <string name="tailscale_error_title">שגיאה</string>
+    <string name="tailscale_auth_required_title">נדרש אימות</string>
+    <string name="tailscale_auth_required_message">ה-VPN לא הצליח להתחבר.\n\nאנא פתח את אפליקציית Tailscale, התחבר ונסה שוב.\n\nאם המכשיר כבר קיים בלוח הבקרה שלך, הסר אותו תחילה ונסה שוב.</string>
+    <string name="tailscale_login_code_failed">בקשת קוד ההתחברות נכשלה:\n\n%1$s</string>
+    <string name="tailscale_login_code_timeout_title">זמן קוד ההתחברות פג</string>
+    <string name="tailscale_login_code_timeout_message">לא התקבל קוד התחברות מ-Tailscale.\n\nזה יכול להיגרם מבאגים ב-Android TV. אנא נסה:\n\n1. הפעל מחדש את הטלוויזיה לחלוטין\n2. פתח שוב את האפליקציה\n3. נסה שוב את הגדרת ה-VPN</string>
+    <string name="tailscale_vpn_timeout_title">זמן ה-VPN פג</string>
+    <string name="tailscale_vpn_timeout_message">ההתחברות ל-Tailscale הצליחה, אבל ה-VPN לא הצליח להתחבר.\n\nזה יכול להיגרם מבאגים ב-Android TV. אנא נסה:\n\n1. הפעל מחדש את הטלוויזיה לחלוטין\n2. פתח שוב את האפליקציה\n3. נסה שוב את הגדרת ה-VPN\n\nאם הבעיה נמשכת, בדוק את לוח הבקרה של Tailscale.</string>
+    <string name="tailscale_login_timeout_title">זמן ההתחברות פג</string>
+    <string name="tailscale_login_timeout_message">לא ניתן היה להשלים את ההתחברות.\n\nזה יכול להיגרם מבאגים ב-Android TV. אנא נסה:\n\n1. הפעל מחדש את הטלוויזיה לחלוטין\n2. פתח שוב את האפליקציה\n3. נסה שוב את הגדרת ה-VPN\n\nבדוק גם אם המכשיר אושר בלוח הבקרה של Tailscale.</string>
+    <string name="tailscale_retry_button">נסה שוב</string>
+    <string name="tailscale_auth_success_title">האימות הצליח</string>
+    <string name="tailscale_auth_success_message">Tailscale VPN חובר בהצלחה!\n\nכעת תוכל להזין את כתובת השרת שלך לגישה דרך VPN.</string>
+    <string name="tailscale_vpn_permission_required">נדרשת הרשאת VPN. אנא אשר ונסה שוב.</string>
+    <string name="tailscale_vpn_permission_needed">נדרשת הרשאת VPN.</string>
+    <string name="tailscale_error_generic">שגיאה: %1$s</string>
 </resources>

@@ -648,100 +648,100 @@
     <string name="jellyseerr_update_installing_message">Palun oota, kuni installer ette valmistatakse.</string>
     <string name="jellyseerr_update_install_button">Paigalda</string>
 
-    <string name="jellyseerr_collection_label">%1$s collection</string>
-    <string name="jellyseerr_collection_show">Show</string>
-    <string name="jellyseerr_no_description">No description currently available.</string>
-    <string name="jellyseerr_search_title">Search</string>
-    <string name="jellyseerr_search_button">Search in Jellyseerr</string>
-    <string name="jellyseerr_search_hint">Search Jellyseerr for movies, series and actors</string>
-    <string name="jellyseerr_search_description">Use the remote to type your search query</string>
+    <string name="jellyseerr_collection_label">%1$s kogu</string>
+    <string name="jellyseerr_collection_show">Näita</string>
+    <string name="jellyseerr_no_description">Kirjeldus pole hetkel saadaval.</string>
+    <string name="jellyseerr_search_title">Otsing</string>
+    <string name="jellyseerr_search_button">Otsi Jellyseerrist</string>
+    <string name="jellyseerr_search_hint">Otsi Jellyseerrist filme, sarju ja näitlejaid</string>
+    <string name="jellyseerr_search_description">Kasutage otsingupäringu sisestamiseks kaugjuhtimispulti</string>
 
     <!-- Tailscale -->
-    <string name="tailscale_enable_title">Use Tailscale VPN</string>
-    <string name="tailscale_enable_summary_on">This server is using the Tailscale VPN tunnel.</string>
-    <string name="tailscale_enable_summary_off">Tailscale is turned off for this server.</string>
-    <string name="tailscale_login_code_title">Request login code</string>
-    <string name="tailscale_login_code_summary">Opens a login code to authorize the device on the Tailnet.</string>
-    <string name="tailscale_connect_title">Connect VPN</string>
-    <string name="tailscale_connect_summary">Starts the embedded Tailscale VPN service.</string>
-    <string name="tailscale_disconnect_title">Disconnect VPN</string>
-    <string name="tailscale_disconnect_summary">Stops the Tailscale VPN tunnel for this device.</string>
-    <string name="tailscale_disconnect_done">Tailscale connection disconnected.</string>
-    <string name="tailscale_reset_auth_title">Reset auth</string>
-    <string name="tailscale_reset_auth_summary">Clears the login status (helps with 204/"already logged in").</string>
-    <string name="tailscale_reset_auth_success">Tailscale auth reset.</string>
-    <string name="tailscale_enable_first">Enable Tailscale for this server first.</string>
+    <string name="tailscale_enable_title">Kasuta Tailscale VPN-i</string>
+    <string name="tailscale_enable_summary_on">See server kasutab Tailscale VPN tunnelit.</string>
+    <string name="tailscale_enable_summary_off">Tailscale on selle serveri jaoks välja lülitatud.</string>
+    <string name="tailscale_login_code_title">Taotle sisselogimiskoodi</string>
+    <string name="tailscale_login_code_summary">Avab sisselogimiskoodi seadme autoriseerimiseks Tailnet võrgus.</string>
+    <string name="tailscale_connect_title">Ühenda VPN</string>
+    <string name="tailscale_connect_summary">Käivitab sisseehitatud Tailscale VPN teenuse.</string>
+    <string name="tailscale_disconnect_title">Katkesta VPN ühendus</string>
+    <string name="tailscale_disconnect_summary">Peatab Tailscale VPN tunneli selle seadme jaoks.</string>
+    <string name="tailscale_disconnect_done">Tailscale ühendus katkestatud.</string>
+    <string name="tailscale_reset_auth_title">Lähtesta autentimine</string>
+    <string name="tailscale_reset_auth_summary">Tühjendab sisselogimise oleku (aitab 204/„juba sisse logitud" korral).</string>
+    <string name="tailscale_reset_auth_success">Tailscale autentimine lähtestatud.</string>
+    <string name="tailscale_enable_first">Lubage esmalt Tailscale selle serveri jaoks.</string>
     <string name="tailscale_section_title">Tailscale</string>
-    <string name="tailscale_setup_button">Connect Tailscale</string>
-    <string name="tailscale_setup_toast_code">Login code: %1$s</string>
-    <string name="tailscale_setup_toast_error">Unable to fetch the Tailscale login code.</string>
-    <string name="connection_type_label">How would you like to connect?</string>
-    <string name="connect_local_button">Connect locally</string>
-    <string name="connect_tailscale_button">Over Tailscale VPN</string>
-    <string name="tailscale_connecting_title">Tailscale VPN is connecting...</string>
-    <string name="tailscale_connecting_message">Give your admin this code:\n\n%1$s\n\nWait for approval in the dashboard...</string>
-    <string name="tailscale_connected_title">Connected!</string>
-    <string name="tailscale_connected_message">Tailscale VPN is now connected. You can now enter your server.</string>
-    <string name="tailscale_debug_button">Tailscale diagnostics</string>
-    <string name="tailscale_debug_title">Tailscale status</string>
+    <string name="tailscale_setup_button">Ühenda Tailscale</string>
+    <string name="tailscale_setup_toast_code">Sisselogimiskood: %1$s</string>
+    <string name="tailscale_setup_toast_error">Tailscale sisselogimiskoodi ei õnnestunud hankida.</string>
+    <string name="connection_type_label">Kuidas soovite ühenduda?</string>
+    <string name="connect_local_button">Ühenda kohalikult</string>
+    <string name="connect_tailscale_button">Tailscale VPN kaudu</string>
+    <string name="tailscale_connecting_title">Tailscale VPN ühendub...</string>
+    <string name="tailscale_connecting_message">Andke administraatorile see kood:\n\n%1$s\n\nOodake kinnitust juhtpaneelil...</string>
+    <string name="tailscale_connected_title">Ühendatud!</string>
+    <string name="tailscale_connected_message">Tailscale VPN on nüüd ühendatud. Nüüd saate sisestada oma serveri aadressi.</string>
+    <string name="tailscale_debug_button">Tailscale diagnostika</string>
+    <string name="tailscale_debug_title">Tailscale olek</string>
 
     <!-- Tailscale switching flow -->
-    <string name="edit_server_address_title">Enter Server Address</string>
-    <string name="edit_server_address_message">Please contact your server administrator to get the exact server URL (including port if required).\n\nExample: http://192.168.1.100:8096</string>
-    <string name="edit_server_address_hint">http://your-server-address:port</string>
-    <string name="connection_status_local">Local</string>
+    <string name="edit_server_address_title">Sisestage serveri aadress</string>
+    <string name="edit_server_address_message">Võtke ühendust serveri administraatoriga, et saada täpne serveri URL (vajadusel koos pordiga).\n\nNäide: http://192.168.1.100:8096</string>
+    <string name="edit_server_address_hint">http://teie-serveri-aadress:port</string>
+    <string name="connection_status_local">Kohalik</string>
     <string name="connection_status_vpn">VPN</string>
-    <string name="tailscale_switching_progress">Connecting…</string>
-    <string name="tailscale_connect_failed_toast">Failed to connect. Please check your Tailscale connection.</string>
+    <string name="tailscale_switching_progress">Ühendamine…</string>
+    <string name="tailscale_connect_failed_toast">Ühendamine ebaõnnestus. Kontrollige Tailscale ühendust.</string>
 
     <!-- Server Address Selection -->
-    <string name="server_address_selection_title">Select Server Address</string>
-    <string name="server_address_selection_message">If your server administrator has configured the plugin, you can connect automatically. Otherwise, please enter the server address manually.</string>
-    <string name="server_address_auto">Automatic (via Plugin)</string>
-    <string name="server_address_manual">Manual Entry</string>
-    <string name="fetching_server_url">Fetching server URL from plugin…</string>
-    <string name="server_url_fetch_failed_title">Automatic Address Failed</string>
-    <string name="server_url_fetch_failed_message">Could not automatically retrieve server address:\n\n%1$s\n\nWould you like to enter the address manually?</string>
+    <string name="server_address_selection_title">Valige serveri aadress</string>
+    <string name="server_address_selection_message">Kui serveri administraator on plugina konfigureerinud, saate automaatselt ühenduda. Vastasel juhul sisestage serveri aadress käsitsi.</string>
+    <string name="server_address_auto">Automaatne (plugina kaudu)</string>
+    <string name="server_address_manual">Käsitsi sisestus</string>
+    <string name="fetching_server_url">Serveri URL-i hankimine pluginast…</string>
+    <string name="server_url_fetch_failed_title">Automaatne aadress ebaõnnestus</string>
+    <string name="server_url_fetch_failed_message">Serveri aadressi automaatne hankimine ebaõnnestus:\n\n%1$s\n\nKas soovite aadressi käsitsi sisestada?</string>
 
     <!-- Connection Error Dialog -->
-    <string name="server_connection_failed_title">Connection Failed</string>
-    <string name="server_connection_failed_message">The entered address is not reachable. Please check the address and try again.</string>
+    <string name="server_connection_failed_title">Ühendamine ebaõnnestus</string>
+    <string name="server_connection_failed_message">Sisestatud aadress pole kättesaadav. Kontrollige aadressi ja proovige uuesti.</string>
 
     <!-- Restart Dialog -->
-    <string name="restart_required_title">Restart Required</string>
-    <string name="restart_required_message">The app needs to restart for the changes to take effect.</string>
-    <string name="restart_now">Restart Now</string>
+    <string name="restart_required_title">Vajalik taaskäivitus</string>
+    <string name="restart_required_message">Rakendus tuleb muudatuste jõustumiseks taaskäivitada.</string>
+    <string name="restart_now">Taaskäivita kohe</string>
 
     <!-- Remove Server Confirmation -->
-    <string name="remove_server_confirm_title">Remove Server?</string>
-    <string name="remove_server_confirm_message">Are you sure you want to remove this server?\n\nThis will also remove all associated accounts. The app will restart after removal.</string>
+    <string name="remove_server_confirm_title">Kas eemaldada server?</string>
+    <string name="remove_server_confirm_message">Kas olete kindel, et soovite selle serveri eemaldada?\n\nSee eemaldab ka kõik seotud kontod. Rakendus taaskäivitatakse pärast eemaldamist.</string>
 
     <!-- Tailscale Already Logged In Dialog -->
-    <string name="tailscale_already_logged_in_title">Important: Remove Device First</string>
-    <string name="tailscale_already_logged_in_message">For the best results, please remove this device from your Tailscale Dashboard first:\n\n1. Open your Tailscale Dashboard\n2. Find and remove this device from the list\n3. Click OK to continue with the activation\n\nThis ensures a clean connection setup.</string>
+    <string name="tailscale_already_logged_in_title">Tähtis: Eemaldage esmalt seade</string>
+    <string name="tailscale_already_logged_in_message">Parimate tulemuste saamiseks eemaldage see seade esmalt Tailscale juhtpaneelilt:\n\n1. Avage Tailscale juhtpaneel\n2. Leidke ja eemaldage see seade loendist\n3. Aktiveerimise jätkamiseks klõpsake OK\n\nSee tagab puhta ühenduse seadistuse.</string>
 
     <!-- Tailscale Progress Steps -->
-    <string name="tailscale_step_permission">Checking VPN permission…</string>
-    <string name="tailscale_step_stopping_vpn">Stopping VPN connection…</string>
-    <string name="tailscale_step_requesting_code">Requesting login code…</string>
-    <string name="tailscale_step_starting_vpn">Starting VPN connection…</string>
-    <string name="tailscale_step_connecting">Connecting to VPN…</string>
+    <string name="tailscale_step_permission">VPN loa kontrollimine…</string>
+    <string name="tailscale_step_stopping_vpn">VPN ühenduse peatamine…</string>
+    <string name="tailscale_step_requesting_code">Sisselogimiskoodi taotlemine…</string>
+    <string name="tailscale_step_starting_vpn">VPN ühenduse käivitamine…</string>
+    <string name="tailscale_step_connecting">VPN-iga ühendamine…</string>
 
     <!-- Tailscale Error Messages -->
-    <string name="tailscale_error_title">Error</string>
-    <string name="tailscale_auth_required_title">Authentication Required</string>
-    <string name="tailscale_auth_required_message">VPN could not connect.\n\nPlease open the Tailscale app, sign in, and try again.\n\nIf the device already exists in your dashboard, remove it first and try again.</string>
-    <string name="tailscale_login_code_failed">Failed to request login code:\n\n%1$s</string>
-    <string name="tailscale_login_code_timeout_title">Login Code Timeout</string>
-    <string name="tailscale_login_code_timeout_message">No login code received from Tailscale.\n\nThis can be caused by Android TV bugs. Please try:\n\n1. Restart your TV completely\n2. Open the app again\n3. Try VPN setup again</string>
-    <string name="tailscale_vpn_timeout_title">VPN Timeout</string>
-    <string name="tailscale_vpn_timeout_message">Tailscale login was successful, but VPN could not connect.\n\nThis can be caused by Android TV bugs. Please try:\n\n1. Restart your TV completely\n2. Open the app again\n3. Try VPN setup again\n\nIf the problem persists, check your Tailscale Dashboard.</string>
-    <string name="tailscale_login_timeout_title">Login Timeout</string>
-    <string name="tailscale_login_timeout_message">Login could not be completed.\n\nThis can be caused by Android TV bugs. Please try:\n\n1. Restart your TV completely\n2. Open the app again\n3. Try VPN setup again\n\nAlso check if the device was authorized in the Tailscale Dashboard.</string>
-    <string name="tailscale_retry_button">Try Again</string>
-    <string name="tailscale_auth_success_title">Authentication Successful</string>
-    <string name="tailscale_auth_success_message">Tailscale VPN has been successfully connected!\n\nYou can now enter your server address for VPN access.</string>
-    <string name="tailscale_vpn_permission_required">VPN permission required. Please allow and try again.</string>
-    <string name="tailscale_vpn_permission_needed">VPN permission required.</string>
-    <string name="tailscale_error_generic">Error: %1$s</string>
+    <string name="tailscale_error_title">Viga</string>
+    <string name="tailscale_auth_required_title">Vajalik autentimine</string>
+    <string name="tailscale_auth_required_message">VPN ei saanud ühendust luua.\n\nAvage Tailscale rakendus, logige sisse ja proovige uuesti.\n\nKui seade on juba teie juhtpaneelil olemas, eemaldage see esmalt ja proovige uuesti.</string>
+    <string name="tailscale_login_code_failed">Sisselogimiskoodi taotlemine ebaõnnestus:\n\n%1$s</string>
+    <string name="tailscale_login_code_timeout_title">Sisselogimiskoodi ajalõpp</string>
+    <string name="tailscale_login_code_timeout_message">Tailscale\'ilt ei saadud sisselogimiskoodi.\n\nSelle põhjuseks võivad olla Android TV vead. Proovige:\n\n1. Taaskäivitage teler täielikult\n2. Avage rakendus uuesti\n3. Proovige VPN seadistust uuesti</string>
+    <string name="tailscale_vpn_timeout_title">VPN ajalõpp</string>
+    <string name="tailscale_vpn_timeout_message">Tailscale sisselogimine õnnestus, kuid VPN ei saanud ühendust luua.\n\nSelle põhjuseks võivad olla Android TV vead. Proovige:\n\n1. Taaskäivitage teler täielikult\n2. Avage rakendus uuesti\n3. Proovige VPN seadistust uuesti\n\nKui probleem püsib, kontrollige Tailscale juhtpaneeli.</string>
+    <string name="tailscale_login_timeout_title">Sisselogimise ajalõpp</string>
+    <string name="tailscale_login_timeout_message">Sisselogimist ei õnnestunud lõpule viia.\n\nSelle põhjuseks võivad olla Android TV vead. Proovige:\n\n1. Taaskäivitage teler täielikult\n2. Avage rakendus uuesti\n3. Proovige VPN seadistust uuesti\n\nKontrollige ka, kas seade autoriseeriti Tailscale juhtpaneelil.</string>
+    <string name="tailscale_retry_button">Proovi uuesti</string>
+    <string name="tailscale_auth_success_title">Autentimine õnnestus</string>
+    <string name="tailscale_auth_success_message">Tailscale VPN on edukalt ühendatud!\n\nNüüd saate sisestada oma serveri aadressi VPN juurdepääsuks.</string>
+    <string name="tailscale_vpn_permission_required">VPN luba on vajalik. Lubage ja proovige uuesti.</string>
+    <string name="tailscale_vpn_permission_needed">VPN luba on vajalik.</string>
+    <string name="tailscale_error_generic">Viga: %1$s</string>
 </resources>

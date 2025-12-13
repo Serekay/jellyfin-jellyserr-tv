@@ -656,100 +656,100 @@
     <string name="jellyseerr_update_installing_message">Palaukite, kol paruošiama diegimo programa.</string>
     <string name="jellyseerr_update_install_button">Įdiegti</string>
 
-    <string name="jellyseerr_collection_label">%1$s collection</string>
-    <string name="jellyseerr_collection_show">Show</string>
-    <string name="jellyseerr_no_description">No description currently available.</string>
-    <string name="jellyseerr_search_title">Search</string>
-    <string name="jellyseerr_search_button">Search in Jellyseerr</string>
-    <string name="jellyseerr_search_hint">Search Jellyseerr for movies, series and actors</string>
-    <string name="jellyseerr_search_description">Use the remote to type your search query</string>
+    <string name="jellyseerr_collection_label">%1$s kolekcija</string>
+    <string name="jellyseerr_collection_show">Rodyti</string>
+    <string name="jellyseerr_no_description">Šiuo metu aprašymo nėra.</string>
+    <string name="jellyseerr_search_title">Paieška</string>
+    <string name="jellyseerr_search_button">Ieškoti Jellyseerr</string>
+    <string name="jellyseerr_search_hint">Ieškoti filmų, serialų ir aktorių Jellyseerr</string>
+    <string name="jellyseerr_search_description">Naudokite nuotolinio valdymo pultą paieškos užklausai įvesti</string>
 
     <!-- Tailscale -->
-    <string name="tailscale_enable_title">Use Tailscale VPN</string>
-    <string name="tailscale_enable_summary_on">This server is using the Tailscale VPN tunnel.</string>
-    <string name="tailscale_enable_summary_off">Tailscale is turned off for this server.</string>
-    <string name="tailscale_login_code_title">Request login code</string>
-    <string name="tailscale_login_code_summary">Opens a login code to authorize the device on the Tailnet.</string>
-    <string name="tailscale_connect_title">Connect VPN</string>
-    <string name="tailscale_connect_summary">Starts the embedded Tailscale VPN service.</string>
-    <string name="tailscale_disconnect_title">Disconnect VPN</string>
-    <string name="tailscale_disconnect_summary">Stops the Tailscale VPN tunnel for this device.</string>
-    <string name="tailscale_disconnect_done">Tailscale connection disconnected.</string>
-    <string name="tailscale_reset_auth_title">Reset auth</string>
-    <string name="tailscale_reset_auth_summary">Clears the login status (helps with 204/"already logged in").</string>
-    <string name="tailscale_reset_auth_success">Tailscale auth reset.</string>
-    <string name="tailscale_enable_first">Enable Tailscale for this server first.</string>
+    <string name="tailscale_enable_title">Naudoti Tailscale VPN</string>
+    <string name="tailscale_enable_summary_on">Šis serveris naudoja Tailscale VPN tunelį.</string>
+    <string name="tailscale_enable_summary_off">Tailscale išjungtas šiam serveriui.</string>
+    <string name="tailscale_login_code_title">Prašyti prisijungimo kodo</string>
+    <string name="tailscale_login_code_summary">Atidaro prisijungimo kodą įrenginio autorizavimui Tailnet tinkle.</string>
+    <string name="tailscale_connect_title">Prisijungti prie VPN</string>
+    <string name="tailscale_connect_summary">Paleidžia integruotą Tailscale VPN paslaugą.</string>
+    <string name="tailscale_disconnect_title">Atsijungti nuo VPN</string>
+    <string name="tailscale_disconnect_summary">Sustabdo Tailscale VPN tunelį šiam įrenginiui.</string>
+    <string name="tailscale_disconnect_done">Tailscale ryšys atjungtas.</string>
+    <string name="tailscale_reset_auth_title">Atstatyti autentifikaciją</string>
+    <string name="tailscale_reset_auth_summary">Išvalo prisijungimo būseną (padeda esant 204/„jau prisijungta").</string>
+    <string name="tailscale_reset_auth_success">Tailscale autentifikacija atstatyta.</string>
+    <string name="tailscale_enable_first">Pirmiausia įjunkite Tailscale šiam serveriui.</string>
     <string name="tailscale_section_title">Tailscale</string>
-    <string name="tailscale_setup_button">Connect Tailscale</string>
-    <string name="tailscale_setup_toast_code">Login code: %1$s</string>
-    <string name="tailscale_setup_toast_error">Unable to fetch the Tailscale login code.</string>
-    <string name="connection_type_label">How would you like to connect?</string>
-    <string name="connect_local_button">Connect locally</string>
-    <string name="connect_tailscale_button">Over Tailscale VPN</string>
-    <string name="tailscale_connecting_title">Tailscale VPN is connecting...</string>
-    <string name="tailscale_connecting_message">Give your admin this code:\n\n%1$s\n\nWait for approval in the dashboard...</string>
-    <string name="tailscale_connected_title">Connected!</string>
-    <string name="tailscale_connected_message">Tailscale VPN is now connected. You can now enter your server.</string>
-    <string name="tailscale_debug_button">Tailscale diagnostics</string>
-    <string name="tailscale_debug_title">Tailscale status</string>
+    <string name="tailscale_setup_button">Prijungti Tailscale</string>
+    <string name="tailscale_setup_toast_code">Prisijungimo kodas: %1$s</string>
+    <string name="tailscale_setup_toast_error">Nepavyko gauti Tailscale prisijungimo kodo.</string>
+    <string name="connection_type_label">Kaip norėtumėte prisijungti?</string>
+    <string name="connect_local_button">Prisijungti lokaliai</string>
+    <string name="connect_tailscale_button">Per Tailscale VPN</string>
+    <string name="tailscale_connecting_title">Tailscale VPN jungiasi...</string>
+    <string name="tailscale_connecting_message">Duokite administratoriui šį kodą:\n\n%1$s\n\nLaukite patvirtinimo valdymo skydelyje...</string>
+    <string name="tailscale_connected_title">Prisijungta!</string>
+    <string name="tailscale_connected_message">Tailscale VPN dabar prijungtas. Galite įvesti savo serverio adresą.</string>
+    <string name="tailscale_debug_button">Tailscale diagnostika</string>
+    <string name="tailscale_debug_title">Tailscale būsena</string>
 
     <!-- Tailscale switching flow -->
-    <string name="edit_server_address_title">Enter Server Address</string>
-    <string name="edit_server_address_message">Please contact your server administrator to get the exact server URL (including port if required).\n\nExample: http://192.168.1.100:8096</string>
-    <string name="edit_server_address_hint">http://your-server-address:port</string>
-    <string name="connection_status_local">Local</string>
+    <string name="edit_server_address_title">Įveskite serverio adresą</string>
+    <string name="edit_server_address_message">Susisiekite su serverio administratoriumi, kad gautumėte tikslų serverio URL (įskaitant prievadą, jei reikia).\n\nPavyzdys: http://192.168.1.100:8096</string>
+    <string name="edit_server_address_hint">http://jusu-serverio-adresas:prievadas</string>
+    <string name="connection_status_local">Vietinis</string>
     <string name="connection_status_vpn">VPN</string>
-    <string name="tailscale_switching_progress">Connecting…</string>
-    <string name="tailscale_connect_failed_toast">Failed to connect. Please check your Tailscale connection.</string>
+    <string name="tailscale_switching_progress">Jungiamasi…</string>
+    <string name="tailscale_connect_failed_toast">Nepavyko prisijungti. Patikrinkite Tailscale ryšį.</string>
 
     <!-- Server Address Selection -->
-    <string name="server_address_selection_title">Select Server Address</string>
-    <string name="server_address_selection_message">If your server administrator has configured the plugin, you can connect automatically. Otherwise, please enter the server address manually.</string>
-    <string name="server_address_auto">Automatic (via Plugin)</string>
-    <string name="server_address_manual">Manual Entry</string>
-    <string name="fetching_server_url">Fetching server URL from plugin…</string>
-    <string name="server_url_fetch_failed_title">Automatic Address Failed</string>
-    <string name="server_url_fetch_failed_message">Could not automatically retrieve server address:\n\n%1$s\n\nWould you like to enter the address manually?</string>
+    <string name="server_address_selection_title">Pasirinkite serverio adresą</string>
+    <string name="server_address_selection_message">Jei serverio administratorius sukonfigūravo papildinį, galite prisijungti automatiškai. Priešingu atveju įveskite serverio adresą rankiniu būdu.</string>
+    <string name="server_address_auto">Automatinis (per papildinį)</string>
+    <string name="server_address_manual">Rankinis įvedimas</string>
+    <string name="fetching_server_url">Gaunamas serverio URL iš papildinio…</string>
+    <string name="server_url_fetch_failed_title">Automatinis adresas nepavyko</string>
+    <string name="server_url_fetch_failed_message">Nepavyko automatiškai gauti serverio adreso:\n\n%1$s\n\nAr norite įvesti adresą rankiniu būdu?</string>
 
     <!-- Connection Error Dialog -->
-    <string name="server_connection_failed_title">Connection Failed</string>
-    <string name="server_connection_failed_message">The entered address is not reachable. Please check the address and try again.</string>
+    <string name="server_connection_failed_title">Prisijungimas nepavyko</string>
+    <string name="server_connection_failed_message">Įvestas adresas nepasiekiamas. Patikrinkite adresą ir bandykite dar kartą.</string>
 
     <!-- Restart Dialog -->
-    <string name="restart_required_title">Restart Required</string>
-    <string name="restart_required_message">The app needs to restart for the changes to take effect.</string>
-    <string name="restart_now">Restart Now</string>
+    <string name="restart_required_title">Reikalingas paleidimas iš naujo</string>
+    <string name="restart_required_message">Programėlę reikia paleisti iš naujo, kad pakeitimai įsigaliotų.</string>
+    <string name="restart_now">Paleisti iš naujo dabar</string>
 
     <!-- Remove Server Confirmation -->
-    <string name="remove_server_confirm_title">Remove Server?</string>
-    <string name="remove_server_confirm_message">Are you sure you want to remove this server?\n\nThis will also remove all associated accounts. The app will restart after removal.</string>
+    <string name="remove_server_confirm_title">Pašalinti serverį?</string>
+    <string name="remove_server_confirm_message">Ar tikrai norite pašalinti šį serverį?\n\nTai taip pat pašalins visas susijusias paskyras. Programėlė bus paleista iš naujo po pašalinimo.</string>
 
     <!-- Tailscale Already Logged In Dialog -->
-    <string name="tailscale_already_logged_in_title">Important: Remove Device First</string>
-    <string name="tailscale_already_logged_in_message">For the best results, please remove this device from your Tailscale Dashboard first:\n\n1. Open your Tailscale Dashboard\n2. Find and remove this device from the list\n3. Click OK to continue with the activation\n\nThis ensures a clean connection setup.</string>
+    <string name="tailscale_already_logged_in_title">Svarbu: Pirmiausia pašalinkite įrenginį</string>
+    <string name="tailscale_already_logged_in_message">Geriausiam rezultatui pirmiausia pašalinkite šį įrenginį iš Tailscale valdymo skydelio:\n\n1. Atidarykite Tailscale valdymo skydelį\n2. Raskite ir pašalinkite šį įrenginį iš sąrašo\n3. Paspauskite Gerai, kad tęstumėte aktyvavimą\n\nTai užtikrina švarų ryšio nustatymą.</string>
 
     <!-- Tailscale Progress Steps -->
-    <string name="tailscale_step_permission">Checking VPN permission…</string>
-    <string name="tailscale_step_stopping_vpn">Stopping VPN connection…</string>
-    <string name="tailscale_step_requesting_code">Requesting login code…</string>
-    <string name="tailscale_step_starting_vpn">Starting VPN connection…</string>
-    <string name="tailscale_step_connecting">Connecting to VPN…</string>
+    <string name="tailscale_step_permission">Tikrinama VPN teisė…</string>
+    <string name="tailscale_step_stopping_vpn">Stabdomas VPN ryšys…</string>
+    <string name="tailscale_step_requesting_code">Prašomas prisijungimo kodas…</string>
+    <string name="tailscale_step_starting_vpn">Paleidžiamas VPN ryšys…</string>
+    <string name="tailscale_step_connecting">Jungiamasi prie VPN…</string>
 
     <!-- Tailscale Error Messages -->
-    <string name="tailscale_error_title">Error</string>
-    <string name="tailscale_auth_required_title">Authentication Required</string>
-    <string name="tailscale_auth_required_message">VPN could not connect.\n\nPlease open the Tailscale app, sign in, and try again.\n\nIf the device already exists in your dashboard, remove it first and try again.</string>
-    <string name="tailscale_login_code_failed">Failed to request login code:\n\n%1$s</string>
-    <string name="tailscale_login_code_timeout_title">Login Code Timeout</string>
-    <string name="tailscale_login_code_timeout_message">No login code received from Tailscale.\n\nThis can be caused by Android TV bugs. Please try:\n\n1. Restart your TV completely\n2. Open the app again\n3. Try VPN setup again</string>
-    <string name="tailscale_vpn_timeout_title">VPN Timeout</string>
-    <string name="tailscale_vpn_timeout_message">Tailscale login was successful, but VPN could not connect.\n\nThis can be caused by Android TV bugs. Please try:\n\n1. Restart your TV completely\n2. Open the app again\n3. Try VPN setup again\n\nIf the problem persists, check your Tailscale Dashboard.</string>
-    <string name="tailscale_login_timeout_title">Login Timeout</string>
-    <string name="tailscale_login_timeout_message">Login could not be completed.\n\nThis can be caused by Android TV bugs. Please try:\n\n1. Restart your TV completely\n2. Open the app again\n3. Try VPN setup again\n\nAlso check if the device was authorized in the Tailscale Dashboard.</string>
-    <string name="tailscale_retry_button">Try Again</string>
-    <string name="tailscale_auth_success_title">Authentication Successful</string>
-    <string name="tailscale_auth_success_message">Tailscale VPN has been successfully connected!\n\nYou can now enter your server address for VPN access.</string>
-    <string name="tailscale_vpn_permission_required">VPN permission required. Please allow and try again.</string>
-    <string name="tailscale_vpn_permission_needed">VPN permission required.</string>
-    <string name="tailscale_error_generic">Error: %1$s</string>
+    <string name="tailscale_error_title">Klaida</string>
+    <string name="tailscale_auth_required_title">Reikalinga autentifikacija</string>
+    <string name="tailscale_auth_required_message">VPN nepavyko prisijungti.\n\nAtidarykite Tailscale programėlę, prisijunkite ir bandykite dar kartą.\n\nJei įrenginys jau egzistuoja jūsų valdymo skydelyje, pirmiausia jį pašalinkite ir bandykite dar kartą.</string>
+    <string name="tailscale_login_code_failed">Nepavyko prašyti prisijungimo kodo:\n\n%1$s</string>
+    <string name="tailscale_login_code_timeout_title">Prisijungimo kodo laikas baigėsi</string>
+    <string name="tailscale_login_code_timeout_message">Negautas prisijungimo kodas iš Tailscale.\n\nTai gali sukelti Android TV klaidos. Bandykite:\n\n1. Visiškai paleiskite televizorių iš naujo\n2. Vėl atidarykite programėlę\n3. Bandykite VPN nustatymą dar kartą</string>
+    <string name="tailscale_vpn_timeout_title">VPN laikas baigėsi</string>
+    <string name="tailscale_vpn_timeout_message">Tailscale prisijungimas pavyko, bet VPN nepavyko prisijungti.\n\nTai gali sukelti Android TV klaidos. Bandykite:\n\n1. Visiškai paleiskite televizorių iš naujo\n2. Vėl atidarykite programėlę\n3. Bandykite VPN nustatymą dar kartą\n\nJei problema išlieka, patikrinkite Tailscale valdymo skydelį.</string>
+    <string name="tailscale_login_timeout_title">Prisijungimo laikas baigėsi</string>
+    <string name="tailscale_login_timeout_message">Prisijungimo nepavyko užbaigti.\n\nTai gali sukelti Android TV klaidos. Bandykite:\n\n1. Visiškai paleiskite televizorių iš naujo\n2. Vėl atidarykite programėlę\n3. Bandykite VPN nustatymą dar kartą\n\nTaip pat patikrinkite, ar įrenginys buvo autorizuotas Tailscale valdymo skydelyje.</string>
+    <string name="tailscale_retry_button">Bandyti dar kartą</string>
+    <string name="tailscale_auth_success_title">Autentifikacija sėkminga</string>
+    <string name="tailscale_auth_success_message">Tailscale VPN sėkmingai prijungtas!\n\nDabar galite įvesti savo serverio adresą VPN prieigai.</string>
+    <string name="tailscale_vpn_permission_required">Reikalinga VPN teisė. Leiskite ir bandykite dar kartą.</string>
+    <string name="tailscale_vpn_permission_needed">Reikalinga VPN teisė.</string>
+    <string name="tailscale_error_generic">Klaida: %1$s</string>
 </resources>

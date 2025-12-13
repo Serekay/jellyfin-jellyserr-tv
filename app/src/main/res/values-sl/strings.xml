@@ -668,100 +668,100 @@
     <string name="jellyseerr_update_installing_message">Počakajte, da se namestitveni program pripravi.</string>
     <string name="jellyseerr_update_install_button">Namesti</string>
 
-    <string name="jellyseerr_collection_label">%1$s collection</string>
-    <string name="jellyseerr_collection_show">Show</string>
-    <string name="jellyseerr_no_description">No description currently available.</string>
-    <string name="jellyseerr_search_title">Search</string>
-    <string name="jellyseerr_search_button">Search in Jellyseerr</string>
-    <string name="jellyseerr_search_hint">Search Jellyseerr for movies, series and actors</string>
-    <string name="jellyseerr_search_description">Use the remote to type your search query</string>
+    <string name="jellyseerr_collection_label">Zbirka %1$s</string>
+    <string name="jellyseerr_collection_show">Prikaži</string>
+    <string name="jellyseerr_no_description">Opis trenutno ni na voljo.</string>
+    <string name="jellyseerr_search_title">Iskanje</string>
+    <string name="jellyseerr_search_button">Išči v Jellyseerr</string>
+    <string name="jellyseerr_search_hint">Išči filme, serije in igralce v Jellyseerr</string>
+    <string name="jellyseerr_search_description">Uporabite daljinec za vnos iskalnega niza</string>
 
     <!-- Tailscale -->
-    <string name="tailscale_enable_title">Use Tailscale VPN</string>
-    <string name="tailscale_enable_summary_on">This server is using the Tailscale VPN tunnel.</string>
-    <string name="tailscale_enable_summary_off">Tailscale is turned off for this server.</string>
-    <string name="tailscale_login_code_title">Request login code</string>
-    <string name="tailscale_login_code_summary">Opens a login code to authorize the device on the Tailnet.</string>
-    <string name="tailscale_connect_title">Connect VPN</string>
-    <string name="tailscale_connect_summary">Starts the embedded Tailscale VPN service.</string>
-    <string name="tailscale_disconnect_title">Disconnect VPN</string>
-    <string name="tailscale_disconnect_summary">Stops the Tailscale VPN tunnel for this device.</string>
-    <string name="tailscale_disconnect_done">Tailscale connection disconnected.</string>
-    <string name="tailscale_reset_auth_title">Reset auth</string>
-    <string name="tailscale_reset_auth_summary">Clears the login status (helps with 204/"already logged in").</string>
-    <string name="tailscale_reset_auth_success">Tailscale auth reset.</string>
-    <string name="tailscale_enable_first">Enable Tailscale for this server first.</string>
+    <string name="tailscale_enable_title">Uporabi Tailscale VPN</string>
+    <string name="tailscale_enable_summary_on">Ta strežnik uporablja Tailscale VPN tunel.</string>
+    <string name="tailscale_enable_summary_off">Tailscale je izklopljen za ta strežnik.</string>
+    <string name="tailscale_login_code_title">Zahtevaj prijavno kodo</string>
+    <string name="tailscale_login_code_summary">Odpre prijavno kodo za avtorizacijo naprave na Tailnet.</string>
+    <string name="tailscale_connect_title">Poveži VPN</string>
+    <string name="tailscale_connect_summary">Zažene vgrajeno Tailscale VPN storitev.</string>
+    <string name="tailscale_disconnect_title">Prekini VPN</string>
+    <string name="tailscale_disconnect_summary">Ustavi Tailscale VPN tunel za to napravo.</string>
+    <string name="tailscale_disconnect_done">Tailscale povezava prekinjena.</string>
+    <string name="tailscale_reset_auth_title">Ponastavi avtentikacijo</string>
+    <string name="tailscale_reset_auth_summary">Počisti stanje prijave (pomaga pri 204/„že prijavljen").</string>
+    <string name="tailscale_reset_auth_success">Tailscale avtentikacija ponastavljena.</string>
+    <string name="tailscale_enable_first">Najprej omogočite Tailscale za ta strežnik.</string>
     <string name="tailscale_section_title">Tailscale</string>
-    <string name="tailscale_setup_button">Connect Tailscale</string>
-    <string name="tailscale_setup_toast_code">Login code: %1$s</string>
-    <string name="tailscale_setup_toast_error">Unable to fetch the Tailscale login code.</string>
-    <string name="connection_type_label">How would you like to connect?</string>
-    <string name="connect_local_button">Connect locally</string>
-    <string name="connect_tailscale_button">Over Tailscale VPN</string>
-    <string name="tailscale_connecting_title">Tailscale VPN is connecting...</string>
-    <string name="tailscale_connecting_message">Give your admin this code:\n\n%1$s\n\nWait for approval in the dashboard...</string>
-    <string name="tailscale_connected_title">Connected!</string>
-    <string name="tailscale_connected_message">Tailscale VPN is now connected. You can now enter your server.</string>
-    <string name="tailscale_debug_button">Tailscale diagnostics</string>
-    <string name="tailscale_debug_title">Tailscale status</string>
+    <string name="tailscale_setup_button">Poveži Tailscale</string>
+    <string name="tailscale_setup_toast_code">Prijavna koda: %1$s</string>
+    <string name="tailscale_setup_toast_error">Ne morem pridobiti Tailscale prijavne kode.</string>
+    <string name="connection_type_label">Kako se želite povezati?</string>
+    <string name="connect_local_button">Poveži lokalno</string>
+    <string name="connect_tailscale_button">Preko Tailscale VPN</string>
+    <string name="tailscale_connecting_title">Tailscale VPN se povezuje...</string>
+    <string name="tailscale_connecting_message">Dajte to kodo skrbniku:\n\n%1$s\n\nPočakajte na odobritev na nadzorni plošči...</string>
+    <string name="tailscale_connected_title">Povezano!</string>
+    <string name="tailscale_connected_message">Tailscale VPN je zdaj povezan. Zdaj lahko vnesete naslov strežnika.</string>
+    <string name="tailscale_debug_button">Tailscale diagnostika</string>
+    <string name="tailscale_debug_title">Tailscale stanje</string>
 
     <!-- Tailscale switching flow -->
-    <string name="edit_server_address_title">Enter Server Address</string>
-    <string name="edit_server_address_message">Please contact your server administrator to get the exact server URL (including port if required).\n\nExample: http://192.168.1.100:8096</string>
-    <string name="edit_server_address_hint">http://your-server-address:port</string>
-    <string name="connection_status_local">Local</string>
+    <string name="edit_server_address_title">Vnesite naslov strežnika</string>
+    <string name="edit_server_address_message">Kontaktirajte skrbnika strežnika za točen URL strežnika (vključno z vrati, če je potrebno).\n\nPrimer: http://192.168.1.100:8096</string>
+    <string name="edit_server_address_hint">http://naslov-streznika:vrata</string>
+    <string name="connection_status_local">Lokalno</string>
     <string name="connection_status_vpn">VPN</string>
-    <string name="tailscale_switching_progress">Connecting…</string>
-    <string name="tailscale_connect_failed_toast">Failed to connect. Please check your Tailscale connection.</string>
+    <string name="tailscale_switching_progress">Povezovanje…</string>
+    <string name="tailscale_connect_failed_toast">Povezovanje ni uspelo. Preverite Tailscale povezavo.</string>
 
     <!-- Server Address Selection -->
-    <string name="server_address_selection_title">Select Server Address</string>
-    <string name="server_address_selection_message">If your server administrator has configured the plugin, you can connect automatically. Otherwise, please enter the server address manually.</string>
-    <string name="server_address_auto">Automatic (via Plugin)</string>
-    <string name="server_address_manual">Manual Entry</string>
-    <string name="fetching_server_url">Fetching server URL from plugin…</string>
-    <string name="server_url_fetch_failed_title">Automatic Address Failed</string>
-    <string name="server_url_fetch_failed_message">Could not automatically retrieve server address:\n\n%1$s\n\nWould you like to enter the address manually?</string>
+    <string name="server_address_selection_title">Izberite naslov strežnika</string>
+    <string name="server_address_selection_message">Če je skrbnik strežnika nastavil vtičnik, se lahko povežete samodejno. V nasprotnem primeru vnesite naslov strežnika ročno.</string>
+    <string name="server_address_auto">Samodejno (preko vtičnika)</string>
+    <string name="server_address_manual">Ročni vnos</string>
+    <string name="fetching_server_url">Pridobivam URL strežnika iz vtičnika…</string>
+    <string name="server_url_fetch_failed_title">Samodejni naslov ni uspel</string>
+    <string name="server_url_fetch_failed_message">Ne morem samodejno pridobiti naslova strežnika:\n\n%1$s\n\nŽelite vnesti naslov ročno?</string>
 
     <!-- Connection Error Dialog -->
-    <string name="server_connection_failed_title">Connection Failed</string>
-    <string name="server_connection_failed_message">The entered address is not reachable. Please check the address and try again.</string>
+    <string name="server_connection_failed_title">Povezovanje ni uspelo</string>
+    <string name="server_connection_failed_message">Vnesen naslov ni dosegljiv. Preverite naslov in poskusite znova.</string>
 
     <!-- Restart Dialog -->
-    <string name="restart_required_title">Restart Required</string>
-    <string name="restart_required_message">The app needs to restart for the changes to take effect.</string>
-    <string name="restart_now">Restart Now</string>
+    <string name="restart_required_title">Potreben ponovni zagon</string>
+    <string name="restart_required_message">Aplikacija se mora ponovno zagnati, da spremembe stopijo v veljavo.</string>
+    <string name="restart_now">Znova zaženi zdaj</string>
 
     <!-- Remove Server Confirmation -->
-    <string name="remove_server_confirm_title">Remove Server?</string>
-    <string name="remove_server_confirm_message">Are you sure you want to remove this server?\n\nThis will also remove all associated accounts. The app will restart after removal.</string>
+    <string name="remove_server_confirm_title">Odstrani strežnik?</string>
+    <string name="remove_server_confirm_message">Ali ste prepričani, da želite odstraniti ta strežnik?\n\nTo bo odstranilo tudi vse povezane račune. Aplikacija se bo po odstranitvi znova zagnala.</string>
 
     <!-- Tailscale Already Logged In Dialog -->
-    <string name="tailscale_already_logged_in_title">Important: Remove Device First</string>
-    <string name="tailscale_already_logged_in_message">For the best results, please remove this device from your Tailscale Dashboard first:\n\n1. Open your Tailscale Dashboard\n2. Find and remove this device from the list\n3. Click OK to continue with the activation\n\nThis ensures a clean connection setup.</string>
+    <string name="tailscale_already_logged_in_title">Pomembno: Najprej odstranite napravo</string>
+    <string name="tailscale_already_logged_in_message">Za najboljše rezultate najprej odstranite to napravo iz Tailscale nadzorne plošče:\n\n1. Odprite Tailscale nadzorno ploščo\n2. Poiščite in odstranite to napravo s seznama\n3. Kliknite OK za nadaljevanje z aktivacijo\n\nTo zagotavlja čisto nastavitev povezave.</string>
 
     <!-- Tailscale Progress Steps -->
-    <string name="tailscale_step_permission">Checking VPN permission…</string>
-    <string name="tailscale_step_stopping_vpn">Stopping VPN connection…</string>
-    <string name="tailscale_step_requesting_code">Requesting login code…</string>
-    <string name="tailscale_step_starting_vpn">Starting VPN connection…</string>
-    <string name="tailscale_step_connecting">Connecting to VPN…</string>
+    <string name="tailscale_step_permission">Preverjam VPN dovoljenje…</string>
+    <string name="tailscale_step_stopping_vpn">Ustavljam VPN povezavo…</string>
+    <string name="tailscale_step_requesting_code">Zahtevam prijavno kodo…</string>
+    <string name="tailscale_step_starting_vpn">Zaganjam VPN povezavo…</string>
+    <string name="tailscale_step_connecting">Povezujem na VPN…</string>
 
     <!-- Tailscale Error Messages -->
-    <string name="tailscale_error_title">Error</string>
-    <string name="tailscale_auth_required_title">Authentication Required</string>
-    <string name="tailscale_auth_required_message">VPN could not connect.\n\nPlease open the Tailscale app, sign in, and try again.\n\nIf the device already exists in your dashboard, remove it first and try again.</string>
-    <string name="tailscale_login_code_failed">Failed to request login code:\n\n%1$s</string>
-    <string name="tailscale_login_code_timeout_title">Login Code Timeout</string>
-    <string name="tailscale_login_code_timeout_message">No login code received from Tailscale.\n\nThis can be caused by Android TV bugs. Please try:\n\n1. Restart your TV completely\n2. Open the app again\n3. Try VPN setup again</string>
-    <string name="tailscale_vpn_timeout_title">VPN Timeout</string>
-    <string name="tailscale_vpn_timeout_message">Tailscale login was successful, but VPN could not connect.\n\nThis can be caused by Android TV bugs. Please try:\n\n1. Restart your TV completely\n2. Open the app again\n3. Try VPN setup again\n\nIf the problem persists, check your Tailscale Dashboard.</string>
-    <string name="tailscale_login_timeout_title">Login Timeout</string>
-    <string name="tailscale_login_timeout_message">Login could not be completed.\n\nThis can be caused by Android TV bugs. Please try:\n\n1. Restart your TV completely\n2. Open the app again\n3. Try VPN setup again\n\nAlso check if the device was authorized in the Tailscale Dashboard.</string>
-    <string name="tailscale_retry_button">Try Again</string>
-    <string name="tailscale_auth_success_title">Authentication Successful</string>
-    <string name="tailscale_auth_success_message">Tailscale VPN has been successfully connected!\n\nYou can now enter your server address for VPN access.</string>
-    <string name="tailscale_vpn_permission_required">VPN permission required. Please allow and try again.</string>
-    <string name="tailscale_vpn_permission_needed">VPN permission required.</string>
-    <string name="tailscale_error_generic">Error: %1$s</string>
+    <string name="tailscale_error_title">Napaka</string>
+    <string name="tailscale_auth_required_title">Potrebna avtentikacija</string>
+    <string name="tailscale_auth_required_message">VPN se ni mogel povezati.\n\nOdprite aplikacijo Tailscale, se prijavite in poskusite znova.\n\nČe naprava že obstaja na nadzorni plošči, jo najprej odstranite in poskusite znova.</string>
+    <string name="tailscale_login_code_failed">Zahteva za prijavno kodo ni uspela:\n\n%1$s</string>
+    <string name="tailscale_login_code_timeout_title">Prijavna koda je potekla</string>
+    <string name="tailscale_login_code_timeout_message">Prijavna koda od Tailscale ni bila prejeta.\n\nTo je lahko posledica napak Android TV. Poskusite:\n\n1. Popolnoma znova zaženite TV\n2. Znova odprite aplikacijo\n3. Znova poskusite nastavitev VPN</string>
+    <string name="tailscale_vpn_timeout_title">VPN je potekel</string>
+    <string name="tailscale_vpn_timeout_message">Tailscale prijava je uspela, vendar se VPN ni mogel povezati.\n\nTo je lahko posledica napak Android TV. Poskusite:\n\n1. Popolnoma znova zaženite TV\n2. Znova odprite aplikacijo\n3. Znova poskusite nastavitev VPN\n\nČe težava ostaja, preverite Tailscale nadzorno ploščo.</string>
+    <string name="tailscale_login_timeout_title">Prijava je potekla</string>
+    <string name="tailscale_login_timeout_message">Prijava ni bila dokončana.\n\nTo je lahko posledica napak Android TV. Poskusite:\n\n1. Popolnoma znova zaženite TV\n2. Znova odprite aplikacijo\n3. Znova poskusite nastavitev VPN\n\nPreverite tudi, ali je bila naprava avtorizirana na Tailscale nadzorni plošči.</string>
+    <string name="tailscale_retry_button">Poskusi znova</string>
+    <string name="tailscale_auth_success_title">Avtentikacija uspešna</string>
+    <string name="tailscale_auth_success_message">Tailscale VPN je uspešno povezan!\n\nZdaj lahko vnesete naslov strežnika za VPN dostop.</string>
+    <string name="tailscale_vpn_permission_required">Potrebno VPN dovoljenje. Dovolite in poskusite znova.</string>
+    <string name="tailscale_vpn_permission_needed">Potrebno VPN dovoljenje.</string>
+    <string name="tailscale_error_generic">Napaka: %1$s</string>
 </resources>

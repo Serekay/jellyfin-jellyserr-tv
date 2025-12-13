@@ -498,100 +498,100 @@
     <string name="jellyseerr_update_installing_message">Bonvolu atendi dum la instalilo prepariĝas.</string>
     <string name="jellyseerr_update_install_button">Instali</string>
 
-    <string name="jellyseerr_collection_label">%1$s collection</string>
-    <string name="jellyseerr_collection_show">Show</string>
-    <string name="jellyseerr_no_description">No description currently available.</string>
-    <string name="jellyseerr_search_title">Search</string>
-    <string name="jellyseerr_search_button">Search in Jellyseerr</string>
-    <string name="jellyseerr_search_hint">Search Jellyseerr for movies, series and actors</string>
-    <string name="jellyseerr_search_description">Use the remote to type your search query</string>
+    <string name="jellyseerr_collection_label">Kolekto %1$s</string>
+    <string name="jellyseerr_collection_show">Montri</string>
+    <string name="jellyseerr_no_description">Neniu priskribo nune disponebla.</string>
+    <string name="jellyseerr_search_title">Serĉi</string>
+    <string name="jellyseerr_search_button">Serĉi en Jellyseerr</string>
+    <string name="jellyseerr_search_hint">Serĉi filmojn, seriojn kaj aktorojn en Jellyseerr</string>
+    <string name="jellyseerr_search_description">Uzu la telekomando por tajpi vian serĉan demandon</string>
 
     <!-- Tailscale -->
-    <string name="tailscale_enable_title">Use Tailscale VPN</string>
-    <string name="tailscale_enable_summary_on">This server is using the Tailscale VPN tunnel.</string>
-    <string name="tailscale_enable_summary_off">Tailscale is turned off for this server.</string>
-    <string name="tailscale_login_code_title">Request login code</string>
-    <string name="tailscale_login_code_summary">Opens a login code to authorize the device on the Tailnet.</string>
-    <string name="tailscale_connect_title">Connect VPN</string>
-    <string name="tailscale_connect_summary">Starts the embedded Tailscale VPN service.</string>
-    <string name="tailscale_disconnect_title">Disconnect VPN</string>
-    <string name="tailscale_disconnect_summary">Stops the Tailscale VPN tunnel for this device.</string>
-    <string name="tailscale_disconnect_done">Tailscale connection disconnected.</string>
-    <string name="tailscale_reset_auth_title">Reset auth</string>
-    <string name="tailscale_reset_auth_summary">Clears the login status (helps with 204/"already logged in").</string>
-    <string name="tailscale_reset_auth_success">Tailscale auth reset.</string>
-    <string name="tailscale_enable_first">Enable Tailscale for this server first.</string>
+    <string name="tailscale_enable_title">Uzi Tailscale VPN</string>
+    <string name="tailscale_enable_summary_on">Ĉi tiu servilo uzas la Tailscale VPN-tunelon.</string>
+    <string name="tailscale_enable_summary_off">Tailscale estas malŝaltita por ĉi tiu servilo.</string>
+    <string name="tailscale_login_code_title">Peti ensalutan kodon</string>
+    <string name="tailscale_login_code_summary">Malfermas ensalutan kodon por rajtigi la aparaton sur la Tailnet.</string>
+    <string name="tailscale_connect_title">Konekti VPN</string>
+    <string name="tailscale_connect_summary">Startas la enmetitan Tailscale VPN-servon.</string>
+    <string name="tailscale_disconnect_title">Malkonekti VPN</string>
+    <string name="tailscale_disconnect_summary">Haltigas la Tailscale VPN-tunelon por ĉi tiu aparato.</string>
+    <string name="tailscale_disconnect_done">Tailscale-konekto malkonektita.</string>
+    <string name="tailscale_reset_auth_title">Restartigi aŭtentigon</string>
+    <string name="tailscale_reset_auth_summary">Forigas la ensalutan statuson (helpas kun 204/\"jam ensalutita\").</string>
+    <string name="tailscale_reset_auth_success">Tailscale-aŭtentigo restartigita.</string>
+    <string name="tailscale_enable_first">Ebligu Tailscale por ĉi tiu servilo unue.</string>
     <string name="tailscale_section_title">Tailscale</string>
-    <string name="tailscale_setup_button">Connect Tailscale</string>
-    <string name="tailscale_setup_toast_code">Login code: %1$s</string>
-    <string name="tailscale_setup_toast_error">Unable to fetch the Tailscale login code.</string>
-    <string name="connection_type_label">How would you like to connect?</string>
-    <string name="connect_local_button">Connect locally</string>
-    <string name="connect_tailscale_button">Over Tailscale VPN</string>
-    <string name="tailscale_connecting_title">Tailscale VPN is connecting...</string>
-    <string name="tailscale_connecting_message">Give your admin this code:\n\n%1$s\n\nWait for approval in the dashboard...</string>
-    <string name="tailscale_connected_title">Connected!</string>
-    <string name="tailscale_connected_message">Tailscale VPN is now connected. You can now enter your server.</string>
-    <string name="tailscale_debug_button">Tailscale diagnostics</string>
-    <string name="tailscale_debug_title">Tailscale status</string>
+    <string name="tailscale_setup_button">Konekti Tailscale</string>
+    <string name="tailscale_setup_toast_code">Ensaluta kodo: %1$s</string>
+    <string name="tailscale_setup_toast_error">Ne eblas akiri la Tailscale ensalutan kodon.</string>
+    <string name="connection_type_label">Kiel vi ŝatus konekti?</string>
+    <string name="connect_local_button">Konekti loke</string>
+    <string name="connect_tailscale_button">Per Tailscale VPN</string>
+    <string name="tailscale_connecting_title">Tailscale VPN konektas...</string>
+    <string name="tailscale_connecting_message">Donu al via administranto ĉi tiun kodon:\n\n%1$s\n\nAtendu aprobon en la panelo...</string>
+    <string name="tailscale_connected_title">Konektita!</string>
+    <string name="tailscale_connected_message">Tailscale VPN nun estas konektita. Vi nun povas eniri vian servilon.</string>
+    <string name="tailscale_debug_button">Tailscale-diagnozo</string>
+    <string name="tailscale_debug_title">Tailscale-statuso</string>
 
     <!-- Tailscale switching flow -->
-    <string name="edit_server_address_title">Enter Server Address</string>
-    <string name="edit_server_address_message">Please contact your server administrator to get the exact server URL (including port if required).\n\nExample: http://192.168.1.100:8096</string>
-    <string name="edit_server_address_hint">http://your-server-address:port</string>
-    <string name="connection_status_local">Local</string>
+    <string name="edit_server_address_title">Enigu Servilan Adreson</string>
+    <string name="edit_server_address_message">Bonvolu kontakti vian servilan administranton por akiri la ekzaktan servilan URL (inkluzive pordon se bezonata).\n\nEkzemplo: http://192.168.1.100:8096</string>
+    <string name="edit_server_address_hint">http://via-servila-adreso:pordo</string>
+    <string name="connection_status_local">Loka</string>
     <string name="connection_status_vpn">VPN</string>
-    <string name="tailscale_switching_progress">Connecting…</string>
-    <string name="tailscale_connect_failed_toast">Failed to connect. Please check your Tailscale connection.</string>
+    <string name="tailscale_switching_progress">Konektante…</string>
+    <string name="tailscale_connect_failed_toast">Malsukcesis konekti. Bonvolu kontroli vian Tailscale-konekton.</string>
 
     <!-- Server Address Selection -->
-    <string name="server_address_selection_title">Select Server Address</string>
-    <string name="server_address_selection_message">If your server administrator has configured the plugin, you can connect automatically. Otherwise, please enter the server address manually.</string>
-    <string name="server_address_auto">Automatic (via Plugin)</string>
-    <string name="server_address_manual">Manual Entry</string>
-    <string name="fetching_server_url">Fetching server URL from plugin…</string>
-    <string name="server_url_fetch_failed_title">Automatic Address Failed</string>
-    <string name="server_url_fetch_failed_message">Could not automatically retrieve server address:\n\n%1$s\n\nWould you like to enter the address manually?</string>
+    <string name="server_address_selection_title">Elekti Servilan Adreson</string>
+    <string name="server_address_selection_message">Se via servila administranto agordis la kromprogramon, vi povas konekti aŭtomate. Alie, bonvolu enigi la servilan adreson mane.</string>
+    <string name="server_address_auto">Aŭtomata (per Kromprogramo)</string>
+    <string name="server_address_manual">Mana Enigo</string>
+    <string name="fetching_server_url">Akiras servilan URL de kromprogramo…</string>
+    <string name="server_url_fetch_failed_title">Aŭtomata Adreso Malsukcesis</string>
+    <string name="server_url_fetch_failed_message">Ne eblis aŭtomate akiri servilan adreson:\n\n%1$s\n\nĈu vi ŝatus enigi la adreson mane?</string>
 
     <!-- Connection Error Dialog -->
-    <string name="server_connection_failed_title">Connection Failed</string>
-    <string name="server_connection_failed_message">The entered address is not reachable. Please check the address and try again.</string>
+    <string name="server_connection_failed_title">Konekto Malsukcesis</string>
+    <string name="server_connection_failed_message">La enigita adreso ne estas atingebla. Bonvolu kontroli la adreson kaj provi denove.</string>
 
     <!-- Restart Dialog -->
-    <string name="restart_required_title">Restart Required</string>
-    <string name="restart_required_message">The app needs to restart for the changes to take effect.</string>
-    <string name="restart_now">Restart Now</string>
+    <string name="restart_required_title">Restartigo Bezonata</string>
+    <string name="restart_required_message">La apo devas restarti por ke la ŝanĝoj efektiviĝu.</string>
+    <string name="restart_now">Restarti Nun</string>
 
     <!-- Remove Server Confirmation -->
-    <string name="remove_server_confirm_title">Remove Server?</string>
-    <string name="remove_server_confirm_message">Are you sure you want to remove this server?\n\nThis will also remove all associated accounts. The app will restart after removal.</string>
+    <string name="remove_server_confirm_title">Forigi Servilon?</string>
+    <string name="remove_server_confirm_message">Ĉu vi certas, ke vi volas forigi ĉi tiun servilon?\n\nĈi tio ankaŭ forigos ĉiujn asociitajn kontojn. La apo restartos post forigo.</string>
 
     <!-- Tailscale Already Logged In Dialog -->
-    <string name="tailscale_already_logged_in_title">Important: Remove Device First</string>
-    <string name="tailscale_already_logged_in_message">For the best results, please remove this device from your Tailscale Dashboard first:\n\n1. Open your Tailscale Dashboard\n2. Find and remove this device from the list\n3. Click OK to continue with the activation\n\nThis ensures a clean connection setup.</string>
+    <string name="tailscale_already_logged_in_title">Grava: Forigu Aparaton Unue</string>
+    <string name="tailscale_already_logged_in_message">Por la plej bonaj rezultoj, bonvolu unue forigi ĉi tiun aparaton de via Tailscale-panelo:\n\n1. Malfermu vian Tailscale-panelon\n2. Trovu kaj forigu ĉi tiun aparaton de la listo\n3. Klaku OK por daŭrigi kun la aktivigo\n\nĈi tio certigas puran konektan agordon.</string>
 
     <!-- Tailscale Progress Steps -->
-    <string name="tailscale_step_permission">Checking VPN permission…</string>
-    <string name="tailscale_step_stopping_vpn">Stopping VPN connection…</string>
-    <string name="tailscale_step_requesting_code">Requesting login code…</string>
-    <string name="tailscale_step_starting_vpn">Starting VPN connection…</string>
-    <string name="tailscale_step_connecting">Connecting to VPN…</string>
+    <string name="tailscale_step_permission">Kontrolas VPN-permeson…</string>
+    <string name="tailscale_step_stopping_vpn">Haltigas VPN-konekton…</string>
+    <string name="tailscale_step_requesting_code">Petas ensalutan kodon…</string>
+    <string name="tailscale_step_starting_vpn">Startas VPN-konekton…</string>
+    <string name="tailscale_step_connecting">Konektas al VPN…</string>
 
     <!-- Tailscale Error Messages -->
-    <string name="tailscale_error_title">Error</string>
-    <string name="tailscale_auth_required_title">Authentication Required</string>
-    <string name="tailscale_auth_required_message">VPN could not connect.\n\nPlease open the Tailscale app, sign in, and try again.\n\nIf the device already exists in your dashboard, remove it first and try again.</string>
-    <string name="tailscale_login_code_failed">Failed to request login code:\n\n%1$s</string>
-    <string name="tailscale_login_code_timeout_title">Login Code Timeout</string>
-    <string name="tailscale_login_code_timeout_message">No login code received from Tailscale.\n\nThis can be caused by Android TV bugs. Please try:\n\n1. Restart your TV completely\n2. Open the app again\n3. Try VPN setup again</string>
-    <string name="tailscale_vpn_timeout_title">VPN Timeout</string>
-    <string name="tailscale_vpn_timeout_message">Tailscale login was successful, but VPN could not connect.\n\nThis can be caused by Android TV bugs. Please try:\n\n1. Restart your TV completely\n2. Open the app again\n3. Try VPN setup again\n\nIf the problem persists, check your Tailscale Dashboard.</string>
-    <string name="tailscale_login_timeout_title">Login Timeout</string>
-    <string name="tailscale_login_timeout_message">Login could not be completed.\n\nThis can be caused by Android TV bugs. Please try:\n\n1. Restart your TV completely\n2. Open the app again\n3. Try VPN setup again\n\nAlso check if the device was authorized in the Tailscale Dashboard.</string>
-    <string name="tailscale_retry_button">Try Again</string>
-    <string name="tailscale_auth_success_title">Authentication Successful</string>
-    <string name="tailscale_auth_success_message">Tailscale VPN has been successfully connected!\n\nYou can now enter your server address for VPN access.</string>
-    <string name="tailscale_vpn_permission_required">VPN permission required. Please allow and try again.</string>
-    <string name="tailscale_vpn_permission_needed">VPN permission required.</string>
-    <string name="tailscale_error_generic">Error: %1$s</string>
+    <string name="tailscale_error_title">Eraro</string>
+    <string name="tailscale_auth_required_title">Aŭtentigo Bezonata</string>
+    <string name="tailscale_auth_required_message">VPN ne povis konekti.\n\nBonvolu malfermi la Tailscale-apon, ensaluti, kaj provi denove.\n\nSe la aparato jam ekzistas en via panelo, forigu ĝin unue kaj provu denove.</string>
+    <string name="tailscale_login_code_failed">Malsukcesis peti ensalutan kodon:\n\n%1$s</string>
+    <string name="tailscale_login_code_timeout_title">Ensaluta Kodo Eltempiĝis</string>
+    <string name="tailscale_login_code_timeout_message">Neniu ensaluta kodo ricevita de Tailscale.\n\nĈi tio povas esti kaŭzita de Android TV-cimoj. Bonvolu provi:\n\n1. Plene restartigu vian televidon\n2. Malfermu la apon denove\n3. Provu VPN-agordon denove</string>
+    <string name="tailscale_vpn_timeout_title">VPN Eltempiĝis</string>
+    <string name="tailscale_vpn_timeout_message">Tailscale-ensaluto sukcesis, sed VPN ne povis konekti.\n\nĈi tio povas esti kaŭzita de Android TV-cimoj. Bonvolu provi:\n\n1. Plene restartigu vian televidon\n2. Malfermu la apon denove\n3. Provu VPN-agordon denove\n\nSe la problemo daŭras, kontrolu vian Tailscale-panelon.</string>
+    <string name="tailscale_login_timeout_title">Ensaluto Eltempiĝis</string>
+    <string name="tailscale_login_timeout_message">Ensaluto ne povis kompletiĝi.\n\nĈi tio povas esti kaŭzita de Android TV-cimoj. Bonvolu provi:\n\n1. Plene restartigu vian televidon\n2. Malfermu la apon denove\n3. Provu VPN-agordon denove\n\nAnkaŭ kontrolu ĉu la aparato estis rajtigita en la Tailscale-panelo.</string>
+    <string name="tailscale_retry_button">Provi Denove</string>
+    <string name="tailscale_auth_success_title">Aŭtentigo Sukcesis</string>
+    <string name="tailscale_auth_success_message">Tailscale VPN estis sukcese konektita!\n\nVi nun povas enigi vian servilan adreson por VPN-aliro.</string>
+    <string name="tailscale_vpn_permission_required">VPN-permeso bezonata. Bonvolu permesi kaj provi denove.</string>
+    <string name="tailscale_vpn_permission_needed">VPN-permeso bezonata.</string>
+    <string name="tailscale_error_generic">Eraro: %1$s</string>
 </resources>

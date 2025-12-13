@@ -236,100 +236,100 @@
     <string name="jellyseerr_update_installing_message">Суулгагчийг бэлдэж байх хооронд түр хүлээнэ үү.</string>
     <string name="jellyseerr_update_install_button">Суулгах</string>
 
-    <string name="jellyseerr_collection_label">%1$s collection</string>
-    <string name="jellyseerr_collection_show">Show</string>
-    <string name="jellyseerr_no_description">No description currently available.</string>
-    <string name="jellyseerr_search_title">Search</string>
-    <string name="jellyseerr_search_button">Search in Jellyseerr</string>
-    <string name="jellyseerr_search_hint">Search Jellyseerr for movies, series and actors</string>
-    <string name="jellyseerr_search_description">Use the remote to type your search query</string>
+    <string name="jellyseerr_collection_label">%1$s цуглуулга</string>
+    <string name="jellyseerr_collection_show">Харуулах</string>
+    <string name="jellyseerr_no_description">Одоогоор тайлбар байхгүй.</string>
+    <string name="jellyseerr_search_title">Хайх</string>
+    <string name="jellyseerr_search_button">Jellyseerr-д хайх</string>
+    <string name="jellyseerr_search_hint">Кино, цуврал, жүжигчдийг Jellyseerr-д хайх</string>
+    <string name="jellyseerr_search_description">Хайлтаа бичихийн тулд удирдлагаа ашиглана уу</string>
 
     <!-- Tailscale -->
-    <string name="tailscale_enable_title">Use Tailscale VPN</string>
-    <string name="tailscale_enable_summary_on">This server is using the Tailscale VPN tunnel.</string>
-    <string name="tailscale_enable_summary_off">Tailscale is turned off for this server.</string>
-    <string name="tailscale_login_code_title">Request login code</string>
-    <string name="tailscale_login_code_summary">Opens a login code to authorize the device on the Tailnet.</string>
-    <string name="tailscale_connect_title">Connect VPN</string>
-    <string name="tailscale_connect_summary">Starts the embedded Tailscale VPN service.</string>
-    <string name="tailscale_disconnect_title">Disconnect VPN</string>
-    <string name="tailscale_disconnect_summary">Stops the Tailscale VPN tunnel for this device.</string>
-    <string name="tailscale_disconnect_done">Tailscale connection disconnected.</string>
-    <string name="tailscale_reset_auth_title">Reset auth</string>
-    <string name="tailscale_reset_auth_summary">Clears the login status (helps with 204/"already logged in").</string>
-    <string name="tailscale_reset_auth_success">Tailscale auth reset.</string>
-    <string name="tailscale_enable_first">Enable Tailscale for this server first.</string>
+    <string name="tailscale_enable_title">Tailscale VPN ашиглах</string>
+    <string name="tailscale_enable_summary_on">Энэ сервер Tailscale VPN туннел ашиглаж байна.</string>
+    <string name="tailscale_enable_summary_off">Энэ серверт Tailscale идэвхгүй байна.</string>
+    <string name="tailscale_login_code_title">Нэвтрэх код авах</string>
+    <string name="tailscale_login_code_summary">Tailnet дээр төхөөрөмжийг зөвшөөрөх нэвтрэх код нээнэ.</string>
+    <string name="tailscale_connect_title">VPN холбох</string>
+    <string name="tailscale_connect_summary">Суурилуулсан Tailscale VPN үйлчилгээг эхлүүлнэ.</string>
+    <string name="tailscale_disconnect_title">VPN салгах</string>
+    <string name="tailscale_disconnect_summary">Энэ төхөөрөмжийн Tailscale VPN туннелыг зогсооно.</string>
+    <string name="tailscale_disconnect_done">Tailscale холболт салсан.</string>
+    <string name="tailscale_reset_auth_title">Баталгаажуулалт шинэчлэх</string>
+    <string name="tailscale_reset_auth_summary">Нэвтрэлтийн төлөвийг арилгана (204/\"аль хэдийн нэвтэрсэн\" алдаанд тусална).</string>
+    <string name="tailscale_reset_auth_success">Tailscale баталгаажуулалт шинэчлэгдсэн.</string>
+    <string name="tailscale_enable_first">Эхлээд энэ серверт Tailscale-г идэвхжүүлнэ үү.</string>
     <string name="tailscale_section_title">Tailscale</string>
-    <string name="tailscale_setup_button">Connect Tailscale</string>
-    <string name="tailscale_setup_toast_code">Login code: %1$s</string>
-    <string name="tailscale_setup_toast_error">Unable to fetch the Tailscale login code.</string>
-    <string name="connection_type_label">How would you like to connect?</string>
-    <string name="connect_local_button">Connect locally</string>
-    <string name="connect_tailscale_button">Over Tailscale VPN</string>
-    <string name="tailscale_connecting_title">Tailscale VPN is connecting...</string>
-    <string name="tailscale_connecting_message">Give your admin this code:\n\n%1$s\n\nWait for approval in the dashboard...</string>
-    <string name="tailscale_connected_title">Connected!</string>
-    <string name="tailscale_connected_message">Tailscale VPN is now connected. You can now enter your server.</string>
-    <string name="tailscale_debug_button">Tailscale diagnostics</string>
-    <string name="tailscale_debug_title">Tailscale status</string>
+    <string name="tailscale_setup_button">Tailscale холбох</string>
+    <string name="tailscale_setup_toast_code">Нэвтрэх код: %1$s</string>
+    <string name="tailscale_setup_toast_error">Tailscale нэвтрэх кодыг авч чадсангүй.</string>
+    <string name="connection_type_label">Хэрхэн холбогдохыг хүсэж байна вэ?</string>
+    <string name="connect_local_button">Дотоодоор холбогдох</string>
+    <string name="connect_tailscale_button">Tailscale VPN-ээр</string>
+    <string name="tailscale_connecting_title">Tailscale VPN холбогдож байна...</string>
+    <string name="tailscale_connecting_message">Админдаа энэ кодыг өгнө үү:\n\n%1$s\n\nХяналтын самбарт зөвшөөрөл хүлээнэ үү...</string>
+    <string name="tailscale_connected_title">Холбогдсон!</string>
+    <string name="tailscale_connected_message">Tailscale VPN одоо холбогдсон. Та одоо серверээ оруулж болно.</string>
+    <string name="tailscale_debug_button">Tailscale оношлогоо</string>
+    <string name="tailscale_debug_title">Tailscale төлөв</string>
 
     <!-- Tailscale switching flow -->
-    <string name="edit_server_address_title">Enter Server Address</string>
-    <string name="edit_server_address_message">Please contact your server administrator to get the exact server URL (including port if required).\n\nExample: http://192.168.1.100:8096</string>
+    <string name="edit_server_address_title">Серверийн хаяг оруулах</string>
+    <string name="edit_server_address_message">Серверийн URL-ийг авахын тулд серверийн админтай холбогдоно уу (шаардлагатай бол портыг оруулна уу).\n\nЖишээ: http://192.168.1.100:8096</string>
     <string name="edit_server_address_hint">http://your-server-address:port</string>
-    <string name="connection_status_local">Local</string>
+    <string name="connection_status_local">Дотоод</string>
     <string name="connection_status_vpn">VPN</string>
-    <string name="tailscale_switching_progress">Connecting…</string>
-    <string name="tailscale_connect_failed_toast">Failed to connect. Please check your Tailscale connection.</string>
+    <string name="tailscale_switching_progress">Холбогдож байна…</string>
+    <string name="tailscale_connect_failed_toast">Холбогдож чадсангүй. Tailscale холболтоо шалгана уу.</string>
 
     <!-- Server Address Selection -->
-    <string name="server_address_selection_title">Select Server Address</string>
-    <string name="server_address_selection_message">If your server administrator has configured the plugin, you can connect automatically. Otherwise, please enter the server address manually.</string>
-    <string name="server_address_auto">Automatic (via Plugin)</string>
-    <string name="server_address_manual">Manual Entry</string>
-    <string name="fetching_server_url">Fetching server URL from plugin…</string>
-    <string name="server_url_fetch_failed_title">Automatic Address Failed</string>
-    <string name="server_url_fetch_failed_message">Could not automatically retrieve server address:\n\n%1$s\n\nWould you like to enter the address manually?</string>
+    <string name="server_address_selection_title">Серверийн хаяг сонгох</string>
+    <string name="server_address_selection_message">Хэрэв таны серверийн админ залгаасыг тохируулсан бол автоматаар холбогдож болно. Эсвэл серверийн хаягийг гараар оруулна уу.</string>
+    <string name="server_address_auto">Автомат (залгаасаар)</string>
+    <string name="server_address_manual">Гараар оруулах</string>
+    <string name="fetching_server_url">Залгаасаас серверийн URL авч байна…</string>
+    <string name="server_url_fetch_failed_title">Автомат хаяг амжилтгүй</string>
+    <string name="server_url_fetch_failed_message">Серверийн хаягийг автоматаар авч чадсангүй:\n\n%1$s\n\nХаягийг гараар оруулах уу?</string>
 
     <!-- Connection Error Dialog -->
-    <string name="server_connection_failed_title">Connection Failed</string>
-    <string name="server_connection_failed_message">The entered address is not reachable. Please check the address and try again.</string>
+    <string name="server_connection_failed_title">Холболт амжилтгүй</string>
+    <string name="server_connection_failed_message">Оруулсан хаягт хүрч чадахгүй байна. Хаягаа шалгаад дахин оролдоно уу.</string>
 
     <!-- Restart Dialog -->
-    <string name="restart_required_title">Restart Required</string>
-    <string name="restart_required_message">The app needs to restart for the changes to take effect.</string>
-    <string name="restart_now">Restart Now</string>
+    <string name="restart_required_title">Дахин эхлүүлэх шаардлагатай</string>
+    <string name="restart_required_message">Өөрчлөлтүүдийг хэрэгжүүлэхийн тулд апп-ыг дахин эхлүүлэх шаардлагатай.</string>
+    <string name="restart_now">Одоо дахин эхлүүлэх</string>
 
     <!-- Remove Server Confirmation -->
-    <string name="remove_server_confirm_title">Remove Server?</string>
-    <string name="remove_server_confirm_message">Are you sure you want to remove this server?\n\nThis will also remove all associated accounts. The app will restart after removal.</string>
+    <string name="remove_server_confirm_title">Сервер устгах уу?</string>
+    <string name="remove_server_confirm_message">Энэ серверийг устгахдаа итгэлтэй байна уу?\n\nЭнэ нь холбогдох бүх бүртгэлийг мөн устгана. Устгасны дараа апп дахин эхэлнэ.</string>
 
     <!-- Tailscale Already Logged In Dialog -->
-    <string name="tailscale_already_logged_in_title">Important: Remove Device First</string>
-    <string name="tailscale_already_logged_in_message">For the best results, please remove this device from your Tailscale Dashboard first:\n\n1. Open your Tailscale Dashboard\n2. Find and remove this device from the list\n3. Click OK to continue with the activation\n\nThis ensures a clean connection setup.</string>
+    <string name="tailscale_already_logged_in_title">Чухал: Эхлээд төхөөрөмжийг устга</string>
+    <string name="tailscale_already_logged_in_message">Хамгийн сайн үр дүнд хүрэхийн тулд эхлээд Tailscale хяналтын самбараас энэ төхөөрөмжийг устгана уу:\n\n1. Tailscale хяналтын самбараа нээнэ үү\n2. Жагсаалтаас энэ төхөөрөмжийг олж устгана уу\n3. Идэвхжүүлэлтийг үргэлжлүүлэхийн тулд OK дарна уу\n\nЭнэ нь цэвэрхэн холболтын тохиргоог баталгаажуулна.</string>
 
     <!-- Tailscale Progress Steps -->
-    <string name="tailscale_step_permission">Checking VPN permission…</string>
-    <string name="tailscale_step_stopping_vpn">Stopping VPN connection…</string>
-    <string name="tailscale_step_requesting_code">Requesting login code…</string>
-    <string name="tailscale_step_starting_vpn">Starting VPN connection…</string>
-    <string name="tailscale_step_connecting">Connecting to VPN…</string>
+    <string name="tailscale_step_permission">VPN зөвшөөрөл шалгаж байна…</string>
+    <string name="tailscale_step_stopping_vpn">VPN холболтыг зогсоож байна…</string>
+    <string name="tailscale_step_requesting_code">Нэвтрэх код хүсч байна…</string>
+    <string name="tailscale_step_starting_vpn">VPN холболт эхлүүлж байна…</string>
+    <string name="tailscale_step_connecting">VPN-д холбогдож байна…</string>
 
     <!-- Tailscale Error Messages -->
-    <string name="tailscale_error_title">Error</string>
-    <string name="tailscale_auth_required_title">Authentication Required</string>
-    <string name="tailscale_auth_required_message">VPN could not connect.\n\nPlease open the Tailscale app, sign in, and try again.\n\nIf the device already exists in your dashboard, remove it first and try again.</string>
-    <string name="tailscale_login_code_failed">Failed to request login code:\n\n%1$s</string>
-    <string name="tailscale_login_code_timeout_title">Login Code Timeout</string>
-    <string name="tailscale_login_code_timeout_message">No login code received from Tailscale.\n\nThis can be caused by Android TV bugs. Please try:\n\n1. Restart your TV completely\n2. Open the app again\n3. Try VPN setup again</string>
-    <string name="tailscale_vpn_timeout_title">VPN Timeout</string>
-    <string name="tailscale_vpn_timeout_message">Tailscale login was successful, but VPN could not connect.\n\nThis can be caused by Android TV bugs. Please try:\n\n1. Restart your TV completely\n2. Open the app again\n3. Try VPN setup again\n\nIf the problem persists, check your Tailscale Dashboard.</string>
-    <string name="tailscale_login_timeout_title">Login Timeout</string>
-    <string name="tailscale_login_timeout_message">Login could not be completed.\n\nThis can be caused by Android TV bugs. Please try:\n\n1. Restart your TV completely\n2. Open the app again\n3. Try VPN setup again\n\nAlso check if the device was authorized in the Tailscale Dashboard.</string>
-    <string name="tailscale_retry_button">Try Again</string>
-    <string name="tailscale_auth_success_title">Authentication Successful</string>
-    <string name="tailscale_auth_success_message">Tailscale VPN has been successfully connected!\n\nYou can now enter your server address for VPN access.</string>
-    <string name="tailscale_vpn_permission_required">VPN permission required. Please allow and try again.</string>
-    <string name="tailscale_vpn_permission_needed">VPN permission required.</string>
-    <string name="tailscale_error_generic">Error: %1$s</string>
+    <string name="tailscale_error_title">Алдаа</string>
+    <string name="tailscale_auth_required_title">Баталгаажуулалт шаардлагатай</string>
+    <string name="tailscale_auth_required_message">VPN холбогдож чадсангүй.\n\nTailscale апп-ыг нээж, нэвтэрч, дахин оролдоно уу.\n\nХэрэв төхөөрөмж таны хяналтын самбарт байгаа бол эхлээд устгаад дахин оролдоно уу.</string>
+    <string name="tailscale_login_code_failed">Нэвтрэх код хүсэхэд алдаа гарлаа:\n\n%1$s</string>
+    <string name="tailscale_login_code_timeout_title">Нэвтрэх кодын хугацаа дууссан</string>
+    <string name="tailscale_login_code_timeout_message">Tailscale-аас нэвтрэх код ирсэнгүй.\n\nЭнэ нь Android TV алдаанаас болсон байж болно. Дараахийг хийж үзнэ үү:\n\n1. ТВ-гээ бүрэн дахин эхлүүлнэ үү\n2. Апп-ыг дахин нээнэ үү\n3. VPN тохиргоог дахин оролдоно уу</string>
+    <string name="tailscale_vpn_timeout_title">VPN хугацаа дууссан</string>
+    <string name="tailscale_vpn_timeout_message">Tailscale нэвтрэлт амжилттай боловч VPN холбогдож чадсангүй.\n\nЭнэ нь Android TV алдаанаас болсон байж болно. Дараахийг хийж үзнэ үү:\n\n1. ТВ-гээ бүрэн дахин эхлүүлнэ үү\n2. Апп-ыг дахин нээнэ үү\n3. VPN тохиргоог дахин оролдоно уу\n\nХэрэв асуудал үргэлжилбэл Tailscale хяналтын самбараа шалгана уу.</string>
+    <string name="tailscale_login_timeout_title">Нэвтрэлтийн хугацаа дууссан</string>
+    <string name="tailscale_login_timeout_message">Нэвтрэлт дуусгагдаж чадсангүй.\n\nЭнэ нь Android TV алдаанаас болсон байж болно. Дараахийг хийж үзнэ үү:\n\n1. ТВ-гээ бүрэн дахин эхлүүлнэ үү\n2. Апп-ыг дахин нээнэ үү\n3. VPN тохиргоог дахин оролдоно уу\n\nТөхөөрөмж Tailscale хяналтын самбарт зөвшөөрөгдсөн эсэхийг мөн шалгана уу.</string>
+    <string name="tailscale_retry_button">Дахин оролдох</string>
+    <string name="tailscale_auth_success_title">Баталгаажуулалт амжилттай</string>
+    <string name="tailscale_auth_success_message">Tailscale VPN амжилттай холбогдлоо!\n\nТа одоо VPN хандалтын серверийн хаягаа оруулж болно.</string>
+    <string name="tailscale_vpn_permission_required">VPN зөвшөөрөл шаардлагатай. Зөвшөөрч дахин оролдоно уу.</string>
+    <string name="tailscale_vpn_permission_needed">VPN зөвшөөрөл шаардлагатай.</string>
+    <string name="tailscale_error_generic">Алдаа: %1$s</string>
 </resources>

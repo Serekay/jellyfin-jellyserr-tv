@@ -58,100 +58,100 @@
     <string name="jellyseerr_update_installing_message">Jekk jogħġbok stenna waqt li l-installatur qed jiġi ppreparat.</string>
     <string name="jellyseerr_update_install_button">Installa</string>
 
-    <string name="jellyseerr_collection_label">%1$s collection</string>
-    <string name="jellyseerr_collection_show">Show</string>
-    <string name="jellyseerr_no_description">No description currently available.</string>
-    <string name="jellyseerr_search_title">Search</string>
-    <string name="jellyseerr_search_button">Search in Jellyseerr</string>
-    <string name="jellyseerr_search_hint">Search Jellyseerr for movies, series and actors</string>
-    <string name="jellyseerr_search_description">Use the remote to type your search query</string>
+    <string name="jellyseerr_collection_label">Kollezzjoni %1$s</string>
+    <string name="jellyseerr_collection_show">Uri</string>
+    <string name="jellyseerr_no_description">Bħalissa ma hemmx deskrizzjoni disponibbli.</string>
+    <string name="jellyseerr_search_title">Fittex</string>
+    <string name="jellyseerr_search_button">Fittex f\'Jellyseerr</string>
+    <string name="jellyseerr_search_hint">Fittex films, serje u atturi f\'Jellyseerr</string>
+    <string name="jellyseerr_search_description">Uża r-remote biex tikteb it-tfittxija tiegħek</string>
 
     <!-- Tailscale -->
-    <string name="tailscale_enable_title">Use Tailscale VPN</string>
-    <string name="tailscale_enable_summary_on">This server is using the Tailscale VPN tunnel.</string>
-    <string name="tailscale_enable_summary_off">Tailscale is turned off for this server.</string>
-    <string name="tailscale_login_code_title">Request login code</string>
-    <string name="tailscale_login_code_summary">Opens a login code to authorize the device on the Tailnet.</string>
-    <string name="tailscale_connect_title">Connect VPN</string>
-    <string name="tailscale_connect_summary">Starts the embedded Tailscale VPN service.</string>
-    <string name="tailscale_disconnect_title">Disconnect VPN</string>
-    <string name="tailscale_disconnect_summary">Stops the Tailscale VPN tunnel for this device.</string>
-    <string name="tailscale_disconnect_done">Tailscale connection disconnected.</string>
-    <string name="tailscale_reset_auth_title">Reset auth</string>
-    <string name="tailscale_reset_auth_summary">Clears the login status (helps with 204/"already logged in").</string>
-    <string name="tailscale_reset_auth_success">Tailscale auth reset.</string>
-    <string name="tailscale_enable_first">Enable Tailscale for this server first.</string>
+    <string name="tailscale_enable_title">Uża Tailscale VPN</string>
+    <string name="tailscale_enable_summary_on">Dan is-server qed juża l-Tailscale VPN tunnel.</string>
+    <string name="tailscale_enable_summary_off">Tailscale huwa mitfi għal dan is-server.</string>
+    <string name="tailscale_login_code_title">Itlob kodiċi ta\' login</string>
+    <string name="tailscale_login_code_summary">Jiftaħ kodiċi ta\' login biex tawtorizza l-apparat fuq it-Tailnet.</string>
+    <string name="tailscale_connect_title">Qabbad VPN</string>
+    <string name="tailscale_connect_summary">Jibda s-servizz Tailscale VPN inkorporat.</string>
+    <string name="tailscale_disconnect_title">Aqta\' VPN</string>
+    <string name="tailscale_disconnect_summary">Jieqaf it-Tailscale VPN tunnel għal dan l-apparat.</string>
+    <string name="tailscale_disconnect_done">Konnessjoni Tailscale maqtugħa.</string>
+    <string name="tailscale_reset_auth_title">Irrisettja l-awtentikazzjoni</string>
+    <string name="tailscale_reset_auth_summary">Jneħħi l-istatus tal-login (jgħin b\'204/\"diġà logged in\").</string>
+    <string name="tailscale_reset_auth_success">Awtentikazzjoni Tailscale rrisettjata.</string>
+    <string name="tailscale_enable_first">Attiva Tailscale għal dan is-server l-ewwel.</string>
     <string name="tailscale_section_title">Tailscale</string>
-    <string name="tailscale_setup_button">Connect Tailscale</string>
-    <string name="tailscale_setup_toast_code">Login code: %1$s</string>
-    <string name="tailscale_setup_toast_error">Unable to fetch the Tailscale login code.</string>
-    <string name="connection_type_label">How would you like to connect?</string>
-    <string name="connect_local_button">Connect locally</string>
-    <string name="connect_tailscale_button">Over Tailscale VPN</string>
-    <string name="tailscale_connecting_title">Tailscale VPN is connecting...</string>
-    <string name="tailscale_connecting_message">Give your admin this code:\n\n%1$s\n\nWait for approval in the dashboard...</string>
-    <string name="tailscale_connected_title">Connected!</string>
-    <string name="tailscale_connected_message">Tailscale VPN is now connected. You can now enter your server.</string>
-    <string name="tailscale_debug_button">Tailscale diagnostics</string>
-    <string name="tailscale_debug_title">Tailscale status</string>
+    <string name="tailscale_setup_button">Qabbad Tailscale</string>
+    <string name="tailscale_setup_toast_code">Kodiċi ta\' login: %1$s</string>
+    <string name="tailscale_setup_toast_error">Ma setax jinkiseb il-kodiċi ta\' login ta\' Tailscale.</string>
+    <string name="connection_type_label">Kif tixtieq tikkonnettja?</string>
+    <string name="connect_local_button">Qabbad lokalment</string>
+    <string name="connect_tailscale_button">Permezz ta\' Tailscale VPN</string>
+    <string name="tailscale_connecting_title">Tailscale VPN qed jikkonnettja...</string>
+    <string name="tailscale_connecting_message">Agħti lill-admin tiegħek dan il-kodiċi:\n\n%1$s\n\nStenna l-approvazzjoni fid-dashboard...</string>
+    <string name="tailscale_connected_title">Ikkonnettjat!</string>
+    <string name="tailscale_connected_message">Tailscale VPN issa huwa konnettut. Issa tista\' ddaħħal is-server tiegħek.</string>
+    <string name="tailscale_debug_button">Dijanjostika ta\' Tailscale</string>
+    <string name="tailscale_debug_title">Status ta\' Tailscale</string>
 
     <!-- Tailscale switching flow -->
-    <string name="edit_server_address_title">Enter Server Address</string>
-    <string name="edit_server_address_message">Please contact your server administrator to get the exact server URL (including port if required).\n\nExample: http://192.168.1.100:8096</string>
+    <string name="edit_server_address_title">Daħħal l-Indirizz tas-Server</string>
+    <string name="edit_server_address_message">Jekk jogħġbok ikkuntattja lill-amministratur tas-server tiegħek biex tikseb l-URL eżatt tas-server (inkluż il-port jekk meħtieġ).\n\nEżempju: http://192.168.1.100:8096</string>
     <string name="edit_server_address_hint">http://your-server-address:port</string>
-    <string name="connection_status_local">Local</string>
+    <string name="connection_status_local">Lokali</string>
     <string name="connection_status_vpn">VPN</string>
-    <string name="tailscale_switching_progress">Connecting…</string>
-    <string name="tailscale_connect_failed_toast">Failed to connect. Please check your Tailscale connection.</string>
+    <string name="tailscale_switching_progress">Qed jikkonnettja…</string>
+    <string name="tailscale_connect_failed_toast">Falla l-konnessjoni. Jekk jogħġbok iċċekkja l-konnessjoni Tailscale tiegħek.</string>
 
     <!-- Server Address Selection -->
-    <string name="server_address_selection_title">Select Server Address</string>
-    <string name="server_address_selection_message">If your server administrator has configured the plugin, you can connect automatically. Otherwise, please enter the server address manually.</string>
-    <string name="server_address_auto">Automatic (via Plugin)</string>
-    <string name="server_address_manual">Manual Entry</string>
-    <string name="fetching_server_url">Fetching server URL from plugin…</string>
-    <string name="server_url_fetch_failed_title">Automatic Address Failed</string>
-    <string name="server_url_fetch_failed_message">Could not automatically retrieve server address:\n\n%1$s\n\nWould you like to enter the address manually?</string>
+    <string name="server_address_selection_title">Agħżel l-Indirizz tas-Server</string>
+    <string name="server_address_selection_message">Jekk l-amministratur tas-server tiegħek ikkonfigura l-plugin, tista\' tikkonnettja awtomatikament. Inkella, jekk jogħġbok daħħal l-indirizz tas-server manwalment.</string>
+    <string name="server_address_auto">Awtomatiku (permezz tal-Plugin)</string>
+    <string name="server_address_manual">Dħul Manwali</string>
+    <string name="fetching_server_url">Qed tiġi l-URL tas-server mill-plugin…</string>
+    <string name="server_url_fetch_failed_title">Indirizz Awtomatiku Falla</string>
+    <string name="server_url_fetch_failed_message">Ma setax jinkiseb l-indirizz tas-server awtomatikament:\n\n%1$s\n\nTixtieq iddaħħal l-indirizz manwalment?</string>
 
     <!-- Connection Error Dialog -->
-    <string name="server_connection_failed_title">Connection Failed</string>
-    <string name="server_connection_failed_message">The entered address is not reachable. Please check the address and try again.</string>
+    <string name="server_connection_failed_title">Konnessjoni Falliet</string>
+    <string name="server_connection_failed_message">L-indirizz imdaħħal mhuwiex ragġunġibbli. Jekk jogħġbok iċċekkja l-indirizz u pprova mill-ġdid.</string>
 
     <!-- Restart Dialog -->
-    <string name="restart_required_title">Restart Required</string>
-    <string name="restart_required_message">The app needs to restart for the changes to take effect.</string>
-    <string name="restart_now">Restart Now</string>
+    <string name="restart_required_title">Restart Meħtieġ</string>
+    <string name="restart_required_message">L-app teħtieġ terġa\' tinbeda biex il-bidliet jieħdu effett.</string>
+    <string name="restart_now">Erġa\' Ibda Issa</string>
 
     <!-- Remove Server Confirmation -->
-    <string name="remove_server_confirm_title">Remove Server?</string>
-    <string name="remove_server_confirm_message">Are you sure you want to remove this server?\n\nThis will also remove all associated accounts. The app will restart after removal.</string>
+    <string name="remove_server_confirm_title">Neħħi s-Server?</string>
+    <string name="remove_server_confirm_message">Int żgur li trid tneħħi dan is-server?\n\nDan ser ineħħi wkoll il-kontijiet kollha assoċjati. L-app ser terġa\' tinbeda wara t-tneħħija.</string>
 
     <!-- Tailscale Already Logged In Dialog -->
-    <string name="tailscale_already_logged_in_title">Important: Remove Device First</string>
-    <string name="tailscale_already_logged_in_message">For the best results, please remove this device from your Tailscale Dashboard first:\n\n1. Open your Tailscale Dashboard\n2. Find and remove this device from the list\n3. Click OK to continue with the activation\n\nThis ensures a clean connection setup.</string>
+    <string name="tailscale_already_logged_in_title">Importanti: Neħħi l-Apparat L-ewwel</string>
+    <string name="tailscale_already_logged_in_message">Għall-aħjar riżultati, jekk jogħġbok neħħi dan l-apparat mid-Dashboard ta\' Tailscale tiegħek l-ewwel:\n\n1. Iftaħ id-Dashboard ta\' Tailscale tiegħek\n2. Sib u neħħi dan l-apparat mil-lista\n3. Ikklikkja OK biex tkompli bl-attivazzjoni\n\nDan jiżgura setup ta\' konnessjoni nadif.</string>
 
     <!-- Tailscale Progress Steps -->
-    <string name="tailscale_step_permission">Checking VPN permission…</string>
-    <string name="tailscale_step_stopping_vpn">Stopping VPN connection…</string>
-    <string name="tailscale_step_requesting_code">Requesting login code…</string>
-    <string name="tailscale_step_starting_vpn">Starting VPN connection…</string>
-    <string name="tailscale_step_connecting">Connecting to VPN…</string>
+    <string name="tailscale_step_permission">Qed jiċċekkja l-permess VPN…</string>
+    <string name="tailscale_step_stopping_vpn">Qed jieqaf il-konnessjoni VPN…</string>
+    <string name="tailscale_step_requesting_code">Qed jitlob kodiċi ta\' login…</string>
+    <string name="tailscale_step_starting_vpn">Qed jibda l-konnessjoni VPN…</string>
+    <string name="tailscale_step_connecting">Qed jikkonnettja mal-VPN…</string>
 
     <!-- Tailscale Error Messages -->
-    <string name="tailscale_error_title">Error</string>
-    <string name="tailscale_auth_required_title">Authentication Required</string>
-    <string name="tailscale_auth_required_message">VPN could not connect.\n\nPlease open the Tailscale app, sign in, and try again.\n\nIf the device already exists in your dashboard, remove it first and try again.</string>
-    <string name="tailscale_login_code_failed">Failed to request login code:\n\n%1$s</string>
-    <string name="tailscale_login_code_timeout_title">Login Code Timeout</string>
-    <string name="tailscale_login_code_timeout_message">No login code received from Tailscale.\n\nThis can be caused by Android TV bugs. Please try:\n\n1. Restart your TV completely\n2. Open the app again\n3. Try VPN setup again</string>
-    <string name="tailscale_vpn_timeout_title">VPN Timeout</string>
-    <string name="tailscale_vpn_timeout_message">Tailscale login was successful, but VPN could not connect.\n\nThis can be caused by Android TV bugs. Please try:\n\n1. Restart your TV completely\n2. Open the app again\n3. Try VPN setup again\n\nIf the problem persists, check your Tailscale Dashboard.</string>
-    <string name="tailscale_login_timeout_title">Login Timeout</string>
-    <string name="tailscale_login_timeout_message">Login could not be completed.\n\nThis can be caused by Android TV bugs. Please try:\n\n1. Restart your TV completely\n2. Open the app again\n3. Try VPN setup again\n\nAlso check if the device was authorized in the Tailscale Dashboard.</string>
-    <string name="tailscale_retry_button">Try Again</string>
-    <string name="tailscale_auth_success_title">Authentication Successful</string>
-    <string name="tailscale_auth_success_message">Tailscale VPN has been successfully connected!\n\nYou can now enter your server address for VPN access.</string>
-    <string name="tailscale_vpn_permission_required">VPN permission required. Please allow and try again.</string>
-    <string name="tailscale_vpn_permission_needed">VPN permission required.</string>
-    <string name="tailscale_error_generic">Error: %1$s</string>
+    <string name="tailscale_error_title">Żball</string>
+    <string name="tailscale_auth_required_title">Awtentikazzjoni Meħtieġa</string>
+    <string name="tailscale_auth_required_message">VPN ma setax jikkonnettja.\n\nJekk jogħġbok iftaħ l-app ta\' Tailscale, idħol, u pprova mill-ġdid.\n\nJekk l-apparat diġà jeżisti fid-dashboard tiegħek, neħħih l-ewwel u pprova mill-ġdid.</string>
+    <string name="tailscale_login_code_failed">Falla t-talba għall-kodiċi ta\' login:\n\n%1$s</string>
+    <string name="tailscale_login_code_timeout_title">Timeout tal-Kodiċi ta\' Login</string>
+    <string name="tailscale_login_code_timeout_message">Ma wasal ebda kodiċi ta\' login minn Tailscale.\n\nDan jista\' jkun ikkawżat minn bugs ta\' Android TV. Jekk jogħġbok ipprova:\n\n1. Erġa\' ibda t-TV tiegħek kompletament\n2. Erġa\' iftaħ l-app\n3. Erġa\' pprova s-setup tal-VPN</string>
+    <string name="tailscale_vpn_timeout_title">Timeout tal-VPN</string>
+    <string name="tailscale_vpn_timeout_message">Il-login ta\' Tailscale irnexxiet, iżda VPN ma setax jikkonnettja.\n\nDan jista\' jkun ikkawżat minn bugs ta\' Android TV. Jekk jogħġbok ipprova:\n\n1. Erġa\' ibda t-TV tiegħek kompletament\n2. Erġa\' iftaħ l-app\n3. Erġa\' pprova s-setup tal-VPN\n\nJekk il-problema tibqa\', iċċekkja d-Dashboard ta\' Tailscale tiegħek.</string>
+    <string name="tailscale_login_timeout_title">Timeout tal-Login</string>
+    <string name="tailscale_login_timeout_message">Il-login ma setax titlesta.\n\nDan jista\' jkun ikkawżat minn bugs ta\' Android TV. Jekk jogħġbok ipprova:\n\n1. Erġa\' ibda t-TV tiegħek kompletament\n2. Erġa\' iftaħ l-app\n3. Erġa\' pprova s-setup tal-VPN\n\nIċċekkja wkoll jekk l-apparat ġiex awtorizzat fid-Dashboard ta\' Tailscale.</string>
+    <string name="tailscale_retry_button">Erġa\' Pprova</string>
+    <string name="tailscale_auth_success_title">Awtentikazzjoni Rnexxiet</string>
+    <string name="tailscale_auth_success_message">Tailscale VPN ġie konnettut b\'suċċess!\n\nIssa tista\' ddaħħal l-indirizz tas-server tiegħek għall-aċċess VPN.</string>
+    <string name="tailscale_vpn_permission_required">Permess VPN meħtieġ. Jekk jogħġbok aċċetta u pprova mill-ġdid.</string>
+    <string name="tailscale_vpn_permission_needed">Permess VPN meħtieġ.</string>
+    <string name="tailscale_error_generic">Żball: %1$s</string>
 </resources>

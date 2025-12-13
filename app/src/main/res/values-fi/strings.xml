@@ -648,100 +648,100 @@
     <string name="jellyseerr_update_installing_message">Odota, kun asennusohjelmaa valmistellaan.</string>
     <string name="jellyseerr_update_install_button">Asenna</string>
 
-    <string name="jellyseerr_collection_label">%1$s collection</string>
-    <string name="jellyseerr_collection_show">Show</string>
-    <string name="jellyseerr_no_description">No description currently available.</string>
-    <string name="jellyseerr_search_title">Search</string>
-    <string name="jellyseerr_search_button">Search in Jellyseerr</string>
-    <string name="jellyseerr_search_hint">Search Jellyseerr for movies, series and actors</string>
-    <string name="jellyseerr_search_description">Use the remote to type your search query</string>
+    <string name="jellyseerr_collection_label">%1$s kokoelma</string>
+    <string name="jellyseerr_collection_show">Näytä</string>
+    <string name="jellyseerr_no_description">Kuvausta ei ole tällä hetkellä saatavilla.</string>
+    <string name="jellyseerr_search_title">Haku</string>
+    <string name="jellyseerr_search_button">Hae Jellyseerristä</string>
+    <string name="jellyseerr_search_hint">Hae elokuvia, sarjoja ja näyttelijöitä Jellyseerristä</string>
+    <string name="jellyseerr_search_description">Käytä kaukosäädintä hakukyselyn kirjoittamiseen</string>
 
     <!-- Tailscale -->
-    <string name="tailscale_enable_title">Use Tailscale VPN</string>
-    <string name="tailscale_enable_summary_on">This server is using the Tailscale VPN tunnel.</string>
-    <string name="tailscale_enable_summary_off">Tailscale is turned off for this server.</string>
-    <string name="tailscale_login_code_title">Request login code</string>
-    <string name="tailscale_login_code_summary">Opens a login code to authorize the device on the Tailnet.</string>
-    <string name="tailscale_connect_title">Connect VPN</string>
-    <string name="tailscale_connect_summary">Starts the embedded Tailscale VPN service.</string>
-    <string name="tailscale_disconnect_title">Disconnect VPN</string>
-    <string name="tailscale_disconnect_summary">Stops the Tailscale VPN tunnel for this device.</string>
-    <string name="tailscale_disconnect_done">Tailscale connection disconnected.</string>
-    <string name="tailscale_reset_auth_title">Reset auth</string>
-    <string name="tailscale_reset_auth_summary">Clears the login status (helps with 204/"already logged in").</string>
-    <string name="tailscale_reset_auth_success">Tailscale auth reset.</string>
-    <string name="tailscale_enable_first">Enable Tailscale for this server first.</string>
+    <string name="tailscale_enable_title">Käytä Tailscale VPN:ää</string>
+    <string name="tailscale_enable_summary_on">Tämä palvelin käyttää Tailscale VPN -tunnelia.</string>
+    <string name="tailscale_enable_summary_off">Tailscale on pois käytöstä tälle palvelimelle.</string>
+    <string name="tailscale_login_code_title">Pyydä kirjautumiskoodi</string>
+    <string name="tailscale_login_code_summary">Avaa kirjautumiskoodin laitteen valtuuttamiseen Tailnetissä.</string>
+    <string name="tailscale_connect_title">Yhdistä VPN</string>
+    <string name="tailscale_connect_summary">Käynnistää sisäänrakennetun Tailscale VPN -palvelun.</string>
+    <string name="tailscale_disconnect_title">Katkaise VPN</string>
+    <string name="tailscale_disconnect_summary">Pysäyttää Tailscale VPN -tunnelin tälle laitteelle.</string>
+    <string name="tailscale_disconnect_done">Tailscale-yhteys katkaistu.</string>
+    <string name="tailscale_reset_auth_title">Nollaa todennus</string>
+    <string name="tailscale_reset_auth_summary">Tyhjentää kirjautumistilan (auttaa 204/"jo kirjautunut" -ongelmassa).</string>
+    <string name="tailscale_reset_auth_success">Tailscale-todennus nollattu.</string>
+    <string name="tailscale_enable_first">Ota Tailscale ensin käyttöön tälle palvelimelle.</string>
     <string name="tailscale_section_title">Tailscale</string>
-    <string name="tailscale_setup_button">Connect Tailscale</string>
-    <string name="tailscale_setup_toast_code">Login code: %1$s</string>
-    <string name="tailscale_setup_toast_error">Unable to fetch the Tailscale login code.</string>
-    <string name="connection_type_label">How would you like to connect?</string>
-    <string name="connect_local_button">Connect locally</string>
-    <string name="connect_tailscale_button">Over Tailscale VPN</string>
-    <string name="tailscale_connecting_title">Tailscale VPN is connecting...</string>
-    <string name="tailscale_connecting_message">Give your admin this code:\n\n%1$s\n\nWait for approval in the dashboard...</string>
-    <string name="tailscale_connected_title">Connected!</string>
-    <string name="tailscale_connected_message">Tailscale VPN is now connected. You can now enter your server.</string>
-    <string name="tailscale_debug_button">Tailscale diagnostics</string>
-    <string name="tailscale_debug_title">Tailscale status</string>
+    <string name="tailscale_setup_button">Yhdistä Tailscale</string>
+    <string name="tailscale_setup_toast_code">Kirjautumiskoodi: %1$s</string>
+    <string name="tailscale_setup_toast_error">Tailscale-kirjautumiskoodia ei voitu hakea.</string>
+    <string name="connection_type_label">Miten haluat yhdistää?</string>
+    <string name="connect_local_button">Yhdistä paikallisesti</string>
+    <string name="connect_tailscale_button">Tailscale VPN:n kautta</string>
+    <string name="tailscale_connecting_title">Tailscale VPN yhdistää...</string>
+    <string name="tailscale_connecting_message">Anna ylläpitäjällesi tämä koodi:\n\n%1$s\n\nOdota hyväksyntää hallintapaneelissa...</string>
+    <string name="tailscale_connected_title">Yhdistetty!</string>
+    <string name="tailscale_connected_message">Tailscale VPN on nyt yhdistetty. Voit nyt käyttää palvelintasi.</string>
+    <string name="tailscale_debug_button">Tailscale-diagnostiikka</string>
+    <string name="tailscale_debug_title">Tailscale-tila</string>
 
     <!-- Tailscale switching flow -->
-    <string name="edit_server_address_title">Enter Server Address</string>
-    <string name="edit_server_address_message">Please contact your server administrator to get the exact server URL (including port if required).\n\nExample: http://192.168.1.100:8096</string>
-    <string name="edit_server_address_hint">http://your-server-address:port</string>
-    <string name="connection_status_local">Local</string>
+    <string name="edit_server_address_title">Syötä palvelimen osoite</string>
+    <string name="edit_server_address_message">Ota yhteyttä palvelimen ylläpitäjään saadaksesi tarkan palvelin-URL:n (mukaan lukien portti tarvittaessa).\n\nEsimerkki: http://192.168.1.100:8096</string>
+    <string name="edit_server_address_hint">http://palvelin-osoite:portti</string>
+    <string name="connection_status_local">Paikallinen</string>
     <string name="connection_status_vpn">VPN</string>
-    <string name="tailscale_switching_progress">Connecting…</string>
-    <string name="tailscale_connect_failed_toast">Failed to connect. Please check your Tailscale connection.</string>
+    <string name="tailscale_switching_progress">Yhdistetään…</string>
+    <string name="tailscale_connect_failed_toast">Yhdistäminen epäonnistui. Tarkista Tailscale-yhteytesi.</string>
 
     <!-- Server Address Selection -->
-    <string name="server_address_selection_title">Select Server Address</string>
-    <string name="server_address_selection_message">If your server administrator has configured the plugin, you can connect automatically. Otherwise, please enter the server address manually.</string>
-    <string name="server_address_auto">Automatic (via Plugin)</string>
-    <string name="server_address_manual">Manual Entry</string>
-    <string name="fetching_server_url">Fetching server URL from plugin…</string>
-    <string name="server_url_fetch_failed_title">Automatic Address Failed</string>
-    <string name="server_url_fetch_failed_message">Could not automatically retrieve server address:\n\n%1$s\n\nWould you like to enter the address manually?</string>
+    <string name="server_address_selection_title">Valitse palvelimen osoite</string>
+    <string name="server_address_selection_message">Jos palvelimen ylläpitäjä on määrittänyt lisäosan, voit yhdistää automaattisesti. Muussa tapauksessa syötä palvelimen osoite manuaalisesti.</string>
+    <string name="server_address_auto">Automaattinen (lisäosan kautta)</string>
+    <string name="server_address_manual">Manuaalinen syöttö</string>
+    <string name="fetching_server_url">Haetaan palvelin-URL:a lisäosasta…</string>
+    <string name="server_url_fetch_failed_title">Automaattinen osoite epäonnistui</string>
+    <string name="server_url_fetch_failed_message">Palvelimen osoitetta ei voitu hakea automaattisesti:\n\n%1$s\n\nHaluatko syöttää osoitteen manuaalisesti?</string>
 
     <!-- Connection Error Dialog -->
-    <string name="server_connection_failed_title">Connection Failed</string>
-    <string name="server_connection_failed_message">The entered address is not reachable. Please check the address and try again.</string>
+    <string name="server_connection_failed_title">Yhteys epäonnistui</string>
+    <string name="server_connection_failed_message">Syötettyä osoitetta ei tavoiteta. Tarkista osoite ja yritä uudelleen.</string>
 
     <!-- Restart Dialog -->
-    <string name="restart_required_title">Restart Required</string>
-    <string name="restart_required_message">The app needs to restart for the changes to take effect.</string>
-    <string name="restart_now">Restart Now</string>
+    <string name="restart_required_title">Uudelleenkäynnistys vaaditaan</string>
+    <string name="restart_required_message">Sovellus täytyy käynnistää uudelleen muutosten voimaantuloa varten.</string>
+    <string name="restart_now">Käynnistä uudelleen nyt</string>
 
     <!-- Remove Server Confirmation -->
-    <string name="remove_server_confirm_title">Remove Server?</string>
-    <string name="remove_server_confirm_message">Are you sure you want to remove this server?\n\nThis will also remove all associated accounts. The app will restart after removal.</string>
+    <string name="remove_server_confirm_title">Poista palvelin?</string>
+    <string name="remove_server_confirm_message">Haluatko varmasti poistaa tämän palvelimen?\n\nTämä poistaa myös kaikki liitetyt tilit. Sovellus käynnistyy uudelleen poiston jälkeen.</string>
 
     <!-- Tailscale Already Logged In Dialog -->
-    <string name="tailscale_already_logged_in_title">Important: Remove Device First</string>
-    <string name="tailscale_already_logged_in_message">For the best results, please remove this device from your Tailscale Dashboard first:\n\n1. Open your Tailscale Dashboard\n2. Find and remove this device from the list\n3. Click OK to continue with the activation\n\nThis ensures a clean connection setup.</string>
+    <string name="tailscale_already_logged_in_title">Tärkeää: Poista laite ensin</string>
+    <string name="tailscale_already_logged_in_message">Parhaiden tulosten saamiseksi poista ensin tämä laite Tailscale-hallintapaneelistasi:\n\n1. Avaa Tailscale-hallintapaneeli\n2. Etsi ja poista tämä laite listalta\n3. Napsauta OK jatkaaksesi aktivointia\n\nTämä varmistaa puhtaan yhteysasetuksen.</string>
 
     <!-- Tailscale Progress Steps -->
-    <string name="tailscale_step_permission">Checking VPN permission…</string>
-    <string name="tailscale_step_stopping_vpn">Stopping VPN connection…</string>
-    <string name="tailscale_step_requesting_code">Requesting login code…</string>
-    <string name="tailscale_step_starting_vpn">Starting VPN connection…</string>
-    <string name="tailscale_step_connecting">Connecting to VPN…</string>
+    <string name="tailscale_step_permission">Tarkistetaan VPN-käyttöoikeutta…</string>
+    <string name="tailscale_step_stopping_vpn">Pysäytetään VPN-yhteyttä…</string>
+    <string name="tailscale_step_requesting_code">Pyydetään kirjautumiskoodia…</string>
+    <string name="tailscale_step_starting_vpn">Käynnistetään VPN-yhteyttä…</string>
+    <string name="tailscale_step_connecting">Yhdistetään VPN:ään…</string>
 
     <!-- Tailscale Error Messages -->
-    <string name="tailscale_error_title">Error</string>
-    <string name="tailscale_auth_required_title">Authentication Required</string>
-    <string name="tailscale_auth_required_message">VPN could not connect.\n\nPlease open the Tailscale app, sign in, and try again.\n\nIf the device already exists in your dashboard, remove it first and try again.</string>
-    <string name="tailscale_login_code_failed">Failed to request login code:\n\n%1$s</string>
-    <string name="tailscale_login_code_timeout_title">Login Code Timeout</string>
-    <string name="tailscale_login_code_timeout_message">No login code received from Tailscale.\n\nThis can be caused by Android TV bugs. Please try:\n\n1. Restart your TV completely\n2. Open the app again\n3. Try VPN setup again</string>
-    <string name="tailscale_vpn_timeout_title">VPN Timeout</string>
-    <string name="tailscale_vpn_timeout_message">Tailscale login was successful, but VPN could not connect.\n\nThis can be caused by Android TV bugs. Please try:\n\n1. Restart your TV completely\n2. Open the app again\n3. Try VPN setup again\n\nIf the problem persists, check your Tailscale Dashboard.</string>
-    <string name="tailscale_login_timeout_title">Login Timeout</string>
-    <string name="tailscale_login_timeout_message">Login could not be completed.\n\nThis can be caused by Android TV bugs. Please try:\n\n1. Restart your TV completely\n2. Open the app again\n3. Try VPN setup again\n\nAlso check if the device was authorized in the Tailscale Dashboard.</string>
-    <string name="tailscale_retry_button">Try Again</string>
-    <string name="tailscale_auth_success_title">Authentication Successful</string>
-    <string name="tailscale_auth_success_message">Tailscale VPN has been successfully connected!\n\nYou can now enter your server address for VPN access.</string>
-    <string name="tailscale_vpn_permission_required">VPN permission required. Please allow and try again.</string>
-    <string name="tailscale_vpn_permission_needed">VPN permission required.</string>
-    <string name="tailscale_error_generic">Error: %1$s</string>
+    <string name="tailscale_error_title">Virhe</string>
+    <string name="tailscale_auth_required_title">Todennus vaaditaan</string>
+    <string name="tailscale_auth_required_message">VPN ei voinut yhdistää.\n\nAvaa Tailscale-sovellus, kirjaudu sisään ja yritä uudelleen.\n\nJos laite on jo hallintapaneelissasi, poista se ensin ja yritä uudelleen.</string>
+    <string name="tailscale_login_code_failed">Kirjautumiskoodin pyytäminen epäonnistui:\n\n%1$s</string>
+    <string name="tailscale_login_code_timeout_title">Kirjautumiskoodin aikakatkaisu</string>
+    <string name="tailscale_login_code_timeout_message">Kirjautumiskoodia ei vastaanotettu Tailscalesta.\n\nTämä voi johtua Android TV -virheistä. Kokeile:\n\n1. Käynnistä TV kokonaan uudelleen\n2. Avaa sovellus uudelleen\n3. Yritä VPN-asetusta uudelleen</string>
+    <string name="tailscale_vpn_timeout_title">VPN-aikakatkaisu</string>
+    <string name="tailscale_vpn_timeout_message">Tailscale-kirjautuminen onnistui, mutta VPN ei voinut yhdistää.\n\nTämä voi johtua Android TV -virheistä. Kokeile:\n\n1. Käynnistä TV kokonaan uudelleen\n2. Avaa sovellus uudelleen\n3. Yritä VPN-asetusta uudelleen\n\nJos ongelma jatkuu, tarkista Tailscale-hallintapaneelisi.</string>
+    <string name="tailscale_login_timeout_title">Kirjautumisen aikakatkaisu</string>
+    <string name="tailscale_login_timeout_message">Kirjautumista ei voitu suorittaa loppuun.\n\nTämä voi johtua Android TV -virheistä. Kokeile:\n\n1. Käynnistä TV kokonaan uudelleen\n2. Avaa sovellus uudelleen\n3. Yritä VPN-asetusta uudelleen\n\nTarkista myös, onko laite valtuutettu Tailscale-hallintapaneelissa.</string>
+    <string name="tailscale_retry_button">Yritä uudelleen</string>
+    <string name="tailscale_auth_success_title">Todennus onnistui</string>
+    <string name="tailscale_auth_success_message">Tailscale VPN on yhdistetty onnistuneesti!\n\nVoit nyt syöttää palvelimesi osoitteen VPN-yhteyttä varten.</string>
+    <string name="tailscale_vpn_permission_required">VPN-käyttöoikeus vaaditaan. Salli ja yritä uudelleen.</string>
+    <string name="tailscale_vpn_permission_needed">VPN-käyttöoikeus vaaditaan.</string>
+    <string name="tailscale_error_generic">Virhe: %1$s</string>
 </resources>

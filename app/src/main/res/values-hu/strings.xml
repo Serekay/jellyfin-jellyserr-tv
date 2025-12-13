@@ -648,100 +648,100 @@
     <string name="jellyseerr_update_installing_message">Kérjük, várj, amíg a telepítő elkészül.</string>
     <string name="jellyseerr_update_install_button">Telepítés</string>
 
-    <string name="jellyseerr_collection_label">%1$s collection</string>
-    <string name="jellyseerr_collection_show">Show</string>
-    <string name="jellyseerr_no_description">No description currently available.</string>
-    <string name="jellyseerr_search_title">Search</string>
-    <string name="jellyseerr_search_button">Search in Jellyseerr</string>
-    <string name="jellyseerr_search_hint">Search Jellyseerr for movies, series and actors</string>
-    <string name="jellyseerr_search_description">Use the remote to type your search query</string>
+    <string name="jellyseerr_collection_label">%1$s gyűjtemény</string>
+    <string name="jellyseerr_collection_show">Megjelenítés</string>
+    <string name="jellyseerr_no_description">Jelenleg nincs elérhető leírás.</string>
+    <string name="jellyseerr_search_title">Keresés</string>
+    <string name="jellyseerr_search_button">Keresés a Jellyseerrben</string>
+    <string name="jellyseerr_search_hint">Filmek, sorozatok és színészek keresése a Jellyseerrben</string>
+    <string name="jellyseerr_search_description">Használd a távirányítót a keresési kifejezés beírásához</string>
 
     <!-- Tailscale -->
-    <string name="tailscale_enable_title">Use Tailscale VPN</string>
-    <string name="tailscale_enable_summary_on">This server is using the Tailscale VPN tunnel.</string>
-    <string name="tailscale_enable_summary_off">Tailscale is turned off for this server.</string>
-    <string name="tailscale_login_code_title">Request login code</string>
-    <string name="tailscale_login_code_summary">Opens a login code to authorize the device on the Tailnet.</string>
-    <string name="tailscale_connect_title">Connect VPN</string>
-    <string name="tailscale_connect_summary">Starts the embedded Tailscale VPN service.</string>
-    <string name="tailscale_disconnect_title">Disconnect VPN</string>
-    <string name="tailscale_disconnect_summary">Stops the Tailscale VPN tunnel for this device.</string>
-    <string name="tailscale_disconnect_done">Tailscale connection disconnected.</string>
-    <string name="tailscale_reset_auth_title">Reset auth</string>
-    <string name="tailscale_reset_auth_summary">Clears the login status (helps with 204/"already logged in").</string>
-    <string name="tailscale_reset_auth_success">Tailscale auth reset.</string>
-    <string name="tailscale_enable_first">Enable Tailscale for this server first.</string>
+    <string name="tailscale_enable_title">Tailscale VPN használata</string>
+    <string name="tailscale_enable_summary_on">Ez a szerver Tailscale VPN alagutat használ.</string>
+    <string name="tailscale_enable_summary_off">A Tailscale ki van kapcsolva ennél a szervernél.</string>
+    <string name="tailscale_login_code_title">Bejelentkezési kód kérése</string>
+    <string name="tailscale_login_code_summary">Bejelentkezési kódot nyit meg az eszköz engedélyezéséhez a Tailneten.</string>
+    <string name="tailscale_connect_title">VPN csatlakoztatása</string>
+    <string name="tailscale_connect_summary">Elindítja a beépített Tailscale VPN szolgáltatást.</string>
+    <string name="tailscale_disconnect_title">VPN leválasztása</string>
+    <string name="tailscale_disconnect_summary">Leállítja a Tailscale VPN alagutat ennél az eszköznél.</string>
+    <string name="tailscale_disconnect_done">Tailscale kapcsolat bontva.</string>
+    <string name="tailscale_reset_auth_title">Hitelesítés visszaállítása</string>
+    <string name="tailscale_reset_auth_summary">Törli a bejelentkezési állapotot (segít a 204/„már bejelentkezve" esetén).</string>
+    <string name="tailscale_reset_auth_success">Tailscale hitelesítés visszaállítva.</string>
+    <string name="tailscale_enable_first">Először engedélyezd a Tailscale-t ennél a szervernél.</string>
     <string name="tailscale_section_title">Tailscale</string>
-    <string name="tailscale_setup_button">Connect Tailscale</string>
-    <string name="tailscale_setup_toast_code">Login code: %1$s</string>
-    <string name="tailscale_setup_toast_error">Unable to fetch the Tailscale login code.</string>
-    <string name="connection_type_label">How would you like to connect?</string>
-    <string name="connect_local_button">Connect locally</string>
-    <string name="connect_tailscale_button">Over Tailscale VPN</string>
-    <string name="tailscale_connecting_title">Tailscale VPN is connecting...</string>
-    <string name="tailscale_connecting_message">Give your admin this code:\n\n%1$s\n\nWait for approval in the dashboard...</string>
-    <string name="tailscale_connected_title">Connected!</string>
-    <string name="tailscale_connected_message">Tailscale VPN is now connected. You can now enter your server.</string>
-    <string name="tailscale_debug_button">Tailscale diagnostics</string>
-    <string name="tailscale_debug_title">Tailscale status</string>
+    <string name="tailscale_setup_button">Tailscale csatlakoztatása</string>
+    <string name="tailscale_setup_toast_code">Bejelentkezési kód: %1$s</string>
+    <string name="tailscale_setup_toast_error">Nem sikerült lekérni a Tailscale bejelentkezési kódot.</string>
+    <string name="connection_type_label">Hogyan szeretnél csatlakozni?</string>
+    <string name="connect_local_button">Helyi csatlakozás</string>
+    <string name="connect_tailscale_button">Tailscale VPN-en keresztül</string>
+    <string name="tailscale_connecting_title">Tailscale VPN csatlakozik...</string>
+    <string name="tailscale_connecting_message">Add meg ezt a kódot a rendszergazdának:\n\n%1$s\n\nVárj a jóváhagyásra a vezérlőpulton...</string>
+    <string name="tailscale_connected_title">Csatlakozva!</string>
+    <string name="tailscale_connected_message">A Tailscale VPN most csatlakoztatva van. Most megadhatod a szerver címét.</string>
+    <string name="tailscale_debug_button">Tailscale diagnosztika</string>
+    <string name="tailscale_debug_title">Tailscale állapot</string>
 
     <!-- Tailscale switching flow -->
-    <string name="edit_server_address_title">Enter Server Address</string>
-    <string name="edit_server_address_message">Please contact your server administrator to get the exact server URL (including port if required).\n\nExample: http://192.168.1.100:8096</string>
-    <string name="edit_server_address_hint">http://your-server-address:port</string>
-    <string name="connection_status_local">Local</string>
+    <string name="edit_server_address_title">Szerver cím megadása</string>
+    <string name="edit_server_address_message">Kérd el a szerver rendszergazdájától a pontos szerver URL-t (porttal együtt, ha szükséges).\n\nPélda: http://192.168.1.100:8096</string>
+    <string name="edit_server_address_hint">http://szerver-cimed:port</string>
+    <string name="connection_status_local">Helyi</string>
     <string name="connection_status_vpn">VPN</string>
-    <string name="tailscale_switching_progress">Connecting…</string>
-    <string name="tailscale_connect_failed_toast">Failed to connect. Please check your Tailscale connection.</string>
+    <string name="tailscale_switching_progress">Csatlakozás…</string>
+    <string name="tailscale_connect_failed_toast">Csatlakozás sikertelen. Ellenőrizd a Tailscale kapcsolatot.</string>
 
     <!-- Server Address Selection -->
-    <string name="server_address_selection_title">Select Server Address</string>
-    <string name="server_address_selection_message">If your server administrator has configured the plugin, you can connect automatically. Otherwise, please enter the server address manually.</string>
-    <string name="server_address_auto">Automatic (via Plugin)</string>
-    <string name="server_address_manual">Manual Entry</string>
-    <string name="fetching_server_url">Fetching server URL from plugin…</string>
-    <string name="server_url_fetch_failed_title">Automatic Address Failed</string>
-    <string name="server_url_fetch_failed_message">Could not automatically retrieve server address:\n\n%1$s\n\nWould you like to enter the address manually?</string>
+    <string name="server_address_selection_title">Szerver cím kiválasztása</string>
+    <string name="server_address_selection_message">Ha a szerver rendszergazdája beállította a bővítményt, automatikusan csatlakozhatsz. Ellenkező esetben add meg a szerver címét kézzel.</string>
+    <string name="server_address_auto">Automatikus (bővítményen keresztül)</string>
+    <string name="server_address_manual">Kézi megadás</string>
+    <string name="fetching_server_url">Szerver URL lekérése a bővítménytől…</string>
+    <string name="server_url_fetch_failed_title">Automatikus cím sikertelen</string>
+    <string name="server_url_fetch_failed_message">Nem sikerült automatikusan lekérni a szerver címét:\n\n%1$s\n\nSzeretnéd kézzel megadni a címet?</string>
 
     <!-- Connection Error Dialog -->
-    <string name="server_connection_failed_title">Connection Failed</string>
-    <string name="server_connection_failed_message">The entered address is not reachable. Please check the address and try again.</string>
+    <string name="server_connection_failed_title">Csatlakozás sikertelen</string>
+    <string name="server_connection_failed_message">A megadott cím nem elérhető. Ellenőrizd a címet és próbáld újra.</string>
 
     <!-- Restart Dialog -->
-    <string name="restart_required_title">Restart Required</string>
-    <string name="restart_required_message">The app needs to restart for the changes to take effect.</string>
-    <string name="restart_now">Restart Now</string>
+    <string name="restart_required_title">Újraindítás szükséges</string>
+    <string name="restart_required_message">Az alkalmazást újra kell indítani a változtatások érvényesítéséhez.</string>
+    <string name="restart_now">Újraindítás most</string>
 
     <!-- Remove Server Confirmation -->
-    <string name="remove_server_confirm_title">Remove Server?</string>
-    <string name="remove_server_confirm_message">Are you sure you want to remove this server?\n\nThis will also remove all associated accounts. The app will restart after removal.</string>
+    <string name="remove_server_confirm_title">Szerver eltávolítása?</string>
+    <string name="remove_server_confirm_message">Biztosan el szeretnéd távolítani ezt a szervert?\n\nEz az összes társított fiókot is eltávolítja. Az alkalmazás az eltávolítás után újraindul.</string>
 
     <!-- Tailscale Already Logged In Dialog -->
-    <string name="tailscale_already_logged_in_title">Important: Remove Device First</string>
-    <string name="tailscale_already_logged_in_message">For the best results, please remove this device from your Tailscale Dashboard first:\n\n1. Open your Tailscale Dashboard\n2. Find and remove this device from the list\n3. Click OK to continue with the activation\n\nThis ensures a clean connection setup.</string>
+    <string name="tailscale_already_logged_in_title">Fontos: Először távolítsd el az eszközt</string>
+    <string name="tailscale_already_logged_in_message">A legjobb eredmény érdekében először távolítsd el ezt az eszközt a Tailscale vezérlőpultról:\n\n1. Nyisd meg a Tailscale vezérlőpultot\n2. Keresd meg és távolítsd el ezt az eszközt a listából\n3. Kattints az OK gombra az aktiválás folytatásához\n\nEz biztosítja a tiszta kapcsolat beállítását.</string>
 
     <!-- Tailscale Progress Steps -->
-    <string name="tailscale_step_permission">Checking VPN permission…</string>
-    <string name="tailscale_step_stopping_vpn">Stopping VPN connection…</string>
-    <string name="tailscale_step_requesting_code">Requesting login code…</string>
-    <string name="tailscale_step_starting_vpn">Starting VPN connection…</string>
-    <string name="tailscale_step_connecting">Connecting to VPN…</string>
+    <string name="tailscale_step_permission">VPN engedély ellenőrzése…</string>
+    <string name="tailscale_step_stopping_vpn">VPN kapcsolat leállítása…</string>
+    <string name="tailscale_step_requesting_code">Bejelentkezési kód kérése…</string>
+    <string name="tailscale_step_starting_vpn">VPN kapcsolat indítása…</string>
+    <string name="tailscale_step_connecting">Csatlakozás a VPN-hez…</string>
 
     <!-- Tailscale Error Messages -->
-    <string name="tailscale_error_title">Error</string>
-    <string name="tailscale_auth_required_title">Authentication Required</string>
-    <string name="tailscale_auth_required_message">VPN could not connect.\n\nPlease open the Tailscale app, sign in, and try again.\n\nIf the device already exists in your dashboard, remove it first and try again.</string>
-    <string name="tailscale_login_code_failed">Failed to request login code:\n\n%1$s</string>
-    <string name="tailscale_login_code_timeout_title">Login Code Timeout</string>
-    <string name="tailscale_login_code_timeout_message">No login code received from Tailscale.\n\nThis can be caused by Android TV bugs. Please try:\n\n1. Restart your TV completely\n2. Open the app again\n3. Try VPN setup again</string>
-    <string name="tailscale_vpn_timeout_title">VPN Timeout</string>
-    <string name="tailscale_vpn_timeout_message">Tailscale login was successful, but VPN could not connect.\n\nThis can be caused by Android TV bugs. Please try:\n\n1. Restart your TV completely\n2. Open the app again\n3. Try VPN setup again\n\nIf the problem persists, check your Tailscale Dashboard.</string>
-    <string name="tailscale_login_timeout_title">Login Timeout</string>
-    <string name="tailscale_login_timeout_message">Login could not be completed.\n\nThis can be caused by Android TV bugs. Please try:\n\n1. Restart your TV completely\n2. Open the app again\n3. Try VPN setup again\n\nAlso check if the device was authorized in the Tailscale Dashboard.</string>
-    <string name="tailscale_retry_button">Try Again</string>
-    <string name="tailscale_auth_success_title">Authentication Successful</string>
-    <string name="tailscale_auth_success_message">Tailscale VPN has been successfully connected!\n\nYou can now enter your server address for VPN access.</string>
-    <string name="tailscale_vpn_permission_required">VPN permission required. Please allow and try again.</string>
-    <string name="tailscale_vpn_permission_needed">VPN permission required.</string>
-    <string name="tailscale_error_generic">Error: %1$s</string>
+    <string name="tailscale_error_title">Hiba</string>
+    <string name="tailscale_auth_required_title">Hitelesítés szükséges</string>
+    <string name="tailscale_auth_required_message">A VPN nem tudott csatlakozni.\n\nNyisd meg a Tailscale alkalmazást, jelentkezz be, és próbáld újra.\n\nHa az eszköz már létezik a vezérlőpulton, először távolítsd el, majd próbáld újra.</string>
+    <string name="tailscale_login_code_failed">Nem sikerült bejelentkezési kódot kérni:\n\n%1$s</string>
+    <string name="tailscale_login_code_timeout_title">Bejelentkezési kód időtúllépés</string>
+    <string name="tailscale_login_code_timeout_message">Nem érkezett bejelentkezési kód a Tailscale-től.\n\nEzt Android TV hibák okozhatják. Próbáld:\n\n1. Indítsd újra a TV-t teljesen\n2. Nyisd meg újra az alkalmazást\n3. Próbáld újra a VPN beállítását</string>
+    <string name="tailscale_vpn_timeout_title">VPN időtúllépés</string>
+    <string name="tailscale_vpn_timeout_message">A Tailscale bejelentkezés sikeres volt, de a VPN nem tudott csatlakozni.\n\nEzt Android TV hibák okozhatják. Próbáld:\n\n1. Indítsd újra a TV-t teljesen\n2. Nyisd meg újra az alkalmazást\n3. Próbáld újra a VPN beállítását\n\nHa a probléma továbbra is fennáll, ellenőrizd a Tailscale vezérlőpultot.</string>
+    <string name="tailscale_login_timeout_title">Bejelentkezési időtúllépés</string>
+    <string name="tailscale_login_timeout_message">A bejelentkezés nem sikerült befejezni.\n\nEzt Android TV hibák okozhatják. Próbáld:\n\n1. Indítsd újra a TV-t teljesen\n2. Nyisd meg újra az alkalmazást\n3. Próbáld újra a VPN beállítását\n\nEllenőrizd azt is, hogy az eszköz engedélyezve lett-e a Tailscale vezérlőpulton.</string>
+    <string name="tailscale_retry_button">Próbáld újra</string>
+    <string name="tailscale_auth_success_title">Hitelesítés sikeres</string>
+    <string name="tailscale_auth_success_message">A Tailscale VPN sikeresen csatlakoztatva!\n\nMost megadhatod a szerver címét a VPN eléréséhez.</string>
+    <string name="tailscale_vpn_permission_required">VPN engedély szükséges. Engedélyezd és próbáld újra.</string>
+    <string name="tailscale_vpn_permission_needed">VPN engedély szükséges.</string>
+    <string name="tailscale_error_generic">Hiba: %1$s</string>
 </resources>
